@@ -12,17 +12,21 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 /**
  *
  * @author augusto
  */
 @Entity
+@Table(name="t_usuario")
 public class Usuario implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name="id_usuario")
     private Integer id;
+    
     @Column(length = 50)
     private String nome;
     @Column(length = 20)
