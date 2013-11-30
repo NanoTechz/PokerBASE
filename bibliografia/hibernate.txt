@@ -1,0 +1,3 @@
+http://devandrepereira.wordpress.com/2012/06/16/hibernate-na-pratica-parte-2/
+http://www.youtube.com/watch?v=zIbkSmDdI8s
+http://www.caelum.com.br/apostila-java-web/uma-introducao-pratica-ao-jpa-com-hibernate/
