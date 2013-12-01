@@ -41,6 +41,9 @@ public class Usuario implements Serializable {
     @OneToMany(mappedBy = "usuario")
     private List<Sessao> listaSessao;
 
+    @OneToMany(mappedBy = "usuario")
+    private List<BankRoll> listaBankRolls;
+    
     public Integer getId() {
         return id;
     }

@@ -40,6 +40,9 @@ public class Sala implements Serializable {
     
     @OneToMany(mappedBy = "sala")
     private List<Torneio> listaTorneios;
+    
+    @OneToMany(mappedBy = "sala")
+    private List<BankRoll> listaBankRoll;
 
     public Integer getId() {
         return id;
