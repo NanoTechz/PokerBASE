@@ -1,3 +1,5 @@
 http://devandrepereira.wordpress.com/2012/06/16/hibernate-na-pratica-parte-2/
 http://www.youtube.com/watch?v=zIbkSmDdI8s
 http://www.caelum.com.br/apostila-java-web/uma-introducao-pratica-ao-jpa-com-hibernate/
+http://uaihebert.com/jpa-onetomany-e-manytoone-unidirecional-e-bidirecional/
+http://serjava.blogspot.com.br/2012/03/persistencia-jpa-onetomany-e-manytoone.html
