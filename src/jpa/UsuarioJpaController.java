@@ -16,8 +16,11 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.criteria.Expression;
+import javax.persistence.criteria.Subquery;
 import jpa.exceptions.NonexistentEntityException;
 import model.Usuario;
+import org.hibernate.ejb.criteria.CriteriaSubqueryImpl;
 
 /**
  *
@@ -28,6 +31,7 @@ public class UsuarioJpaController implements Serializable {
     public UsuarioJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
+    
     private EntityManagerFactory emf = null;
 
     public EntityManager getEntityManager() {
@@ -171,6 +175,19 @@ public class UsuarioJpaController implements Serializable {
         try {
             return em.find(Usuario.class, id);
         } finally {
+            em.close();
+        }
+    }
+    
+    public Usuario findUsuario(String username) {
+        EntityManager em = getEntityManager();
+        try {
+            Query query= em.createQuery("select u from Usuario u where u.username = :username", Usuario.class);
+            query.setParameter("username", username);
+            return (Usuario) query.getSingleResult();
+        }catch(Exception e){
+            return null;
+        }finally {
             em.close();
         }
     }
