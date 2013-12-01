@@ -40,6 +40,46 @@ public class Operacao implements Serializable {
     @ManyToOne
     @JoinColumn(name="id_bankroll")
     private BankRoll bankroll;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public double getValor() {
+        return valor;
+    }
+
+    public void setValor(double valor) {
+        this.valor = valor;
+    }
+
+    public Date getDataOperacao() {
+        return dataOperacao;
+    }
+
+    public void setDataOperacao(Date dataOperacao) {
+        this.dataOperacao = dataOperacao;
+    }
+
+    public char getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(char tipo) {
+        this.tipo = tipo;
+    }
+
+    public BankRoll getBankroll() {
+        return bankroll;
+    }
+
+    public void setBankroll(BankRoll bankroll) {
+        this.bankroll = bankroll;
+    }
     
     
     

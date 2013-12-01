@@ -46,4 +46,54 @@ public class BankRoll implements Serializable {
     
     @OneToMany(mappedBy = "bankroll")
     private List<Operacao> listaOperacao;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public double getValorInicial() {
+        return valorInicial;
+    }
+
+    public void setValorInicial(double valorInicial) {
+        this.valorInicial = valorInicial;
+    }
+
+    public double getValorAtual() {
+        return valorAtual;
+    }
+
+    public void setValorAtual(double valorAtual) {
+        this.valorAtual = valorAtual;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+
+    public Sala getSala() {
+        return sala;
+    }
+
+    public void setSala(Sala sala) {
+        this.sala = sala;
+    }
+
+    public List<Operacao> getListaOperacao() {
+        return listaOperacao;
+    }
+
+    public void setListaOperacao(List<Operacao> listaOperacao) {
+        this.listaOperacao = listaOperacao;
+    }
+    
+    
 }
