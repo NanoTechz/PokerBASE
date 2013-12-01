@@ -3,6 +3,9 @@
   <persistence-unit name="PokerBASEPU" transaction-type="RESOURCE_LOCAL">
     <provider>org.hibernate.ejb.HibernatePersistence</provider>
     <class>model.Usuario</class>
+    <class>model.Sala</class>
+    <class>model.Sessao</class>
+    <class>model.Cash</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/PokerBASE?zeroDateTimeBehavior=convertToNull"/>
       <property name="javax.persistence.jdbc.password" value="root"/>
