@@ -7,13 +7,15 @@
 package jpa;
 
 import java.io.Serializable;
-import java.util.List;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import model.Sessao;
+import java.util.ArrayList;
+import java.util.List;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import jpa.exceptions.NonexistentEntityException;
 import model.Usuario;
 
@@ -33,11 +35,29 @@ public class UsuarioJpaController implements Serializable {
     }
 
     public void create(Usuario usuario) {
+        if (usuario.getListaSessao() == null) {
+            usuario.setListaSessao(new ArrayList<Sessao>());
+        }
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
+            List<Sessao> attachedListaSessao = new ArrayList<Sessao>();
+            for (Sessao listaSessaoSessaoToAttach : usuario.getListaSessao()) {
+                listaSessaoSessaoToAttach = em.getReference(listaSessaoSessaoToAttach.getClass(), listaSessaoSessaoToAttach.getId());
+                attachedListaSessao.add(listaSessaoSessaoToAttach);
+            }
+            usuario.setListaSessao(attachedListaSessao);
             em.persist(usuario);
+            for (Sessao listaSessaoSessao : usuario.getListaSessao()) {
+                Usuario oldUsuarioOfListaSessaoSessao = listaSessaoSessao.getUsuario();
+                listaSessaoSessao.setUsuario(usuario);
+                listaSessaoSessao = em.merge(listaSessaoSessao);
+                if (oldUsuarioOfListaSessaoSessao != null) {
+                    oldUsuarioOfListaSessaoSessao.getListaSessao().remove(listaSessaoSessao);
+                    oldUsuarioOfListaSessaoSessao = em.merge(oldUsuarioOfListaSessaoSessao);
+                }
+            }
             em.getTransaction().commit();
         } finally {
             if (em != null) {
@@ -51,7 +71,34 @@ public class UsuarioJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
+            Usuario persistentUsuario = em.find(Usuario.class, usuario.getId());
+            List<Sessao> listaSessaoOld = persistentUsuario.getListaSessao();
+            List<Sessao> listaSessaoNew = usuario.getListaSessao();
+            List<Sessao> attachedListaSessaoNew = new ArrayList<Sessao>();
+            for (Sessao listaSessaoNewSessaoToAttach : listaSessaoNew) {
+                listaSessaoNewSessaoToAttach = em.getReference(listaSessaoNewSessaoToAttach.getClass(), listaSessaoNewSessaoToAttach.getId());
+                attachedListaSessaoNew.add(listaSessaoNewSessaoToAttach);
+            }
+            listaSessaoNew = attachedListaSessaoNew;
+            usuario.setListaSessao(listaSessaoNew);
             usuario = em.merge(usuario);
+            for (Sessao listaSessaoOldSessao : listaSessaoOld) {
+                if (!listaSessaoNew.contains(listaSessaoOldSessao)) {
+                    listaSessaoOldSessao.setUsuario(null);
+                    listaSessaoOldSessao = em.merge(listaSessaoOldSessao);
+                }
+            }
+            for (Sessao listaSessaoNewSessao : listaSessaoNew) {
+                if (!listaSessaoOld.contains(listaSessaoNewSessao)) {
+                    Usuario oldUsuarioOfListaSessaoNewSessao = listaSessaoNewSessao.getUsuario();
+                    listaSessaoNewSessao.setUsuario(usuario);
+                    listaSessaoNewSessao = em.merge(listaSessaoNewSessao);
+                    if (oldUsuarioOfListaSessaoNewSessao != null && !oldUsuarioOfListaSessaoNewSessao.equals(usuario)) {
+                        oldUsuarioOfListaSessaoNewSessao.getListaSessao().remove(listaSessaoNewSessao);
+                        oldUsuarioOfListaSessaoNewSessao = em.merge(oldUsuarioOfListaSessaoNewSessao);
+                    }
+                }
+            }
             em.getTransaction().commit();
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
@@ -80,6 +127,11 @@ public class UsuarioJpaController implements Serializable {
                 usuario.getId();
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The usuario with id " + id + " no longer exists.", enfe);
+            }
+            List<Sessao> listaSessao = usuario.getListaSessao();
+            for (Sessao listaSessaoSessao : listaSessao) {
+                listaSessaoSessao.setUsuario(null);
+                listaSessaoSessao = em.merge(listaSessaoSessao);
             }
             em.remove(usuario);
             em.getTransaction().commit();

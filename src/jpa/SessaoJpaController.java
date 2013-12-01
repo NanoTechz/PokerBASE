@@ -7,16 +7,19 @@
 package jpa;
 
 import java.io.Serializable;
-import java.util.List;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import model.Usuario;
+import model.Cash;
+import java.util.ArrayList;
+import java.util.List;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import jpa.exceptions.NonexistentEntityException;
 import model.Sessao;
-import model.Usuario;
+import model.Torneio;
 
 /**
  *
@@ -34,6 +37,12 @@ public class SessaoJpaController implements Serializable {
     }
 
     public void create(Sessao sessao) {
+        if (sessao.getListaCash() == null) {
+            sessao.setListaCash(new ArrayList<Cash>());
+        }
+        if (sessao.getListaTorneios() == null) {
+            sessao.setListaTorneios(new ArrayList<Torneio>());
+        }
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -43,10 +52,40 @@ public class SessaoJpaController implements Serializable {
                 usuario = em.getReference(usuario.getClass(), usuario.getId());
                 sessao.setUsuario(usuario);
             }
+            List<Cash> attachedListaCash = new ArrayList<Cash>();
+            for (Cash listaCashCashToAttach : sessao.getListaCash()) {
+                listaCashCashToAttach = em.getReference(listaCashCashToAttach.getClass(), listaCashCashToAttach.getId());
+                attachedListaCash.add(listaCashCashToAttach);
+            }
+            sessao.setListaCash(attachedListaCash);
+            List<Torneio> attachedListaTorneios = new ArrayList<Torneio>();
+            for (Torneio listaTorneiosTorneioToAttach : sessao.getListaTorneios()) {
+                listaTorneiosTorneioToAttach = em.getReference(listaTorneiosTorneioToAttach.getClass(), listaTorneiosTorneioToAttach.getId());
+                attachedListaTorneios.add(listaTorneiosTorneioToAttach);
+            }
+            sessao.setListaTorneios(attachedListaTorneios);
             em.persist(sessao);
             if (usuario != null) {
                 usuario.getListaSessao().add(sessao);
                 usuario = em.merge(usuario);
+            }
+            for (Cash listaCashCash : sessao.getListaCash()) {
+                Sessao oldSessaoOfListaCashCash = listaCashCash.getSessao();
+                listaCashCash.setSessao(sessao);
+                listaCashCash = em.merge(listaCashCash);
+                if (oldSessaoOfListaCashCash != null) {
+                    oldSessaoOfListaCashCash.getListaCash().remove(listaCashCash);
+                    oldSessaoOfListaCashCash = em.merge(oldSessaoOfListaCashCash);
+                }
+            }
+            for (Torneio listaTorneiosTorneio : sessao.getListaTorneios()) {
+                Sessao oldSessaoOfListaTorneiosTorneio = listaTorneiosTorneio.getSessao();
+                listaTorneiosTorneio.setSessao(sessao);
+                listaTorneiosTorneio = em.merge(listaTorneiosTorneio);
+                if (oldSessaoOfListaTorneiosTorneio != null) {
+                    oldSessaoOfListaTorneiosTorneio.getListaTorneios().remove(listaTorneiosTorneio);
+                    oldSessaoOfListaTorneiosTorneio = em.merge(oldSessaoOfListaTorneiosTorneio);
+                }
             }
             em.getTransaction().commit();
         } finally {
@@ -64,10 +103,28 @@ public class SessaoJpaController implements Serializable {
             Sessao persistentSessao = em.find(Sessao.class, sessao.getId());
             Usuario usuarioOld = persistentSessao.getUsuario();
             Usuario usuarioNew = sessao.getUsuario();
+            List<Cash> listaCashOld = persistentSessao.getListaCash();
+            List<Cash> listaCashNew = sessao.getListaCash();
+            List<Torneio> listaTorneiosOld = persistentSessao.getListaTorneios();
+            List<Torneio> listaTorneiosNew = sessao.getListaTorneios();
             if (usuarioNew != null) {
                 usuarioNew = em.getReference(usuarioNew.getClass(), usuarioNew.getId());
                 sessao.setUsuario(usuarioNew);
             }
+            List<Cash> attachedListaCashNew = new ArrayList<Cash>();
+            for (Cash listaCashNewCashToAttach : listaCashNew) {
+                listaCashNewCashToAttach = em.getReference(listaCashNewCashToAttach.getClass(), listaCashNewCashToAttach.getId());
+                attachedListaCashNew.add(listaCashNewCashToAttach);
+            }
+            listaCashNew = attachedListaCashNew;
+            sessao.setListaCash(listaCashNew);
+            List<Torneio> attachedListaTorneiosNew = new ArrayList<Torneio>();
+            for (Torneio listaTorneiosNewTorneioToAttach : listaTorneiosNew) {
+                listaTorneiosNewTorneioToAttach = em.getReference(listaTorneiosNewTorneioToAttach.getClass(), listaTorneiosNewTorneioToAttach.getId());
+                attachedListaTorneiosNew.add(listaTorneiosNewTorneioToAttach);
+            }
+            listaTorneiosNew = attachedListaTorneiosNew;
+            sessao.setListaTorneios(listaTorneiosNew);
             sessao = em.merge(sessao);
             if (usuarioOld != null && !usuarioOld.equals(usuarioNew)) {
                 usuarioOld.getListaSessao().remove(sessao);
@@ -76,6 +133,40 @@ public class SessaoJpaController implements Serializable {
             if (usuarioNew != null && !usuarioNew.equals(usuarioOld)) {
                 usuarioNew.getListaSessao().add(sessao);
                 usuarioNew = em.merge(usuarioNew);
+            }
+            for (Cash listaCashOldCash : listaCashOld) {
+                if (!listaCashNew.contains(listaCashOldCash)) {
+                    listaCashOldCash.setSessao(null);
+                    listaCashOldCash = em.merge(listaCashOldCash);
+                }
+            }
+            for (Cash listaCashNewCash : listaCashNew) {
+                if (!listaCashOld.contains(listaCashNewCash)) {
+                    Sessao oldSessaoOfListaCashNewCash = listaCashNewCash.getSessao();
+                    listaCashNewCash.setSessao(sessao);
+                    listaCashNewCash = em.merge(listaCashNewCash);
+                    if (oldSessaoOfListaCashNewCash != null && !oldSessaoOfListaCashNewCash.equals(sessao)) {
+                        oldSessaoOfListaCashNewCash.getListaCash().remove(listaCashNewCash);
+                        oldSessaoOfListaCashNewCash = em.merge(oldSessaoOfListaCashNewCash);
+                    }
+                }
+            }
+            for (Torneio listaTorneiosOldTorneio : listaTorneiosOld) {
+                if (!listaTorneiosNew.contains(listaTorneiosOldTorneio)) {
+                    listaTorneiosOldTorneio.setSessao(null);
+                    listaTorneiosOldTorneio = em.merge(listaTorneiosOldTorneio);
+                }
+            }
+            for (Torneio listaTorneiosNewTorneio : listaTorneiosNew) {
+                if (!listaTorneiosOld.contains(listaTorneiosNewTorneio)) {
+                    Sessao oldSessaoOfListaTorneiosNewTorneio = listaTorneiosNewTorneio.getSessao();
+                    listaTorneiosNewTorneio.setSessao(sessao);
+                    listaTorneiosNewTorneio = em.merge(listaTorneiosNewTorneio);
+                    if (oldSessaoOfListaTorneiosNewTorneio != null && !oldSessaoOfListaTorneiosNewTorneio.equals(sessao)) {
+                        oldSessaoOfListaTorneiosNewTorneio.getListaTorneios().remove(listaTorneiosNewTorneio);
+                        oldSessaoOfListaTorneiosNewTorneio = em.merge(oldSessaoOfListaTorneiosNewTorneio);
+                    }
+                }
             }
             em.getTransaction().commit();
         } catch (Exception ex) {
@@ -110,6 +201,16 @@ public class SessaoJpaController implements Serializable {
             if (usuario != null) {
                 usuario.getListaSessao().remove(sessao);
                 usuario = em.merge(usuario);
+            }
+            List<Cash> listaCash = sessao.getListaCash();
+            for (Cash listaCashCash : listaCash) {
+                listaCashCash.setSessao(null);
+                listaCashCash = em.merge(listaCashCash);
+            }
+            List<Torneio> listaTorneios = sessao.getListaTorneios();
+            for (Torneio listaTorneiosTorneio : listaTorneios) {
+                listaTorneiosTorneio.setSessao(null);
+                listaTorneiosTorneio = em.merge(listaTorneiosTorneio);
             }
             em.remove(sessao);
             em.getTransaction().commit();

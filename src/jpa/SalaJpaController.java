@@ -7,15 +7,18 @@
 package jpa;
 
 import java.io.Serializable;
-import java.util.List;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import model.Cash;
+import java.util.ArrayList;
+import java.util.List;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import jpa.exceptions.NonexistentEntityException;
 import model.Sala;
+import model.Torneio;
 
 /**
  *
@@ -33,11 +36,47 @@ public class SalaJpaController implements Serializable {
     }
 
     public void create(Sala sala) {
+        if (sala.getListaCash() == null) {
+            sala.setListaCash(new ArrayList<Cash>());
+        }
+        if (sala.getListaTorneios() == null) {
+            sala.setListaTorneios(new ArrayList<Torneio>());
+        }
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
+            List<Cash> attachedListaCash = new ArrayList<Cash>();
+            for (Cash listaCashCashToAttach : sala.getListaCash()) {
+                listaCashCashToAttach = em.getReference(listaCashCashToAttach.getClass(), listaCashCashToAttach.getId());
+                attachedListaCash.add(listaCashCashToAttach);
+            }
+            sala.setListaCash(attachedListaCash);
+            List<Torneio> attachedListaTorneios = new ArrayList<Torneio>();
+            for (Torneio listaTorneiosTorneioToAttach : sala.getListaTorneios()) {
+                listaTorneiosTorneioToAttach = em.getReference(listaTorneiosTorneioToAttach.getClass(), listaTorneiosTorneioToAttach.getId());
+                attachedListaTorneios.add(listaTorneiosTorneioToAttach);
+            }
+            sala.setListaTorneios(attachedListaTorneios);
             em.persist(sala);
+            for (Cash listaCashCash : sala.getListaCash()) {
+                Sala oldSalaOfListaCashCash = listaCashCash.getSala();
+                listaCashCash.setSala(sala);
+                listaCashCash = em.merge(listaCashCash);
+                if (oldSalaOfListaCashCash != null) {
+                    oldSalaOfListaCashCash.getListaCash().remove(listaCashCash);
+                    oldSalaOfListaCashCash = em.merge(oldSalaOfListaCashCash);
+                }
+            }
+            for (Torneio listaTorneiosTorneio : sala.getListaTorneios()) {
+                Sala oldSalaOfListaTorneiosTorneio = listaTorneiosTorneio.getSala();
+                listaTorneiosTorneio.setSala(sala);
+                listaTorneiosTorneio = em.merge(listaTorneiosTorneio);
+                if (oldSalaOfListaTorneiosTorneio != null) {
+                    oldSalaOfListaTorneiosTorneio.getListaTorneios().remove(listaTorneiosTorneio);
+                    oldSalaOfListaTorneiosTorneio = em.merge(oldSalaOfListaTorneiosTorneio);
+                }
+            }
             em.getTransaction().commit();
         } finally {
             if (em != null) {
@@ -51,7 +90,60 @@ public class SalaJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
+            Sala persistentSala = em.find(Sala.class, sala.getId());
+            List<Cash> listaCashOld = persistentSala.getListaCash();
+            List<Cash> listaCashNew = sala.getListaCash();
+            List<Torneio> listaTorneiosOld = persistentSala.getListaTorneios();
+            List<Torneio> listaTorneiosNew = sala.getListaTorneios();
+            List<Cash> attachedListaCashNew = new ArrayList<Cash>();
+            for (Cash listaCashNewCashToAttach : listaCashNew) {
+                listaCashNewCashToAttach = em.getReference(listaCashNewCashToAttach.getClass(), listaCashNewCashToAttach.getId());
+                attachedListaCashNew.add(listaCashNewCashToAttach);
+            }
+            listaCashNew = attachedListaCashNew;
+            sala.setListaCash(listaCashNew);
+            List<Torneio> attachedListaTorneiosNew = new ArrayList<Torneio>();
+            for (Torneio listaTorneiosNewTorneioToAttach : listaTorneiosNew) {
+                listaTorneiosNewTorneioToAttach = em.getReference(listaTorneiosNewTorneioToAttach.getClass(), listaTorneiosNewTorneioToAttach.getId());
+                attachedListaTorneiosNew.add(listaTorneiosNewTorneioToAttach);
+            }
+            listaTorneiosNew = attachedListaTorneiosNew;
+            sala.setListaTorneios(listaTorneiosNew);
             sala = em.merge(sala);
+            for (Cash listaCashOldCash : listaCashOld) {
+                if (!listaCashNew.contains(listaCashOldCash)) {
+                    listaCashOldCash.setSala(null);
+                    listaCashOldCash = em.merge(listaCashOldCash);
+                }
+            }
+            for (Cash listaCashNewCash : listaCashNew) {
+                if (!listaCashOld.contains(listaCashNewCash)) {
+                    Sala oldSalaOfListaCashNewCash = listaCashNewCash.getSala();
+                    listaCashNewCash.setSala(sala);
+                    listaCashNewCash = em.merge(listaCashNewCash);
+                    if (oldSalaOfListaCashNewCash != null && !oldSalaOfListaCashNewCash.equals(sala)) {
+                        oldSalaOfListaCashNewCash.getListaCash().remove(listaCashNewCash);
+                        oldSalaOfListaCashNewCash = em.merge(oldSalaOfListaCashNewCash);
+                    }
+                }
+            }
+            for (Torneio listaTorneiosOldTorneio : listaTorneiosOld) {
+                if (!listaTorneiosNew.contains(listaTorneiosOldTorneio)) {
+                    listaTorneiosOldTorneio.setSala(null);
+                    listaTorneiosOldTorneio = em.merge(listaTorneiosOldTorneio);
+                }
+            }
+            for (Torneio listaTorneiosNewTorneio : listaTorneiosNew) {
+                if (!listaTorneiosOld.contains(listaTorneiosNewTorneio)) {
+                    Sala oldSalaOfListaTorneiosNewTorneio = listaTorneiosNewTorneio.getSala();
+                    listaTorneiosNewTorneio.setSala(sala);
+                    listaTorneiosNewTorneio = em.merge(listaTorneiosNewTorneio);
+                    if (oldSalaOfListaTorneiosNewTorneio != null && !oldSalaOfListaTorneiosNewTorneio.equals(sala)) {
+                        oldSalaOfListaTorneiosNewTorneio.getListaTorneios().remove(listaTorneiosNewTorneio);
+                        oldSalaOfListaTorneiosNewTorneio = em.merge(oldSalaOfListaTorneiosNewTorneio);
+                    }
+                }
+            }
             em.getTransaction().commit();
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
@@ -80,6 +172,16 @@ public class SalaJpaController implements Serializable {
                 sala.getId();
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The sala with id " + id + " no longer exists.", enfe);
+            }
+            List<Cash> listaCash = sala.getListaCash();
+            for (Cash listaCashCash : listaCash) {
+                listaCashCash.setSala(null);
+                listaCashCash = em.merge(listaCashCash);
+            }
+            List<Torneio> listaTorneios = sala.getListaTorneios();
+            for (Torneio listaTorneiosTorneio : listaTorneios) {
+                listaTorneiosTorneio.setSala(null);
+                listaTorneiosTorneio = em.merge(listaTorneiosTorneio);
             }
             em.remove(sala);
             em.getTransaction().commit();
