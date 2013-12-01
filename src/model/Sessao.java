@@ -7,6 +7,7 @@ package model;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,6 +15,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -21,7 +23,7 @@ import javax.persistence.Table;
  * @author augusto
  */
 @Entity
-@Table(name = "t_sessao")
+@Table(name = "tb_sessao")
 public class Sessao implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -30,14 +32,21 @@ public class Sessao implements Serializable {
     @Column(name = "id_sessao")
     private Integer id;
 
-    @ManyToOne
-    @JoinColumn(name = "id_usuario", referencedColumnName = "id_usuario")
-    private Usuario usuario;
-
     @Column(name = "data_sessao")
     private Date dataSessao;
     @Column(name = "duracao_horas")
     private double duracaoHoras;
+
+    //Relação 1:n
+    @ManyToOne
+    @JoinColumn(name = "id_usuario", referencedColumnName = "id_usuario")
+    private Usuario usuario;
+
+    @OneToMany(mappedBy = "sessao")
+    private List<Cash> listaCash;
+
+    @OneToMany(mappedBy = "sessao")
+    private List<Torneio> listaTorneios;
 
     public Integer getId() {
         return id;
@@ -45,14 +54,6 @@ public class Sessao implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public Usuario getUsuario() {
-        return usuario;
-    }
-
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
     }
 
     public Date getDataSessao() {
@@ -70,5 +71,31 @@ public class Sessao implements Serializable {
     public void setDuracaoHoras(double duracaoHoras) {
         this.duracaoHoras = duracaoHoras;
     }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+
+    public List<Cash> getListaCash() {
+        return listaCash;
+    }
+
+    public void setListaCash(List<Cash> listaCash) {
+        this.listaCash = listaCash;
+    }
+
+    public List<Torneio> getListaTorneios() {
+        return listaTorneios;
+    }
+
+    public void setListaTorneios(List<Torneio> listaTorneios) {
+        this.listaTorneios = listaTorneios;
+    }
+    
+    
 
 }

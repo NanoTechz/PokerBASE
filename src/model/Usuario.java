@@ -21,20 +21,22 @@ import javax.persistence.Table;
  * @author augusto
  */
 @Entity
-@Table(name="t_usuario")
+@Table(name="tb_usuario")
 public class Usuario implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name="id_usuario")
     private Integer id;
-    
+
     @Column(length = 50)
     private String nome;
     @Column(length = 20)
     private String username;
     @Column(length = 14)
     private String senha;
+    
+    //Relação 1:n
     
     @OneToMany(mappedBy = "usuario")
     private List<Sessao> listaSessao;
@@ -78,4 +80,6 @@ public class Usuario implements Serializable {
     public void setListaSessao(List<Sessao> listaSessao) {
         this.listaSessao = listaSessao;
     }
+    
+    
 }

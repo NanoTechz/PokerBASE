@@ -3,36 +3,44 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package model;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
  *
  * @author augusto
  */
-
-@Table(name="t_sala")
+@Table(name = "tb_sala")
 @Entity
 public class Sala implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name="id_sala")
+    @Column(name = "id_sala")
     private Integer id;
-    
-    @Column(name="razao_social")
+
+    @Column(name = "razao_social")
     private String razaoSocial;
     private String link;
     private String descricao;
     
+    //relaçcao 1:n
+    @OneToMany(mappedBy = "sala")
+    private List<Cash> listaCash;
+    
+    @OneToMany(mappedBy = "sala")
+    private List<Torneio> listaTorneios;
+
     public Integer getId() {
         return id;
     }
@@ -64,7 +72,23 @@ public class Sala implements Serializable {
     public void setDescricao(String descricao) {
         this.descricao = descricao;
     }
-    
-    
 
+    public List<Cash> getListaCash() {
+        return listaCash;
+    }
+
+    public void setListaCash(List<Cash> listaCash) {
+        this.listaCash = listaCash;
+    }
+
+    public List<Torneio> getListaTorneios() {
+        return listaTorneios;
+    }
+
+    public void setListaTorneios(List<Torneio> listaTorneios) {
+        this.listaTorneios = listaTorneios;
+    }
+    
+    
+    
 }

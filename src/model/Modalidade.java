@@ -15,7 +15,7 @@ import javax.persistence.MappedSuperclass;
  * @author augusto
  */
 @MappedSuperclass
-public class Modalidade implements Serializable{
+public class Modalidade implements Serializable{   
     @Column(name="qtd_jgs_mesa")
     private int qtdJogadoresMesa;
 
