@@ -97,5 +97,4 @@ public class BankRoll implements Serializable {
         this.listaOperacao = listaOperacao;
     }
     
-    
 }
