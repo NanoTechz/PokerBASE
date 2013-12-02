@@ -6,6 +6,7 @@
 
 package view;
 
+import java.awt.event.ActionListener;
 import javax.swing.JOptionPane;
 
 /**
@@ -41,6 +42,14 @@ public class CadastroUsuarioDialog extends javax.swing.JDialog {
     public void mensagemErro(String mensagemErro){
         JOptionPane.showMessageDialog(this, mensagemErro); 
     }
+    
+    public void limparCampoSenha() {
+        senha.setText(null);
+        senhaConfirmacao.setText(null);
+    }
+    public void addAdicionarListener(ActionListener action){
+        this.adicionarBotao.addActionListener(action);
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -60,7 +69,7 @@ public class CadastroUsuarioDialog extends javax.swing.JDialog {
         username = new javax.swing.JTextField();
         senha = new javax.swing.JPasswordField();
         senhaConfirmacao = new javax.swing.JPasswordField();
-        jButton1 = new javax.swing.JButton();
+        adicionarBotao = new javax.swing.JButton();
         cancelarBotao = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -76,7 +85,7 @@ public class CadastroUsuarioDialog extends javax.swing.JDialog {
 
         username.setToolTipText("");
 
-        jButton1.setText("ok");
+        adicionarBotao.setText("ok");
 
         cancelarBotao.setText("Cancelar");
         cancelarBotao.addActionListener(new java.awt.event.ActionListener() {
@@ -107,7 +116,7 @@ public class CadastroUsuarioDialog extends javax.swing.JDialog {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(cancelarBotao)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(adicionarBotao, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -131,7 +140,7 @@ public class CadastroUsuarioDialog extends javax.swing.JDialog {
                     .addComponent(senhaConfirmacao))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
+                    .addComponent(adicionarBotao)
                     .addComponent(cancelarBotao))
                 .addContainerGap())
         );
@@ -163,8 +172,8 @@ public class CadastroUsuarioDialog extends javax.swing.JDialog {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton adicionarBotao;
     private javax.swing.JButton cancelarBotao;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
