@@ -13,7 +13,7 @@ import javax.swing.JOptionPane;
  *
  * @author augusto
  */
-public class LoginFrame extends javax.swing.JFrame {
+public class LoginFrame extends TelaFrame {
 
     public LoginFrame() {
         initComponents();
@@ -25,10 +25,6 @@ public class LoginFrame extends javax.swing.JFrame {
     
     public String getSenha(){
         return senha.getText();
-    }
-    
-    public void mensagemErro(String mensagemErro){
-        JOptionPane.showMessageDialog(this, mensagemErro); 
     }
     
     public void addLoginBotaoListener(ActionListener action){
