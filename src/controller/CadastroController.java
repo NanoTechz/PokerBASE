@@ -21,18 +21,17 @@ import view.CadastroUsuarioDialog;
  *
  * @author augusto
  */
-public class CadastroController {
+public class CadastroController extends Controller{
 
     private CadastroUsuarioDialog cadastroView;
     private Usuario usuario;
-    private EntityManagerFactory emf;
     private UsuarioJpaController usuarioJPA;
 
     public CadastroController(CadastroUsuarioDialog cadastroView, Usuario usuario, EntityManagerFactory emf) {
+        super(emf);
         this.cadastroView = cadastroView;
         this.usuario = usuario;
-        this.emf = emf;
-        this.usuarioJPA = new UsuarioJpaController(emf);
+        this.usuarioJPA = new UsuarioJpaController(super.getEmf());
 
         this.cadastroView.addAdicionarListener(new AdicionarListener());
     }
