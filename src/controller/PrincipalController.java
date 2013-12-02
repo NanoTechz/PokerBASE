@@ -6,8 +6,17 @@
 
 package controller;
 
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.EntityManagerFactory;
+import jpa.BankRollJpaController;
+import jpa.SalaJpaController;
+import jpa.SessaoJpaController;
+import jpa.UsuarioJpaController;
+import model.BankRoll;
+import model.Sessao;
 import model.Usuario;
+import view.CadastroBankrollDialog;
 import view.PrincipalFrame;
 
 /**
@@ -17,6 +26,11 @@ import view.PrincipalFrame;
 public class PrincipalController extends Controller{
     private Usuario usuario;
     private PrincipalFrame principalView;
+    
+    private UsuarioJpaController usuarioJPA;
+    private BankRollJpaController bankrollJPA;
+    private SessaoJpaController sessaoJPA;
+    private SalaJpaController salaJPA;
 
     public PrincipalController(Usuario usuario, PrincipalFrame principalView, EntityManagerFactory emf) {
         super(emf);
@@ -24,7 +38,29 @@ public class PrincipalController extends Controller{
         this.principalView = principalView;
         
         this.principalView.setUserName(usuario.getUsername());
-        this.principalView.centraliarTela();
+        this.principalView.centralizarTela();
         
+        this.usuarioJPA = new UsuarioJpaController(emf);
+        this.bankrollJPA = new BankRollJpaController(emf);
+        this.salaJPA = new SalaJpaController(emf);
+        this.sessaoJPA = new SessaoJpaController(emf);
+        
+        pegarInfoUsuario(usuario);
+        
+        if(usuario.getListaBankRolls().isEmpty()){
+            CadastroBankrollDialog cadastroView = new CadastroBankrollDialog(principalView, true);
+            CadastroBankRollController bankrollController = new CadastroBankRollController(cadastroView, usuario, emf);
+            
+            cadastroView.setVisible(true);
+        }
+        
+    }
+    
+    public void pegarInfoUsuario(Usuario usuario){
+        List<BankRoll> listaBankRoll = bankrollJPA.findBankRollUsuario(usuario);
+        usuario.setListaBankRolls(listaBankRoll);
+        
+        List<Sessao> listaSessao = sessaoJPA.findSessaoUsuario(usuario);
+        usuario.setListaSessao(listaSessao);
     }
 }

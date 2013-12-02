@@ -21,20 +21,20 @@ import view.CadastroUsuarioDialog;
  *
  * @author augusto
  */
-public class CadastroController extends Controller {
+public class CadastroUsuarioController extends Controller {
 
     private CadastroUsuarioDialog cadastroView;
     private Usuario usuario;
     private UsuarioJpaController usuarioJPA;
 
-    public CadastroController(CadastroUsuarioDialog cadastroView, Usuario usuario, EntityManagerFactory emf) {
+    public CadastroUsuarioController(CadastroUsuarioDialog cadastroView, Usuario usuario, EntityManagerFactory emf) {
         super(emf);
         this.cadastroView = cadastroView;
         this.usuario = usuario;
         this.usuarioJPA = new UsuarioJpaController(super.getEmf());
 
         this.cadastroView.addAdicionarListener(new AdicionarListener());
-        this.cadastroView.centraliarTela();
+        this.cadastroView.centralizarTela();
     }
 
     class AdicionarListener implements ActionListener {
@@ -72,7 +72,7 @@ public class CadastroController extends Controller {
                 }
             } catch (NoSuchAlgorithmException | UnsupportedEncodingException ex) {
                 cadastroView.mensagemErro("Erro inesperado!");
-                Logger.getLogger(CadastroController.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(CadastroUsuarioController.class.getName()).log(Level.SEVERE, null, ex);
             } finally {
                 cadastroView.dispose();
             }

@@ -15,7 +15,6 @@ import javax.persistence.EntityManagerFactory;
 import jpa.UsuarioJpaController;
 import model.Usuario;
 import seguranca.Criptografia;
-import util.Desktop;
 import view.CadastroUsuarioDialog;
 import view.LoginFrame;
 import view.PrincipalFrame;
@@ -41,7 +40,7 @@ public class LoginController  extends Controller {
 
         this.usuarioJPA = new UsuarioJpaController(super.getEmf());
         
-        this.loginView.centraliarTela();
+        this.loginView.centralizarTela();
     }
 
     public boolean autenticar(Usuario usuario, String senha) {
@@ -88,7 +87,7 @@ public class LoginController  extends Controller {
         @Override
         public void actionPerformed(ActionEvent ae) {
             CadastroUsuarioDialog cadastroView = new CadastroUsuarioDialog(loginView, true);
-            CadastroController cadastroController = new CadastroController(cadastroView, usuarioModel, getEmf());
+            CadastroUsuarioController cadastroController = new CadastroUsuarioController(cadastroView, usuarioModel, getEmf());
 
             cadastroView.setVisible(true);
 
