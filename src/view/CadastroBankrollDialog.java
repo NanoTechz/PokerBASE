@@ -6,6 +6,7 @@
 
 package view;
 
+import java.awt.event.ActionListener;
 import javax.swing.DefaultComboBoxModel;
 
 /**
@@ -26,6 +27,10 @@ public class CadastroBankrollDialog extends TelaDialog {
     
     public void setModelListaSala(DefaultComboBoxModel model){
         listaSala.setModel(model);
+    }
+    
+    public void addAdicionarSalaListener(ActionListener action){
+        adicionarSalaBotao.addActionListener(action);
     }
 
     /**

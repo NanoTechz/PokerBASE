@@ -19,5 +19,5 @@ public class EntityManagerUtil {
     
     static{
         EntityManagerUtil.emf = Persistence.createEntityManagerFactory("PokerBASEPU");
-    }
+    } 
 }

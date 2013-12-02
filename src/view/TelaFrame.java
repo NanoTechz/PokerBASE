@@ -8,6 +8,7 @@ package view;
 
 import java.awt.GraphicsConfiguration;
 import java.awt.HeadlessException;
+import java.awt.event.WindowListener;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import util.Desktop;
@@ -16,7 +17,7 @@ import util.Desktop;
  *
  * @author augusto
  */
-public class TelaFrame extends JFrame implements Tela{
+public abstract class TelaFrame extends JFrame implements Tela{
 
     @Override
     public void centralizarTela() {

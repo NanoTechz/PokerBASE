@@ -15,6 +15,7 @@ import javax.persistence.EntityManagerFactory;
 import jpa.UsuarioJpaController;
 import model.Usuario;
 import seguranca.Criptografia;
+import util.FecharConexaoWindowListener;
 import view.CadastroUsuarioDialog;
 import view.LoginFrame;
 import view.PrincipalFrame;
@@ -41,6 +42,8 @@ public class LoginController  extends Controller {
         this.usuarioJPA = new UsuarioJpaController(super.getEmf());
         
         this.loginView.centralizarTela();
+        
+        this.loginView.addWindowListener(new FecharConexaoWindowListener());
     }
 
     public boolean autenticar(Usuario usuario, String senha) {

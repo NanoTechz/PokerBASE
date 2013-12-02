@@ -22,6 +22,10 @@ public class CadastroSalaDialog extends TelaDialog {
 
         cancelarBotao.addActionListener(new CancelarListener());
     }
+    
+    public void addAdicionarSalaListener(ActionListener action){
+        this.confirmarBotao.addActionListener(action);
+    }
 
     public String getRazaoSocial() {
         return razaoSocial.getText();
@@ -33,10 +37,6 @@ public class CadastroSalaDialog extends TelaDialog {
 
     public String getDescricao() {
         return descricao.getText();
-    }
-
-    public void addAdicionarListener(ActionListener action) {
-        this.confirmarBotao.addActionListener(action);
     }
 
     /**

@@ -6,17 +6,18 @@
 
 package controller;
 
-import java.util.Collection;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.List;
 import java.util.Vector;
 import javax.persistence.EntityManagerFactory;
 import javax.swing.DefaultComboBoxModel;
 import jpa.BankRollJpaController;
 import jpa.SalaJpaController;
-import model.BankRoll;
 import model.Sala;
 import model.Usuario;
 import view.CadastroBankrollDialog;
+import view.CadastroSalaDialog;
 
 /**
  *
@@ -40,8 +41,9 @@ public class CadastroBankRollController extends Controller {
         this.bankRollJPA = new BankRollJpaController(emf);
          
         this.cadastroBankRollView.centralizarTela();
-        
         this.cadastroBankRollView.setModelListaSala(getModel());
+        
+        this.cadastroBankRollView.addAdicionarSalaListener(new AdicionarSalaListener());
     }
     
     
@@ -54,5 +56,24 @@ public class CadastroBankRollController extends Controller {
             model = new DefaultComboBoxModel(new Vector(salas));
         }
         return model;
+    }
+    
+    class AdicionarSalaListener implements ActionListener{
+
+        @Override
+        public void actionPerformed(ActionEvent ae) {
+            CadastroSalaDialog salaView = new CadastroSalaDialog(null, true);
+            salaView.centralizarTela();
+            
+            CadastroSalaController salaController = new CadastroSalaController(salaView,getEmf());
+            salaView.setVisible(true);
+            DefaultComboBoxModel model = getModel();
+            
+            model.setSelectedItem(model.getElementAt(model.getSize() - 1));
+            
+            cadastroBankRollView.setModelListaSala(model);
+               
+        }
+        
     }
 }

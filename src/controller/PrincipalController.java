@@ -16,6 +16,7 @@ import jpa.UsuarioJpaController;
 import model.BankRoll;
 import model.Sessao;
 import model.Usuario;
+import util.FecharConexaoWindowListener;
 import view.CadastroBankrollDialog;
 import view.PrincipalFrame;
 
@@ -39,6 +40,7 @@ public class PrincipalController extends Controller{
         
         this.principalView.setUserName(usuario.getUsername());
         this.principalView.centralizarTela();
+        this.principalView.addWindowListener(new FecharConexaoWindowListener());
         
         this.usuarioJPA = new UsuarioJpaController(emf);
         this.bankrollJPA = new BankRollJpaController(emf);
