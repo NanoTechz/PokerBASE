@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package jpa;
 
 import java.io.Serializable;
@@ -18,6 +17,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import jpa.exceptions.NonexistentEntityException;
 import model.BankRoll;
+import model.Usuario;
 
 /**
  *
@@ -175,6 +175,20 @@ public class BankRollJpaController implements Serializable {
         }
     }
 
+    public List<BankRoll> findBankRollUsuario(Usuario usuario) {
+        EntityManager em = getEntityManager();
+        try {
+            Query query = em.createQuery("select b from BankRoll b where b.usuario = :usuario", BankRoll.class);
+            query.setParameter("usuario", usuario);
+            return query.getResultList();
+        } catch (Exception e) {
+            e.printStackTrace(System.out);
+            return new ArrayList<BankRoll>();
+        } finally {
+            em.close();
+        }
+    }
+
     public int getBankRollCount() {
         EntityManager em = getEntityManager();
         try {
@@ -187,5 +201,5 @@ public class BankRollJpaController implements Serializable {
             em.close();
         }
     }
-    
+
 }

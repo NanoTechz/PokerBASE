@@ -18,6 +18,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import jpa.exceptions.NonexistentEntityException;
+import model.BankRoll;
 import model.Sessao;
 import model.Torneio;
 
@@ -240,6 +241,20 @@ public class SessaoJpaController implements Serializable {
                 q.setFirstResult(firstResult);
             }
             return q.getResultList();
+        } finally {
+            em.close();
+        }
+    }
+    
+      public List<Sessao> findSessaoUsuario(Usuario usuario) {
+        EntityManager em = getEntityManager();
+        try {
+            Query query = em.createQuery("select s from Sessao s where b.usuario = :usuario", Sessao.class);
+            query.setParameter("usuario", usuario);
+            return query.getResultList();
+        } catch (Exception e) {
+            e.printStackTrace(System.out);
+            return new ArrayList<Sessao>();
         } finally {
             em.close();
         }
