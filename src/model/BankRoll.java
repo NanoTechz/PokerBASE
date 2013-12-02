@@ -7,6 +7,7 @@
 package model;
 
 import java.io.Serializable;
+import java.sql.Date;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -36,6 +37,9 @@ public class BankRoll implements Serializable {
     
     @Column(name="valor_atual")
     private double valorAtual;
+    
+    @Column(name="data_criacao")
+    private Date dataCriacao;
     
     //relação 1:N
     @ManyToOne
@@ -96,5 +100,12 @@ public class BankRoll implements Serializable {
     public void setListaOperacao(List<Operacao> listaOperacao) {
         this.listaOperacao = listaOperacao;
     }
-    
+
+    public Date getDataCriacao() {
+        return dataCriacao;
+    }
+
+    public void setDataCriacao(Date dataCriacao) {
+        this.dataCriacao = dataCriacao;
+    }
 }
