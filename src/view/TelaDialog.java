@@ -10,6 +10,8 @@ import java.awt.Dialog;
 import java.awt.Frame;
 import java.awt.GraphicsConfiguration;
 import java.awt.Window;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import util.Desktop;
@@ -21,13 +23,22 @@ import util.Desktop;
 public class TelaDialog extends JDialog implements Tela {
     
     @Override
-    public void centraliarTela() {
+    public void centralizarTela() {
         Desktop.centralizarFrame(this);
     }
     
     @Override
     public void mensagemErro(String mensagemErro){
         JOptionPane.showMessageDialog(this, mensagemErro); 
+    }
+    
+    class CancelarListener implements ActionListener{
+
+        @Override
+        public void actionPerformed(ActionEvent ae) {
+            dispose();
+        }
+        
     }
     
     public TelaDialog() {

@@ -19,7 +19,7 @@ import util.Desktop;
 public class TelaFrame extends JFrame implements Tela{
 
     @Override
-    public void centraliarTela() {
+    public void centralizarTela() {
         Desktop.centralizarFrame(this);
     }
     

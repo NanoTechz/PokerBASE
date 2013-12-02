@@ -39,14 +39,11 @@ public class CadastroUsuarioDialog extends TelaDialog {
         return senhaConfirmacao.getText();
     }
     
-    public void mensagemErro(String mensagemErro){
-        JOptionPane.showMessageDialog(this, mensagemErro); 
-    }
-    
     public void limparCampoSenha() {
         senha.setText(null);
         senhaConfirmacao.setText(null);
     }
+    
     public void addAdicionarListener(ActionListener action){
         this.adicionarBotao.addActionListener(action);
     }

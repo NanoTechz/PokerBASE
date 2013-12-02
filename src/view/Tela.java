@@ -11,7 +11,7 @@ package view;
  * @author augusto
  */
 public interface Tela {
-    public void centraliarTela();
+    public void centralizarTela();
     
     public void mensagemErro(String mensagemErro);
 }
