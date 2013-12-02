@@ -21,7 +21,7 @@ import view.CadastroUsuarioDialog;
  *
  * @author augusto
  */
-public class CadastroController extends Controller{
+public class CadastroController extends Controller {
 
     private CadastroUsuarioDialog cadastroView;
     private Usuario usuario;
@@ -34,6 +34,7 @@ public class CadastroController extends Controller{
         this.usuarioJPA = new UsuarioJpaController(super.getEmf());
 
         this.cadastroView.addAdicionarListener(new AdicionarListener());
+        this.cadastroView.centraliarTela();
     }
 
     class AdicionarListener implements ActionListener {
@@ -56,23 +57,23 @@ public class CadastroController extends Controller{
                 cadastroView.mensagemErro("Username já em uso");
                 return;
             }
-            
+
             usuario = new Usuario();
-            
+
             usuario.setNome(cadastroView.getNome());
             usuario.setUsername(cadastroView.getUserName());
-            
+
             try {
                 usuario.setSenha(Criptografia.cifrar(cadastroView.getSenha()));
                 usuarioJPA.create(usuario);
-                
-                if(usuario.getId() != 0){
-                     cadastroView.mensagemErro("Usuario cadastrado com sucesso!");
+
+                if (usuario.getId() != 0) {
+                    cadastroView.mensagemErro("Usuario cadastrado com sucesso!");
                 }
-            } catch (    NoSuchAlgorithmException | UnsupportedEncodingException ex) {
+            } catch (NoSuchAlgorithmException | UnsupportedEncodingException ex) {
                 cadastroView.mensagemErro("Erro inesperado!");
-                Logger.getLogger(CadastroController.class.getName()).log(Level.SEVERE, null, ex); 
-            }finally{
+                Logger.getLogger(CadastroController.class.getName()).log(Level.SEVERE, null, ex);
+            } finally {
                 cadastroView.dispose();
             }
         }

@@ -23,6 +23,8 @@ public class PrincipalController extends Controller{
         this.usuario = usuario;
         this.principalView = principalView;
         
-        principalView.setUserName(usuario.getUsername());
+        this.principalView.setUserName(usuario.getUsername());
+        this.principalView.centraliarTela();
+        
     }
 }

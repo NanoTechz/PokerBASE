@@ -22,8 +22,6 @@ public class PokerBASE {
         
         
         LoginController controller = new LoginController(usuario, loginFrame, EntityManagerUtil.emf);
-        
-        
         loginFrame.setVisible(true);
     }
 }
