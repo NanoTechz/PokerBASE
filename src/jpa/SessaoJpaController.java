@@ -249,7 +249,7 @@ public class SessaoJpaController implements Serializable {
       public List<Sessao> findSessaoUsuario(Usuario usuario) {
         EntityManager em = getEntityManager();
         try {
-            Query query = em.createQuery("select s from Sessao s where b.usuario = :usuario", Sessao.class);
+            Query query = em.createQuery("select s from Sessao s where s.usuario = :usuario", Sessao.class);
             query.setParameter("usuario", usuario);
             return query.getResultList();
         } catch (Exception e) {
