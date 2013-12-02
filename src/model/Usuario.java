@@ -42,7 +42,16 @@ public class Usuario implements Serializable {
 
     @OneToMany(mappedBy = "usuario")
     private List<BankRoll> listaBankRolls;
-    
+
+    public Usuario(String username, String senha) {
+        this();
+        this.username = username;
+        this.senha = senha;
+    }
+
+    public Usuario() {
+    }
+      
     public Integer getId() {
         return id;
     }
@@ -89,5 +98,10 @@ public class Usuario implements Serializable {
 
     public void setListaBankRolls(List<BankRoll> listaBankRolls) {
         this.listaBankRolls = listaBankRolls;
-    }  
+    }
+
+    @Override
+    public String toString() {
+        return "Usuario{" + "id=" + id + ", nome=" + nome + ", username=" + username + ", senha=" + senha + ", listaSessao=" + listaSessao + ", listaBankRolls=" + listaBankRolls + '}';
+    }
 }
