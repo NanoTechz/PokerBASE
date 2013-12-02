@@ -16,11 +16,8 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.criteria.Expression;
-import javax.persistence.criteria.Subquery;
 import jpa.exceptions.NonexistentEntityException;
 import model.Usuario;
-import org.hibernate.ejb.criteria.CriteriaSubqueryImpl;
 
 /**
  *
