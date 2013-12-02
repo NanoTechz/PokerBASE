@@ -82,6 +82,12 @@ public class Usuario implements Serializable {
     public void setListaSessao(List<Sessao> listaSessao) {
         this.listaSessao = listaSessao;
     }
-    
-    
+
+    public List<BankRoll> getListaBankRolls() {
+        return listaBankRolls;
+    }
+
+    public void setListaBankRolls(List<BankRoll> listaBankRolls) {
+        this.listaBankRolls = listaBankRolls;
+    }  
 }
