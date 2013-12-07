@@ -41,7 +41,7 @@ public class Usuario implements Serializable {
     private List<Sessao> listaSessao;
 
     @OneToMany(mappedBy = "usuario")
-    private List<BankRoll> listaBankRolls;
+    private List<Bankroll> listaBankRolls;
 
     public Usuario(String username, String senha) {
         this();
@@ -92,11 +92,11 @@ public class Usuario implements Serializable {
         this.listaSessao = listaSessao;
     }
 
-    public List<BankRoll> getListaBankRolls() {
+    public List<Bankroll> getListaBankRolls() {
         return listaBankRolls;
     }
 
-    public void setListaBankRolls(List<BankRoll> listaBankRolls) {
+    public void setListaBankRolls(List<Bankroll> listaBankRolls) {
         this.listaBankRolls = listaBankRolls;
     }
 

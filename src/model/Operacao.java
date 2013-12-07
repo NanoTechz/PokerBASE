@@ -41,7 +41,7 @@ public class Operacao implements Serializable {
     //Relaçao 1:N
     @ManyToOne
     @JoinColumn(name="id_bankroll")
-    private BankRoll bankroll;
+    private Bankroll bankroll;
 
     public Integer getId() {
         return id;
@@ -75,11 +75,11 @@ public class Operacao implements Serializable {
         this.tipo = tipo;
     }
 
-    public BankRoll getBankroll() {
+    public Bankroll getBankroll() {
         return bankroll;
     }
 
-    public void setBankroll(BankRoll bankroll) {
+    public void setBankroll(Bankroll bankroll) {
         this.bankroll = bankroll;
     }
     

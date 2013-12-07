@@ -29,7 +29,7 @@ public class Sala implements Serializable {
     @Column(name = "id_sala")
     private Integer id;
 
-    @Column(name = "razao_social")
+    @Column(name = "razao_social", unique = true)
     private String razaoSocial;
     private String link;
     private String descricao;
@@ -42,7 +42,7 @@ public class Sala implements Serializable {
     private List<Torneio> listaTorneios;
     
     @OneToMany(mappedBy = "sala")
-    private List<BankRoll> listaBankRoll;
+    private List<Bankroll> listaBankRoll;
 
     public Integer getId() {
         return id;
