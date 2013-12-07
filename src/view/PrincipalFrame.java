@@ -9,7 +9,7 @@ package view;
  *
  * @author augusto
  */
-public class PrincipalFrame extends TelaFrame {
+public class PrincipalFrame extends FrameView {
 
     /**
      * Creates new form PrincipalFrame

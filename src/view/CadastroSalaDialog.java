@@ -11,7 +11,7 @@ import java.awt.event.ActionListener;
  *
  * @author augusto
  */
-public class CadastroSalaDialog extends TelaDialog {
+public class CadastroSalaDialog extends DialogView {
 
     /**
      * Creates new form CadastroSalaDialog

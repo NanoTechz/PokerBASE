@@ -13,7 +13,7 @@ import javax.swing.JOptionPane;
  *
  * @author augusto
  */
-public class LoginFrame extends TelaFrame {
+public class LoginFrame extends FrameView {
 
     public LoginFrame() {
         initComponents();

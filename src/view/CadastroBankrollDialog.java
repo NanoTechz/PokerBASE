@@ -8,12 +8,13 @@ package view;
 
 import java.awt.event.ActionListener;
 import javax.swing.DefaultComboBoxModel;
+import model.Sala;
 
 /**
  *
  * @author augusto
  */
-public class CadastroBankrollDialog extends TelaDialog {
+public class CadastroBankrollDialog extends DialogView {
 
     /**
      * Creates new form CadastroBankrollDialog
@@ -25,6 +26,18 @@ public class CadastroBankrollDialog extends TelaDialog {
         cancelar.addActionListener(new CancelarListener());
     }
     
+    public String getValor(){
+        return valor.getText();
+    }
+    
+    public void setValor(double valor){
+        this.valor.setText(Double.toString(valor));
+    }
+    
+    public Object getSalaSelecionada(){
+        return listaSala.getSelectedItem();
+    }
+    
     public void setModelListaSala(DefaultComboBoxModel model){
         listaSala.setModel(model);
     }
@@ -32,6 +45,11 @@ public class CadastroBankrollDialog extends TelaDialog {
     public void addAdicionarSalaListener(ActionListener action){
         adicionarSalaBotao.addActionListener(action);
     }
+    
+    public void addAdicionarBankrollListener(ActionListener action){
+        adicionar.addActionListener(action);
+    }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.

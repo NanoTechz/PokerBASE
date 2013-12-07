@@ -13,7 +13,7 @@ import javax.swing.JOptionPane;
  *
  * @author augusto
  */
-public class CadastroUsuarioDialog extends TelaDialog {
+public class CadastroUsuarioDialog extends DialogView {
 
     /**
      * Creates new form CadastroUsuarioDialog
