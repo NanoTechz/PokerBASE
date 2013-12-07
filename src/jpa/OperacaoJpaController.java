@@ -15,7 +15,7 @@ import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import jpa.exceptions.NonexistentEntityException;
-import model.BankRoll;
+import model.Bankroll;
 import model.Operacao;
 
 /**
@@ -38,7 +38,7 @@ public class OperacaoJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            BankRoll bankroll = operacao.getBankroll();
+            Bankroll bankroll = operacao.getBankroll();
             if (bankroll != null) {
                 bankroll = em.getReference(bankroll.getClass(), bankroll.getId());
                 operacao.setBankroll(bankroll);
@@ -62,8 +62,8 @@ public class OperacaoJpaController implements Serializable {
             em = getEntityManager();
             em.getTransaction().begin();
             Operacao persistentOperacao = em.find(Operacao.class, operacao.getId());
-            BankRoll bankrollOld = persistentOperacao.getBankroll();
-            BankRoll bankrollNew = operacao.getBankroll();
+            Bankroll bankrollOld = persistentOperacao.getBankroll();
+            Bankroll bankrollNew = operacao.getBankroll();
             if (bankrollNew != null) {
                 bankrollNew = em.getReference(bankrollNew.getClass(), bankrollNew.getId());
                 operacao.setBankroll(bankrollNew);
@@ -106,7 +106,7 @@ public class OperacaoJpaController implements Serializable {
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The operacao with id " + id + " no longer exists.", enfe);
             }
-            BankRoll bankroll = operacao.getBankroll();
+            Bankroll bankroll = operacao.getBankroll();
             if (bankroll != null) {
                 bankroll.getListaOperacao().remove(operacao);
                 bankroll = em.merge(bankroll);

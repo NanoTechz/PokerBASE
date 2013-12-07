@@ -18,7 +18,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import jpa.exceptions.NonexistentEntityException;
-import model.BankRoll;
+import model.Bankroll;
 import model.Sessao;
 import model.Torneio;
 
