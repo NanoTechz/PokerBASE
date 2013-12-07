@@ -7,8 +7,8 @@
     <class>model.Sala</class>
     <class>model.Cash</class>
     <class>model.Torneio</class>
-    <class>model.BankRoll</class>
     <class>model.Operacao</class>
+    <class>model.Bankroll</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/PokerBASE?zeroDateTimeBehavior=convertToNull"/>
       <property name="javax.persistence.jdbc.password" value="root"/>
