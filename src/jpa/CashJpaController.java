@@ -7,6 +7,7 @@
 package jpa;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -18,13 +19,29 @@ import jpa.exceptions.NonexistentEntityException;
 import model.Cash;
 import model.Sala;
 import model.Sessao;
+import model.Torneio;
+import model.Usuario;
 
 /**
  *
  * @author augusto
  */
 public class CashJpaController implements Serializable {
-
+    
+    public List<Cash> findCashUsuario(Usuario usuario) {
+        EntityManager em = getEntityManager();
+        try {
+            Query query = em.createQuery("select b from Cash b where b.sessao.usuario = :usuario", Cash.class);
+            query.setParameter("usuario", usuario);
+            return query.getResultList();
+        } catch (Exception e) {
+            e.printStackTrace(System.out);
+            return new ArrayList<Cash>();
+        } finally {
+            em.close();
+        }
+    }
+    
     public CashJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }

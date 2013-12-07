@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package jpa;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -15,9 +15,11 @@ import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import jpa.exceptions.NonexistentEntityException;
+import model.Bankroll;
 import model.Sessao;
 import model.Sala;
 import model.Torneio;
+import model.Usuario;
 
 /**
  *
@@ -25,6 +27,50 @@ import model.Torneio;
  */
 public class TorneioJpaController implements Serializable {
 
+    public List<Torneio> findTorneioUsuario(Usuario usuario) {
+        EntityManager em = getEntityManager();
+        try {
+            Query query = em.createQuery("select b from Torneio b where b.sessao.usuario = :usuario", Torneio.class);
+            query.setParameter("usuario", usuario);
+            return query.getResultList();
+        } catch (Exception e) {
+            e.printStackTrace(System.out);
+            return new ArrayList<Torneio>();
+        } finally {
+            em.close();
+        }
+    }
+
+    public double totalBuyIn(Usuario usuario){
+        EntityManager em = getEntityManager();
+        try {
+            Query query = em.createQuery("select SUM(b.buyIn) from Torneio b where b.sessao.usuario = :usuario");
+            query.setParameter("usuario", usuario);
+            
+            return ((Number)query.getSingleResult()).doubleValue();
+        } catch (Exception e) {
+            System.out.println("*****************************5*****************************");
+            e.printStackTrace(System.out);
+            return 0;
+        } finally {
+            em.close();
+        }   
+    } 
+    
+    public double totalValorGanho(Usuario usuario){
+        EntityManager em = getEntityManager();
+        try {
+            Query query = em.createQuery("select sum(b.valorGanho) from Torneio b where b.sessao.usuario = :usuario");
+            query.setParameter("usuario", usuario);
+            return ((Number)query.getSingleResult()).doubleValue();
+        } catch (Exception e) {
+            e.printStackTrace(System.out);
+            return 0;
+        } finally {
+            em.close();
+        }
+    } 
+    
     public TorneioJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
@@ -194,5 +240,5 @@ public class TorneioJpaController implements Serializable {
             em.close();
         }
     }
-    
+
 }
