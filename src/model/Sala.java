@@ -44,6 +44,15 @@ public class Sala implements Serializable {
     @OneToMany(mappedBy = "sala")
     private List<Bankroll> listaBankRoll;
 
+    public Sala(String razaoSocial) {
+        this.razaoSocial = razaoSocial;
+    }
+
+    public Sala() {
+    }
+    
+    
+
     public Integer getId() {
         return id;
     }
