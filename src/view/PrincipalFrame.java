@@ -5,19 +5,37 @@
  */
 package view;
 
+import graficos.GraficoTeste;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.data.category.DefaultCategoryDataset;
+import org.jfree.data.time.Day;
+import org.jfree.data.time.TimeSeries;
+import org.jfree.data.xy.XYSeries;
+
 /**
  *
  * @author augusto
  */
 public class PrincipalFrame extends FrameView {
-
+    
+    
+    private graficos.GraficoTeste teste = new GraficoTeste("Grafico", null, "valor");
     /**
      * Creates new form PrincipalFrame
      */
     public PrincipalFrame() {
         initComponents();
     }
-
+    
+     public void addSerie(XYSeries serie) {
+         teste.addSerie(serie);
+    }
+    
     public void setUserName(String username) {
         this.usernameLabel.setText(username);
     }
@@ -33,6 +51,7 @@ public class PrincipalFrame extends FrameView {
 
         jPanel1 = new javax.swing.JPanel();
         usernameLabel = new javax.swing.JLabel();
+        graficoPanel = teste.getPanel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
@@ -41,21 +60,42 @@ public class PrincipalFrame extends FrameView {
 
         usernameLabel.setText("$User");
 
+        graficoPanel.setBackground(new java.awt.Color(253, 138, 22));
+        graficoPanel.setMaximumSize(new java.awt.Dimension(680, 420));
+        graficoPanel.setMinimumSize(new java.awt.Dimension(680, 420));
+        graficoPanel.setPreferredSize(new java.awt.Dimension(680, 420));
+        graficoPanel.setRequestFocusEnabled(false);
+
+        javax.swing.GroupLayout graficoPanelLayout = new javax.swing.GroupLayout(graficoPanel);
+        graficoPanel.setLayout(graficoPanelLayout);
+        graficoPanelLayout.setHorizontalGroup(
+            graficoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 680, Short.MAX_VALUE)
+        );
+        graficoPanelLayout.setVerticalGroup(
+            graficoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 420, Short.MAX_VALUE)
+        );
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(usernameLabel)
-                .addGap(322, 322, 322))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(usernameLabel)
+                    .addComponent(graficoPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(264, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(usernameLabel)
-                .addContainerGap(223, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(graficoPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jMenu1.setText("File");
@@ -87,10 +127,13 @@ public class PrincipalFrame extends FrameView {
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel graficoPanel;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel usernameLabel;
     // End of variables declaration//GEN-END:variables
+
+
 }
