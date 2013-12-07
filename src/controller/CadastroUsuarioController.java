@@ -43,18 +43,18 @@ public class CadastroUsuarioController extends Controller {
         public void actionPerformed(ActionEvent ae) {
             if (cadastroView.getSenha().isEmpty() || cadastroView.getSenhaConfirmaacao().isEmpty()
                     || cadastroView.getNome().isEmpty() || cadastroView.getUserName().isEmpty()) {
-                cadastroView.mensagemErro("Algum campo vazio!");
+                cadastroView.erroMensagem("Algum campo vazio!");
                 return;
             }
 
             if (!(verificarSenha(cadastroView.getSenha(), cadastroView.getSenhaConfirmaacao()))) {
-                cadastroView.mensagemErro("Senhas não batem!");
+                cadastroView.erroMensagem("Senhas não batem!");
                 cadastroView.limparCampoSenha();
                 return;
             }
 
             if (verificarUserName(cadastroView.getUserName())) {
-                cadastroView.mensagemErro("Username já em uso");
+                cadastroView.erroMensagem("Username já em uso");
                 return;
             }
 
@@ -68,10 +68,10 @@ public class CadastroUsuarioController extends Controller {
                 usuarioJPA.create(usuario);
 
                 if (usuario.getId() != 0) {
-                    cadastroView.mensagemErro("Usuario cadastrado com sucesso!");
+                    cadastroView.erroMensagem("Usuario cadastrado com sucesso!");
                 }
             } catch (NoSuchAlgorithmException | UnsupportedEncodingException ex) {
-                cadastroView.mensagemErro("Erro inesperado!");
+                cadastroView.erroMensagem("Erro inesperado!");
                 Logger.getLogger(CadastroUsuarioController.class.getName()).log(Level.SEVERE, null, ex);
             } finally {
                 cadastroView.dispose();

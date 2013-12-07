@@ -33,7 +33,7 @@ public class CadastroSalaController extends Controller {
         @Override
         public void actionPerformed(ActionEvent ae) {
             if(salaView.getRazaoSocial().isEmpty()){
-                salaView.mensagemErro("Campo \"Nome Empresa\" vazio!");
+                salaView.erroMensagem("Campo \"Nome Empresa\" vazio!");
                 return;
             }
             
@@ -47,7 +47,7 @@ public class CadastroSalaController extends Controller {
             
             salaJPA.create(sala);
             
-            salaView.mensagemErro("Sala add com sucesso!");
+            salaView.erroMensagem("Sala add com sucesso!");
             salaView.dispose();
         }
 

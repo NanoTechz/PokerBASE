@@ -63,7 +63,7 @@ public class LoginController  extends Controller {
             usuarioModel = usuarioJPA.findUsuario(username);
 
             if (usuarioModel == null) {
-                loginView.mensagemErro("Usuario não cadastrado!");
+                loginView.erroMensagem("Usuario não cadastrado!");
             } else {
                 try {
                     senha = Criptografia.cifrar(senha);
@@ -75,7 +75,7 @@ public class LoginController  extends Controller {
                         principalFrame.setVisible(true);
                         loginView.setVisible(false);
                     } else {
-                        loginView.mensagemErro("Senha errada!");
+                        loginView.erroMensagem("Senha errada!");
                     }
                 } catch (NoSuchAlgorithmException | UnsupportedEncodingException ex) {
                     Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);

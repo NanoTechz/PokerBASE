@@ -9,11 +9,11 @@ package controller;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManagerFactory;
-import jpa.BankRollJpaController;
+import jpa.BankrollJpaController;
 import jpa.SalaJpaController;
 import jpa.SessaoJpaController;
 import jpa.UsuarioJpaController;
-import model.BankRoll;
+import model.Bankroll;
 import model.Sessao;
 import model.Usuario;
 import util.FecharConexaoWindowListener;
@@ -29,7 +29,7 @@ public class PrincipalController extends Controller{
     private PrincipalFrame principalView;
     
     private UsuarioJpaController usuarioJPA;
-    private BankRollJpaController bankrollJPA;
+    private BankrollJpaController bankrollJPA;
     private SessaoJpaController sessaoJPA;
     private SalaJpaController salaJPA;
 
@@ -43,7 +43,7 @@ public class PrincipalController extends Controller{
         this.principalView.addWindowListener(new FecharConexaoWindowListener());
         
         this.usuarioJPA = new UsuarioJpaController(emf);
-        this.bankrollJPA = new BankRollJpaController(emf);
+        this.bankrollJPA = new BankrollJpaController(emf);
         this.salaJPA = new SalaJpaController(emf);
         this.sessaoJPA = new SessaoJpaController(emf);
         
@@ -59,7 +59,7 @@ public class PrincipalController extends Controller{
     }
     
     public void pegarInfoUsuario(Usuario usuario){
-        List<BankRoll> listaBankRoll = bankrollJPA.findBankRollUsuario(usuario);
+        List<Bankroll> listaBankRoll = bankrollJPA.findBankRollUsuario(usuario);
         usuario.setListaBankRolls(listaBankRoll);
         
         List<Sessao> listaSessao = sessaoJPA.findSessaoUsuario(usuario);
