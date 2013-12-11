@@ -26,11 +26,9 @@ public class PokerBASE {
     public static void main(String[] args) {
         try {
 
-            javax.swing.UIManager.setLookAndFeel(new SyntheticaBlackEyeLookAndFeel());
+            javax.swing.UIManager.setLookAndFeel(new SyntheticaAluOxideLookAndFeel());
 
-        } catch (UnsupportedLookAndFeelException ex) {
-            Logger.getLogger(PokerBASE.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ParseException ex) {
+        } catch (UnsupportedLookAndFeelException | ParseException ex) {
             Logger.getLogger(PokerBASE.class.getName()).log(Level.SEVERE, null, ex);
         }
 
