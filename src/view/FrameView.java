@@ -8,44 +8,47 @@ package view;
 
 import java.awt.GraphicsConfiguration;
 import java.awt.HeadlessException;
-import java.awt.event.WindowListener;
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-import util.Desktop;
 
 /**
  *
  * @author augusto
  */
 public abstract class FrameView extends JFrame implements View{
-
+    
+    private final BasicaView view;
+    
     @Override
     public void centralizarTela() {
-        Desktop.centralizarFrame(this);
+        view.centralizarTela();
     }
     
     @Override
     public void erroMensagem(String mensagemErro){
-        JOptionPane.showMessageDialog(this, mensagemErro, "Erro:", JOptionPane.ERROR_MESSAGE); 
+        view.erroMensagem(mensagemErro);
     }
     
     @Override
     public void mensagem(String mensagem){
-        JOptionPane.showMessageDialog(this, mensagem);
+        view.mensagem(mensagem);
     }
 
     public FrameView() throws HeadlessException {
+        this.view = new BasicaView(this);
     }
 
     public FrameView(GraphicsConfiguration gc) {
         super(gc);
+        this.view = new BasicaView(this);
     }
 
     public FrameView(String title) throws HeadlessException {
         super(title);
+        this.view = new BasicaView(this);
     }
 
     public FrameView(String title, GraphicsConfiguration gc) {
         super(title, gc);
+        this.view = new BasicaView(this);
     }
 }

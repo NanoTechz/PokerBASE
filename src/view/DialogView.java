@@ -13,8 +13,6 @@ import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JDialog;
-import javax.swing.JOptionPane;
-import util.Desktop;
 
 /**
  *
@@ -22,19 +20,21 @@ import util.Desktop;
  */
 public class DialogView extends JDialog implements View {
     
+    private final BasicaView view;
+    
     @Override
     public void centralizarTela() {
-        Desktop.centralizarFrame(this);
+       view.centralizarTela();
     }
     
     @Override
     public void erroMensagem(String mensagemErro){
-        JOptionPane.showMessageDialog(this, mensagemErro, "Erro:", JOptionPane.ERROR_MESSAGE); 
+        view.erroMensagem(mensagemErro);
     }
 
     @Override
     public void mensagem(String mensagem){
-        JOptionPane.showMessageDialog(this, mensagem);
+        view.mensagem(mensagem);
     }
     
     class CancelarListener implements ActionListener{
@@ -45,67 +45,85 @@ public class DialogView extends JDialog implements View {
         }
         
     }
-    
+
     public DialogView() {
+        this.view = new BasicaView(this);
     }
 
     public DialogView(Frame owner) {
         super(owner);
+        this.view = new BasicaView(this);
     }
 
     public DialogView(Frame owner, boolean modal) {
         super(owner, modal);
+        this.view = new BasicaView(this);
     }
 
     public DialogView(Frame owner, String title) {
         super(owner, title);
+        this.view = new BasicaView(this);
     }
 
     public DialogView(Frame owner, String title, boolean modal) {
         super(owner, title, modal);
+        this.view = new BasicaView(this);
     }
 
     public DialogView(Frame owner, String title, boolean modal, GraphicsConfiguration gc) {
         super(owner, title, modal, gc);
+        this.view = new BasicaView(this);
     }
 
     public DialogView(Dialog owner) {
         super(owner);
+        this.view = new BasicaView(this);
     }
 
     public DialogView(Dialog owner, boolean modal) {
         super(owner, modal);
+        this.view = new BasicaView(this);
     }
 
     public DialogView(Dialog owner, String title) {
         super(owner, title);
+        this.view = new BasicaView(this);
     }
 
     public DialogView(Dialog owner, String title, boolean modal) {
         super(owner, title, modal);
+        this.view = new BasicaView(this);
     }
 
     public DialogView(Dialog owner, String title, boolean modal, GraphicsConfiguration gc) {
         super(owner, title, modal, gc);
+        this.view = new BasicaView(this);
     }
 
     public DialogView(Window owner) {
         super(owner);
+        this.view = new BasicaView(this);
     }
 
     public DialogView(Window owner, ModalityType modalityType) {
         super(owner, modalityType);
+        this.view = new BasicaView(this);
     }
 
     public DialogView(Window owner, String title) {
         super(owner, title);
+        this.view = new BasicaView(this);
     }
 
     public DialogView(Window owner, String title, ModalityType modalityType) {
         super(owner, title, modalityType);
+        this.view = new BasicaView(this);
     }
 
     public DialogView(Window owner, String title, ModalityType modalityType, GraphicsConfiguration gc) {
         super(owner, title, modalityType, gc);
-    }    
+        this.view = new BasicaView(this);
+    }
+    
+   
 }
