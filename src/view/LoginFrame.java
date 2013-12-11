@@ -31,7 +31,7 @@ public class LoginFrame extends FrameView {
         loginBotao.addActionListener(action);
     }
     
-    public void addCadastroListener(ActionListener action){
+    public void addCadastroUsuarioListener(ActionListener action){
         novoCadastroBotao.addActionListener(action);
     }
 

@@ -12,7 +12,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.Usuario;
 import seguranca.Criptografia;
-import view.BasicaView;
+import view.View;
 
 /**
  *
@@ -30,7 +30,7 @@ public class UsuarioController {
         this.usuario = usuario;
     }
 
-    public boolean antentica(String senha, BasicaView view){
+    public boolean antentica(String senha,View view){
         try {
             senha = Criptografia.codificar(senha);
         } catch (NoSuchAlgorithmException | UnsupportedEncodingException ex) {
