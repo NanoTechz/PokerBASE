@@ -19,7 +19,7 @@ public class Criptografia {
     /*
      * link : http://blog.caelum.com.br/guardando-senhas-criptografadas-em-java/
      */
-    public static String cifrar(String texto) throws NoSuchAlgorithmException, UnsupportedEncodingException{
+    public static String codificar(String texto) throws NoSuchAlgorithmException, UnsupportedEncodingException{
         MessageDigest algorithm = MessageDigest.getInstance("SHA-256"); // Tb pode ser MD5
         byte messageDigest[] = algorithm.digest(texto.getBytes("UTF-8")); // cifra o texto e armazena em um vetor
         
