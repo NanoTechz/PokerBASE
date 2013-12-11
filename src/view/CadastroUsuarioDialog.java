@@ -35,7 +35,7 @@ public class CadastroUsuarioDialog extends DialogView {
         return senha.getText();
     }
     
-    public String getSenhaConfirmaacao(){
+    public String getSenhaConfirmacao(){
         return senhaConfirmacao.getText();
     }
     
