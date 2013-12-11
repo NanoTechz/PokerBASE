@@ -34,7 +34,7 @@ public class UsuarioJPATest {
             usuario.setUsername("GalapagosBr");
             
             try {
-                usuario.setSenha(Criptografia.cifrar("fenix"));
+                usuario.setSenha(Criptografia.codificar("fenix"));
                 System.out.println(usuario.getSenha());
             } catch (NoSuchAlgorithmException | UnsupportedEncodingException ex) {
                 Logger.getLogger(UsuarioJPATest.class.getName()).log(Level.SEVERE, null, ex);
