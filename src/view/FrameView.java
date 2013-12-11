@@ -9,6 +9,7 @@ package view;
 import java.awt.GraphicsConfiguration;
 import java.awt.HeadlessException;
 import javax.swing.JFrame;
+import util.FecharConexaoWindowListener;
 
 /**
  *
@@ -34,21 +35,26 @@ public abstract class FrameView extends JFrame implements View{
     }
 
     public FrameView() throws HeadlessException {
+        
+        super.addWindowListener(new FecharConexaoWindowListener());
         this.view = new BasicaView(this);
     }
 
     public FrameView(GraphicsConfiguration gc) {
         super(gc);
+        super.addWindowListener(new FecharConexaoWindowListener());
         this.view = new BasicaView(this);
     }
 
     public FrameView(String title) throws HeadlessException {
         super(title);
+        super.addWindowListener(new FecharConexaoWindowListener());
         this.view = new BasicaView(this);
     }
 
     public FrameView(String title, GraphicsConfiguration gc) {
         super(title, gc);
+        super.addWindowListener(new FecharConexaoWindowListener());
         this.view = new BasicaView(this);
     }
 }
