@@ -7,7 +7,7 @@
 package controller;
 
 import javax.persistence.EntityManagerFactory;
-import view.BasicaView;
+import view.View;
 
 /**
  *
@@ -16,7 +16,7 @@ import view.BasicaView;
 public abstract class ControllerView {
     private EntityManagerFactory emf;
 
-    public ControllerView(EntityManagerFactory emf, BasicaView view) {
+    public ControllerView(EntityManagerFactory emf, View view) {
         this.emf = emf;
         view.centralizarTela();
     }
