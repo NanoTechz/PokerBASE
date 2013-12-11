@@ -9,15 +9,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 import javax.persistence.EntityManagerFactory;
-import jpa.BankrollJpaController;
 import jpa.CashJpaController;
 import jpa.SalaJpaController;
-import jpa.SessaoJpaController;
 import jpa.TorneioJpaController;
-import jpa.UsuarioJpaController;
 import model.Bankroll;
 import model.Cash;
-import model.Sessao;
 import model.Torneio;
 import model.Usuario;
 import org.jfree.data.xy.XYSeries;
@@ -33,25 +29,21 @@ public class PrincipalController extends ControllerView {
 
     private Usuario usuario;
     private PrincipalFrame principalView;
+    private UsuarioController usuarioController;
 
-    private UsuarioJpaController usuarioJPA;
-    private BankrollJpaController bankrollJPA;
-    private SessaoJpaController sessaoJPA;
     private SalaJpaController salaJPA;
 
     public PrincipalController(Usuario usuario, PrincipalFrame principalView, EntityManagerFactory emf) {
         super(emf, principalView);
         this.usuario = usuario;
         this.principalView = principalView;
+        this.usuarioController = new UsuarioController(usuario);
         
-        this.usuarioJPA = new UsuarioJpaController(emf);
-        this.bankrollJPA = new BankrollJpaController(emf);
         this.salaJPA = new SalaJpaController(emf);
-        this.sessaoJPA = new SessaoJpaController(emf);
 
-        pegarDadosUsuario(usuario);
+        usuarioController.pegarListaBankrollSessao(usuario, emf);
+        
         verificarBankroll();
-
         this.principalView.setUserName(usuario.getUsername());
         this.principalView.setBankrollLabel("$ " + Calculadora.somaBankroll(usuario.getListaBankRolls()));
         this.principalView.addBotaoBankrollListener(new ListarBankrollListener());
@@ -59,15 +51,6 @@ public class PrincipalController extends ControllerView {
         
         gerarGrafico();
     }
-
-    private void pegarDadosUsuario(Usuario usuario) {
-        List<Bankroll> listaBankRoll = bankrollJPA.findBankRollUsuario(usuario);
-        usuario.setListaBankRolls(listaBankRoll);
-
-        List<Sessao> listaSessao = sessaoJPA.findSessaoUsuario(usuario);
-        usuario.setListaSessao(listaSessao);
-    }
-
 
      private void gerarGrafico() {
      TorneioJpaController torneioJpaController = new TorneioJpaController(getEmf());

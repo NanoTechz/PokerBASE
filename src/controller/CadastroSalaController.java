@@ -19,7 +19,6 @@ import view.CadastroSalaDialog;
 public class CadastroSalaController extends ControllerView {
 
     private final CadastroSalaDialog salaView;
-    private Sala sala;
     private SalaJpaController salaJPA;
 
     public CadastroSalaController(CadastroSalaDialog salaView, EntityManagerFactory emf) {

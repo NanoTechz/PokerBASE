@@ -63,7 +63,6 @@ public class CadastroBankRollController extends ControllerView {
         @Override
         public void actionPerformed(ActionEvent ae) {
             CadastroSalaDialog salaView = new CadastroSalaDialog(null, true);
-            salaView.centralizarTela();
 
             CadastroSalaController salaController = new CadastroSalaController(salaView, getEmf());
             salaView.setVisible(true);
