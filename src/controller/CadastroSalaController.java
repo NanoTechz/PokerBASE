@@ -16,14 +16,14 @@ import view.CadastroSalaDialog;
  *
  * @author augusto
  */
-public class CadastroSalaController extends Controller {
+public class CadastroSalaController extends ControllerView {
 
-    private CadastroSalaDialog salaView;
+    private final CadastroSalaDialog salaView;
     private Sala sala;
     private SalaJpaController salaJPA;
 
     public CadastroSalaController(CadastroSalaDialog salaView, EntityManagerFactory emf) {
-        super(emf);
+        super(emf, salaView);
         this.salaView = salaView;
         this.salaView.addAdicionarSalaListener(new AdicionarSalaListener());
     }
@@ -47,7 +47,7 @@ public class CadastroSalaController extends Controller {
             
             salaJPA.create(sala);
             
-            salaView.erroMensagem("Sala add com sucesso!");
+            salaView.mensagem("Sala add com sucesso!");
             salaView.dispose();
         }
 

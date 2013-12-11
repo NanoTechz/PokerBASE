@@ -21,14 +21,14 @@ import view.CadastroUsuarioDialog;
  *
  * @author augusto
  */
-public class CadastroUsuarioController extends Controller {
+public class CadastroUsuarioController extends ControllerView {
 
     private CadastroUsuarioDialog cadastroView;
     private Usuario usuario;
     private UsuarioJpaController usuarioJPA;
 
     public CadastroUsuarioController(CadastroUsuarioDialog cadastroView, Usuario usuario, EntityManagerFactory emf) {
-        super(emf);
+        super(emf, cadastroView);
         this.cadastroView = cadastroView;
         this.usuario = usuario;
         this.usuarioJPA = new UsuarioJpaController(super.getEmf());
@@ -64,7 +64,7 @@ public class CadastroUsuarioController extends Controller {
             usuario.setUsername(cadastroView.getUserName());
 
             try {
-                usuario.setSenha(Criptografia.cifrar(cadastroView.getSenha()));
+                usuario.setSenha(Criptografia.codificar(cadastroView.getSenha()));
                 usuarioJPA.create(usuario);
 
                 if (usuario.getId() != 0) {

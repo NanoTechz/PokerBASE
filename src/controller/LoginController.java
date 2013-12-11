@@ -15,7 +15,6 @@ import javax.persistence.EntityManagerFactory;
 import jpa.UsuarioJpaController;
 import model.Usuario;
 import seguranca.Criptografia;
-import util.FecharConexaoWindowListener;
 import view.CadastroUsuarioDialog;
 import view.LoginFrame;
 import view.PrincipalFrame;
@@ -24,26 +23,23 @@ import view.PrincipalFrame;
  *
  * @author augusto
  */
-public class LoginController  extends Controller {
+public class LoginController  extends ControllerView {
 
     private Usuario usuarioModel;
     private LoginFrame loginView;
+    private UsuarioController usuarioController;
 
-    private UsuarioJpaController usuarioJPA;
+    private final UsuarioJpaController usuarioJPA;
 
-    public LoginController(Usuario usuarioModel, LoginFrame loginView, EntityManagerFactory emf) {
-        super(emf);
-        this.usuarioModel = usuarioModel;
+    public LoginController(Usuario usuario, LoginFrame loginView, EntityManagerFactory emf) {
+        super(emf, loginView);
+        this.usuarioModel = usuario;
         this.loginView = loginView;
-
-        this.loginView.addLoginBotaoListener(new LoginListener());
-        this.loginView.addCadastroListener(new CadastroListener());
-
+        this.usuarioController =  new UsuarioController(usuario);
         this.usuarioJPA = new UsuarioJpaController(super.getEmf());
         
-        this.loginView.centralizarTela();
-        
-        this.loginView.addWindowListener(new FecharConexaoWindowListener());
+        this.loginView.addLoginBotaoListener(new LoginListener());
+        this.loginView.addCadastroListener(new CadastroListener());
     }
 
     public boolean autenticar(Usuario usuario, String senha) {
@@ -66,7 +62,7 @@ public class LoginController  extends Controller {
                 loginView.erroMensagem("Usuario não cadastrado!");
             } else {
                 try {
-                    senha = Criptografia.cifrar(senha);
+                    senha = Criptografia.codificar(senha);
 
                     if (autenticar(usuarioModel, senha)) {
                         PrincipalFrame principalFrame = new PrincipalFrame();

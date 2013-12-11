@@ -23,7 +23,7 @@ import view.CadastroSalaDialog;
  *
  * @author augusto
  */
-public class CadastroBankRollController extends Controller {
+public class CadastroBankRollController extends ControllerView {
 
     private CadastroBankrollDialog cadastroBankRollView;
     private List<Sala> listaSala;
@@ -33,7 +33,7 @@ public class CadastroBankRollController extends Controller {
     private BankrollJpaController bankRollJPA;
 
     public CadastroBankRollController(CadastroBankrollDialog cadastroBankRollView, Usuario usuario, EntityManagerFactory emf) {
-        super(emf);
+        super(emf, cadastroBankRollView);
         this.cadastroBankRollView = cadastroBankRollView;
         this.usuario = usuario;
 

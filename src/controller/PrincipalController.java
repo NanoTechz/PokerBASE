@@ -7,7 +7,6 @@ package controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManagerFactory;
 import jpa.BankrollJpaController;
@@ -23,7 +22,6 @@ import model.Torneio;
 import model.Usuario;
 import org.jfree.data.xy.XYSeries;
 import util.Calculadora;
-import util.FecharConexaoWindowListener;
 import view.CadastroBankrollDialog;
 import view.PrincipalFrame;
 
@@ -31,7 +29,7 @@ import view.PrincipalFrame;
  *
  * @author augusto
  */
-public class PrincipalController extends Controller {
+public class PrincipalController extends ControllerView {
 
     private Usuario usuario;
     private PrincipalFrame principalView;
@@ -42,7 +40,7 @@ public class PrincipalController extends Controller {
     private SalaJpaController salaJPA;
 
     public PrincipalController(Usuario usuario, PrincipalFrame principalView, EntityManagerFactory emf) {
-        super(emf);
+        super(emf, principalView);
         this.usuario = usuario;
         this.principalView = principalView;
         
@@ -56,8 +54,6 @@ public class PrincipalController extends Controller {
 
         this.principalView.setUserName(usuario.getUsername());
         this.principalView.setBankrollLabel("$ " + Calculadora.somaBankroll(usuario.getListaBankRolls()));
-        this.principalView.centralizarTela();
-        this.principalView.addWindowListener(new FecharConexaoWindowListener());
         this.principalView.addBotaoBankrollListener(new ListarBankrollListener());
 
         
