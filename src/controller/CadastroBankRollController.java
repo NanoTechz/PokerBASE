@@ -7,8 +7,8 @@ package controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Date;
 import java.util.List;
-import java.util.Vector;
 import javax.persistence.EntityManagerFactory;
 import javax.swing.DefaultComboBoxModel;
 import jpa.BankrollJpaController;
@@ -39,12 +39,12 @@ public class CadastroBankRollController extends ControllerView {
 
         this.salaJPA = new SalaJpaController(emf);
         this.bankRollJPA = new BankrollJpaController(emf);
-
-        this.cadastroBankRollView.centralizarTela();
+        
         this.cadastroBankRollView.setModelListaSala(getModel());
 
         this.cadastroBankRollView.addAdicionarSalaListener(new AdicionarSalaListener());
         this.cadastroBankRollView.addAdicionarBankrollListener(new AdicionarBankrollListener());
+        
     }
 
     public DefaultComboBoxModel getModel() {
@@ -53,7 +53,10 @@ public class CadastroBankRollController extends ControllerView {
         if (salas.isEmpty()) {
             model = new DefaultComboBoxModel(new String[]{"Nenhuma Sala Cadastrada"});
         } else {
-            model = new DefaultComboBoxModel(new Vector(salas));
+            model = new DefaultComboBoxModel();
+            for (Sala sala : salas) {
+                model.addElement(sala);
+            }
         }
         return model;
     }
@@ -62,10 +65,12 @@ public class CadastroBankRollController extends ControllerView {
 
         @Override
         public void actionPerformed(ActionEvent ae) {
-            CadastroSalaDialog salaView = new CadastroSalaDialog(null, true);
+            CadastroSalaDialog salaView = new CadastroSalaDialog(null, false);
+            salaView.setDefaultCloseOperation(CadastroSalaDialog.DISPOSE_ON_CLOSE);
 
             CadastroSalaController salaController = new CadastroSalaController(salaView, getEmf());
             salaView.setVisible(true);
+            salaView = null;
             DefaultComboBoxModel model = getModel();
 
             model.setSelectedItem(model.getElementAt(model.getSize() - 1));
@@ -94,6 +99,7 @@ public class CadastroBankRollController extends ControllerView {
             
             Bankroll banca = new Bankroll(usuario, sala, valor);
             banca.setValorAtual(valor);
+            banca.setDataCriacao(new Date(System.currentTimeMillis()));
             
             bankRollJPA.create(banca);
             
@@ -101,6 +107,7 @@ public class CadastroBankRollController extends ControllerView {
             
             cadastroBankRollView.mensagem("Bankroll add ao \""+usuario.getUsername()+"\".");
             cadastroBankRollView.dispose();
+            cadastroBankRollView = null;
         }
 
     }
