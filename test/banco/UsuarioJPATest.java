@@ -7,6 +7,7 @@ package banco;
 
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
+import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.EntityManagerFactory;
@@ -15,7 +16,9 @@ import jpa.UsuarioJpaController;
 import model.Usuario;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import org.junit.Before;
 import seguranca.Criptografia;
+import util.EntityManagerUtil;
 
 /**
  *
@@ -23,28 +26,20 @@ import seguranca.Criptografia;
  */
 public class UsuarioJPATest {
     
-    @Test
-    public void criarCampoTest() {
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("PokerBASEPU");
-        UsuarioJpaController usuarioJPA = new UsuarioJpaController(emf);
-        Usuario usuario = new Usuario();
-
-        if (usuarioJPA.findUsuario("GalapagosBr") == null) {
-            usuario.setNome("Augusto");
-            usuario.setUsername("GalapagosBr");
-            
+    
+    @Before
+    public void inicializarCampo(){
+        UsuarioJpaController uJPA = new UsuarioJpaController(EntityManagerUtil.emf);
+        Usuario usuario = uJPA.findUsuario("GalapagosBr");
+        
+        if(usuario == null){
             try {
-                usuario.setSenha(Criptografia.codificar("fenix"));
-                System.out.println(usuario.getSenha());
-            } catch (NoSuchAlgorithmException | UnsupportedEncodingException ex) {
+                Usuario newUsuario = new Usuario("GalapagosBr", Criptografia.codificar("senha"));
+                uJPA.create(usuario);
+            } catch (    NoSuchAlgorithmException | UnsupportedEncodingException ex) {
                 Logger.getLogger(UsuarioJPATest.class.getName()).log(Level.SEVERE, null, ex);
             }
-
-            usuarioJPA.create(usuario);
-            assertTrue(usuario.getId() != 0);
         }
-
-        emf.close();
     }
 
     @Test
@@ -58,4 +53,5 @@ public class UsuarioJPATest {
         System.out.println(findUsuario.getId());
         emf.close();
     }
+    
 }
