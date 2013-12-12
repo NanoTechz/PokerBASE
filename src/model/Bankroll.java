@@ -18,6 +18,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import model.auxiliar.TipoOperacao;
 
 /**
  *
@@ -120,4 +121,15 @@ public class Bankroll implements Serializable {
     public void setDataCriacao(Date dataCriacao) {
         this.dataCriacao = dataCriacao;
     }
+    
+    public void atualizarValorAtual(TipoOperacao op, double valor){
+        valorAtual += op.fator * valor;
+    }
+
+    @Override
+    public String toString() {
+        return sala+" - $"+valorAtual;
+    }
+    
+    
 }

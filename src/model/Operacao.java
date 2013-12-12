@@ -6,8 +6,13 @@
 
 package model;
 
+import model.auxiliar.TipoOperacao;
 import java.io.Serializable;
 import java.sql.Date;
+import java.text.DateFormat;
+import java.text.FieldPosition;
+import java.text.ParsePosition;
+import java.text.SimpleDateFormat;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -16,6 +21,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 /**
  *
@@ -35,8 +41,10 @@ public class Operacao implements Serializable {
     @Column(name="data_operacao")
     private Date dataOperacao;
     
-    private char tipo;
+    private char tipo = 0;
     
+    @Transient // Ignorar na hora de mapear
+    private  TipoOperacao tipoOperacao = null;
     
     //Relaçao 1:N
     @ManyToOne
@@ -67,14 +75,6 @@ public class Operacao implements Serializable {
         this.dataOperacao = dataOperacao;
     }
 
-    public char getTipo() {
-        return tipo;
-    }
-
-    public void setTipo(char tipo) {
-        this.tipo = tipo;
-    }
-
     public Bankroll getBankroll() {
         return bankroll;
     }
@@ -82,8 +82,24 @@ public class Operacao implements Serializable {
     public void setBankroll(Bankroll bankroll) {
         this.bankroll = bankroll;
     }
-    
-    
-    
+
+    public TipoOperacao getTipoOperacao() {
+        return tipoOperacao;
+    }
+
+    public void setTipoOperacao(TipoOperacao tipoOperacao) {
+        tipo = tipoOperacao.valor;
+        this.tipoOperacao = tipoOperacao;
+    }
+
+    @Override
+    public String toString() {
+        DateFormat f = new SimpleDateFormat("dd/MM/yyyy");
+       
+        if(tipoOperacao == null && tipo != 0){
+            tipoOperacao = TipoOperacao.getOperacao(tipo);
+        }
+       return "Tipo : "+tipoOperacao+", Valor: "+valor+", Data: "+f.format(dataOperacao);
+    }
     
 }
