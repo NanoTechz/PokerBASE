@@ -7,14 +7,10 @@ package controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.Date;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.persistence.EntityManagerFactory;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
-import jpa.BankrollJpaController;
 import jpa.CashJpaController;
 import jpa.OperacaoJpaController;
 import jpa.TorneioJpaController;
@@ -25,7 +21,6 @@ import model.Torneio;
 import model.Usuario;
 import model.auxiliar.TipoOperacao;
 import org.jfree.data.xy.XYSeries;
-import util.AutenticaCampo;
 import util.Calculadora;
 import view.CadastroBankrollDialog;
 import view.PrincipalFrame;
@@ -160,58 +155,6 @@ public class PrincipalController extends ControllerView {
         return model;
     }
 
-    private void salvarOperacao() {
-        TipoOperacao tipo = (TipoOperacao) this.principalView.getSelectedTipoOperacaoBox();
-        Bankroll banca = (Bankroll) this.principalView.getSelectedSalaBox();
-        String campo = this.principalView.getValorOperacao();
-
-        AutenticaCampo autentica = new AutenticaCampo();
-
-        if (autentica.verificarCampoNumero(campo, principalView)) {
-            this.principalView.limparDadosOperacao();
-            return;
-        }
-
-        if (Double.parseDouble(campo) < 0) {
-            this.principalView.erroMensagem("Insira um número positivo.");
-            this.principalView.limparDadosOperacao();
-            return;
-        }
-        Date data = autentica.verificarCampoData(this.principalView.getDataOperacao());
-        if (data == null) {
-            this.principalView.erroMensagem("Insira uma data válida.");
-            this.principalView.limparDadosOperacao();
-            return;
-        }
-        
-        Operacao op = new Operacao();
-        op.setTipoOperacao(tipo);
-        op.setBankroll(banca);
-        op.setValor(Double.parseDouble(campo));
-        op.setDataOperacao(data);
-
-        BankrollJpaController bJPA = new BankrollJpaController(getEmf());
-
-        Bankroll newBanca = bJPA.findBankRoll(banca.getId());
-        OperacaoJpaController oJPA = new OperacaoJpaController(getEmf());
-
-        newBanca.setUsuario(usuario);
-
-        newBanca.setListaOperacao(oJPA.findOperacaoBankroll(newBanca));
-
-        newBanca.atualizarValorAtual(tipo, Double.parseDouble(campo));
-
-        try {
-            bJPA.edit(newBanca);
-        } catch (Exception ex) {
-            Logger.getLogger(PrincipalController.class.getName()).log(Level.SEVERE, null, ex);
-            this.principalView.erroMensagem("Erro ao atualizar o bankroll!");
-            return;
-        }
-
-        oJPA.create(op);
-    }
-
     /**
      * ActionListener
      */
@@ -243,7 +186,8 @@ public class PrincipalController extends ControllerView {
 
         @Override
         public void actionPerformed(ActionEvent ae) {
-            salvarOperacao();
+            OperacaoControllerAux aux = new OperacaoControllerAux(principalView, getEmf(), usuario);
+            aux.salvarOperacao();
             inicializarComponentes();
             principalView.limparDadosOperacao();
         }
