@@ -11,13 +11,32 @@ package model.auxiliar;
  */
 public enum TipoOperacao {
 
-    bonus('B'), deposito('D'), saque('S');
+    bonus('B', "Bônus", 1), deposito('D', "Depósito", 1), saque('S', "Saque", -1);
     
     public char valor;
+    public int fator;
 
-    private TipoOperacao(char valor) {
+    private String nome;
+
+    private TipoOperacao(char valor, String nome, int fator) {
         this.valor = valor;
+        this.nome = nome;
+        this.fator = fator;
+    }
+
+    @Override
+    public String toString() {
+        return nome;
     }
     
+    public static TipoOperacao getOperacao(char tipo){
+        TipoOperacao[] values = TipoOperacao.values();
+        for (TipoOperacao tipoOperacao : values) {
+             if(tipoOperacao.valor == tipo){
+                 return tipoOperacao;
+             }
+        }
+        return null;
+    }
     
 }
