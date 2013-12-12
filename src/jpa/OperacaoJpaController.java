@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package jpa;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -17,12 +17,43 @@ import javax.persistence.criteria.Root;
 import jpa.exceptions.NonexistentEntityException;
 import model.Bankroll;
 import model.Operacao;
+import model.Usuario;
 
 /**
  *
  * @author augusto
  */
 public class OperacaoJpaController implements Serializable {
+    
+     public List<Operacao> findOperacaoUsuario(Usuario usuario, int max, int first) {
+        EntityManager em = getEntityManager();
+        try {
+            Query query = em.createQuery("select op from Operacao op where op.bankroll.usuario = :usuario ORDER BY op.dataOperacao DESC", Operacao.class);
+            query.setParameter("usuario", usuario);
+            query.setFirstResult(first);
+            query.setMaxResults(max);
+            return query.getResultList();
+        } catch (Exception e) {
+            e.printStackTrace(System.out);
+            return new ArrayList<Operacao>();
+        } finally {
+            em.close();
+        }
+    }
+
+    public List<Operacao> findOperacaoBankroll(Bankroll bankroll) {
+        EntityManager em = getEntityManager();
+        try {
+            Query query = em.createQuery("select op from Operacao op where op.bankroll = :bankroll", Operacao.class);
+            query.setParameter("bankroll", bankroll);
+            return query.getResultList();
+        } catch (Exception e) {
+            e.printStackTrace(System.out);
+            return new ArrayList<Operacao>();
+        } finally {
+            em.close();
+        }
+    }
 
     public OperacaoJpaController(EntityManagerFactory emf) {
         this.emf = emf;
@@ -165,5 +196,5 @@ public class OperacaoJpaController implements Serializable {
             em.close();
         }
     }
-    
+
 }
