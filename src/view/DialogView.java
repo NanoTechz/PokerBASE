@@ -22,6 +22,7 @@ public class DialogView extends JDialog implements View {
     
     private final BasicaView view;
     
+    
     @Override
     public void centralizarTela() {
        view.centralizarTela();
@@ -41,6 +42,7 @@ public class DialogView extends JDialog implements View {
 
         @Override
         public void actionPerformed(ActionEvent ae) {
+            System.out.println("***************** Fechando o Dialog ****************");
             dispose();
         }
         
@@ -53,6 +55,7 @@ public class DialogView extends JDialog implements View {
     public DialogView(Frame owner) {
         super(owner);
         this.view = new BasicaView(this);
+        
     }
 
     public DialogView(Frame owner, boolean modal) {
