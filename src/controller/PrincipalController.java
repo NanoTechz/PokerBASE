@@ -34,12 +34,14 @@ public class PrincipalController extends ControllerView {
     private final Usuario usuario;
     private final PrincipalFrame principalView;
     private final UsuarioController usuarioController;
+    private OperacaoControllerAux operacaoControllerAux;
 
     public PrincipalController(Usuario usuario, PrincipalFrame principalView, EntityManagerFactory emf) {
         super(emf, principalView);
         this.usuario = usuario;
         this.principalView = principalView;
         this.usuarioController = new UsuarioController(usuario);
+        this.operacaoControllerAux = new OperacaoControllerAux(principalView, emf, usuario);
 
         usuarioController.pegarListaBankrollSessao(usuario, getEmf());
         verificarBankroll();
@@ -56,12 +58,12 @@ public class PrincipalController extends ControllerView {
 
     private void inicializarComponentes() {
         usuarioController.pegarListaBankrollSessao(usuario, getEmf());
-
+        
         this.principalView.setUserName(usuario.getUsername());
         this.principalView.setBankrollLabel("$ " + Calculadora.somaBankroll(usuario.getListaBankRolls()));
-        this.principalView.setModelTipoOperacaoBox(getModelTipoOperacaoBox());
-        this.principalView.setModelSalaBox(getModelSalaBox());
-        this.principalView.setModelListaOperacoes(getModelListaOperacao());
+        
+        this.operacaoControllerAux.atualizarComponentes();
+
     }
 
     private void gerarGrafico() {
@@ -118,43 +120,6 @@ public class PrincipalController extends ControllerView {
         cadastroView = null;
     }
 
-    private DefaultComboBoxModel getModelTipoOperacaoBox() {
-        TipoOperacao[] values = TipoOperacao.values();
-        DefaultComboBoxModel model = new DefaultComboBoxModel(values);
-
-        return model;
-    }
-
-    private DefaultComboBoxModel getModelSalaBox() {
-        DefaultComboBoxModel model = new DefaultComboBoxModel();
-
-        for (Bankroll b : usuario.getListaBankRolls()) {
-            model.addElement(b);
-        }
-
-        return model;
-    }
-
-    private DefaultListModel getModelListaOperacao() {
-        DefaultListModel model = new DefaultListModel();
-        OperacaoJpaController oJPA = new OperacaoJpaController(getEmf());
-
-        try {
-            List<Operacao> findOperacaoUsuario = oJPA.findOperacaoUsuario(usuario, 10, 0);
-
-            if (findOperacaoUsuario.isEmpty()) {
-                model.addElement("nenhuma operacao");
-            } else {
-                for (Operacao operacao : findOperacaoUsuario) {
-                    model.addElement(operacao);
-                }
-            }
-        } catch (Exception e) {
-        }
-
-        return model;
-    }
-
     /**
      * ActionListener
      */
@@ -186,8 +151,7 @@ public class PrincipalController extends ControllerView {
 
         @Override
         public void actionPerformed(ActionEvent ae) {
-            OperacaoControllerAux aux = new OperacaoControllerAux(principalView, getEmf(), usuario);
-            aux.salvarOperacao();
+            operacaoControllerAux.salvarOperacao();
             inicializarComponentes();
             principalView.limparDadosOperacao();
         }

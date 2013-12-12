@@ -6,9 +6,12 @@
 package controller;
 
 import java.sql.Date;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.EntityManagerFactory;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.DefaultListModel;
 import jpa.BankrollJpaController;
 import jpa.OperacaoJpaController;
 import model.Bankroll;
@@ -36,6 +39,49 @@ public class OperacaoControllerAux {
 
     public EntityManagerFactory getEmf() {
         return emf;
+    }
+    
+    public void atualizarComponentes(){
+        this.principalView.setModelTipoOperacaoBox(getModelTipoOperacaoBox());
+        this.principalView.setModelSalaBox(getModelSalaBox());
+        this.principalView.setModelListaOperacoes(getModelListaOperacao());
+    }
+    
+    public DefaultComboBoxModel getModelTipoOperacaoBox() {
+        TipoOperacao[] values = TipoOperacao.values();
+        DefaultComboBoxModel model = new DefaultComboBoxModel(values);
+
+        return model;
+    }
+
+    public DefaultComboBoxModel getModelSalaBox() {
+        DefaultComboBoxModel model = new DefaultComboBoxModel();
+
+        for (Bankroll b : usuario.getListaBankRolls()) {
+            model.addElement(b);
+        }
+
+        return model;
+    }
+
+    public DefaultListModel getModelListaOperacao() {
+        DefaultListModel model = new DefaultListModel();
+        OperacaoJpaController oJPA = new OperacaoJpaController(getEmf());
+
+        try {
+            List<Operacao> findOperacaoUsuario = oJPA.findOperacaoUsuario(usuario, 10, 0);
+
+            if (findOperacaoUsuario.isEmpty()) {
+                model.addElement("nenhuma operacao");
+            } else {
+                for (Operacao operacao : findOperacaoUsuario) {
+                    model.addElement(operacao);
+                }
+            }
+        } catch (Exception e) {
+        }
+
+        return model;
     }
 
     public void salvarOperacao() {
