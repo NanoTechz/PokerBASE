@@ -26,6 +26,11 @@ import javax.persistence.Table;
 @Table(name="tb_cash")
 public class Cash implements Serializable {
     private static final long serialVersionUID = 1L;
+
+    public static double bb100(int numeroMaos, double valorGanho, double valorBlind) {
+        return (valorGanho/(double)(numeroMaos)) *(100/valorBlind);
+    }
+    
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id_cash")
@@ -34,6 +39,9 @@ public class Cash implements Serializable {
     @Column(length = 10)
     private String limite;
     
+    @Column(name="valor_blind")
+    private double valorBlind;
+            
     @Column(name="valor_ganho")
     private double valorGanho;
     
@@ -106,6 +114,14 @@ public class Cash implements Serializable {
 
     public void setSessao(Sessao sessao) {
         this.sessao = sessao;
+    }
+
+    public double getValorBlind() {
+        return valorBlind;
+    }
+
+    public void setValorBlind(double valorBlind) {
+        this.valorBlind = valorBlind;
     }
     
     
