@@ -3,8 +3,16 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/home/augusto/Projetos/PokerBASE/src/model/Bankroll.java</file>
-            <file>file:/home/augusto/Projetos/PokerBASE/test/banco/UsuarioJPATest.java</file>
+            <file>file:/home/augusto/Projetos/PokerBASE/src/controller/CadastroBankRollController.java</file>
+            <file>file:/home/augusto/Projetos/PokerBASE/src/controller/CashController.java</file>
+            <file>file:/home/augusto/Projetos/PokerBASE/src/view/model/CashTableModel.java</file>
+            <file>file:/home/augusto/Projetos/PokerBASE/src/jpa/TorneioJpaController.java</file>
+            <file>file:/home/augusto/Projetos/PokerBASE/src/view/PrincipalFrame.java</file>
+            <file>file:/home/augusto/Projetos/PokerBASE/src/controller/PrincipalController.java</file>
+            <file>file:/home/augusto/Projetos/PokerBASE/src/controller/TorneioController.java</file>
+            <file>file:/home/augusto/Projetos/PokerBASE/src/view/model/TorneioTableModel.java</file>
+            <file>file:/home/augusto/Projetos/PokerBASE/src/model/Torneio.java</file>
+            <file>file:/home/augusto/Projetos/PokerBASE/src/jpa/CashJpaController.java</file>
         </group>
     </open-files>
 </project-private>

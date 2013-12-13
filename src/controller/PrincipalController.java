@@ -32,6 +32,7 @@ public class PrincipalController extends ControllerView {
     private OperacaoControllerAux operacaoControllerAux;
     private CashController cashController;
     private TorneioController torneioController;
+    private SessaoController sessaoController;
 
     public PrincipalController(Usuario usuario, PrincipalFrame principalView, EntityManagerFactory emf) {
         super(emf, principalView);
@@ -41,11 +42,12 @@ public class PrincipalController extends ControllerView {
         this.operacaoControllerAux = new OperacaoControllerAux(principalView, emf, usuario);
         this.cashController = new CashController(usuario, principalView, emf);
         this.torneioController = new TorneioController(usuario, principalView, emf);
+        sessaoController = new SessaoController(usuario, principalView, emf);
 
         usuarioController.pegarListaBankrollSessao(usuario, getEmf());
         this.principalView.addModelTabelaCash(this.cashController.getModelCash());
         this.principalView.addModelTabelaTorneio(this.torneioController.getModelTorneio());
-        
+
         verificarBankroll();
         addListener();
         inicializarComponentes();
@@ -57,6 +59,7 @@ public class PrincipalController extends ControllerView {
         this.principalView.addBankrollAddBotaoListener(new AbrirBankrollListener());
         this.principalView.addSalvarOperacaoListener(new SalvarOperacaoListener());
         this.principalView.addConfirmarMudarSenha(new AlterarSenhaListener());
+        this.principalView.addSessaoListener(new SalvarSessaoListener());
     }
 
     private void inicializarComponentes() {
@@ -64,7 +67,7 @@ public class PrincipalController extends ControllerView {
 
         this.principalView.setUserName(usuario.getUsername());
         this.principalView.setBankrollLabel("$ " + Calculadora.somaBankroll(usuario.getListaBankRolls()));
-
+        this.principalView.setModelListaSala(operacaoControllerAux.getModelSalaBox());
         this.operacaoControllerAux.atualizarComponentes();
 
     }
@@ -88,7 +91,7 @@ public class PrincipalController extends ControllerView {
 
         for (int i = 0; i < findTorneioUsuario.size(); i++) {
             soma += findTorneioUsuario.get(i).getValorGanho() - findTorneioUsuario.get(i).getBuyIn();
-            
+
             serie.add(i + 1, soma);
 
             somaAjuste += mediaBuyIn * roi;
@@ -167,6 +170,17 @@ public class PrincipalController extends ControllerView {
             usuarioController.alterarSenha(principalView, principalView.getSenha(), principalView.getSenhaConfirmacao(), getEmf());
             principalView.limparPerfil();
 
+        }
+
+    }
+
+    class SalvarSessaoListener implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent ae) {
+            sessaoController.salvarSessao();
+            sessaoController.limparDadosJogos();
+            inicializarComponentes();
         }
 
     }

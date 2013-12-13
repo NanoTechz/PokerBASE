@@ -18,9 +18,7 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
-import javax.swing.table.AbstractTableModel;
 import javax.swing.text.MaskFormatter;
-import org.jfree.base.modules.AbstractModule;
 import org.jfree.data.xy.XYSeries;
 import util.MaskformatFactory;
 import view.model.CashTableModel;
@@ -49,6 +47,59 @@ public class PrincipalFrame extends FrameView {
         initComponents();
         headPanel.setBackground(jMenuBar1.getBackground());
     }
+    //Sessão
+    public void addLimparSessaoListener(ActionListener action){
+        limparSessao.addActionListener(action);
+    }
+    
+    public void addSessaoListener(ActionListener action){
+        salvarSessao.addActionListener(action);
+    }
+    
+    public void setModelListaJogos(DefaultListModel model){
+        listaJogos.setModel(model);
+    }
+    //-- Cash
+    public void setModelListaSala(DefaultComboBoxModel model){
+        listaSalaCash.setModel(model);
+    }
+    
+    public String getLimiteCash(){
+        return limiteCash.getText();
+    }
+    
+    public String getValorBlind(){
+        return valorBlindCash.getText();
+    }
+    
+    public String getNumeroMaosCash(){
+        return numeroMaosCash.getText();
+    }
+    
+    public String getDuracaoHorasCash(){
+        return duracaoHorasCash.getText();
+    }
+    
+    public String getValorGanhoCash(){
+        return valorGanhoCash.getText();
+    }
+    
+    public Object getSalaSelected(){
+        return listaSalaCash.getSelectedItem();
+    }
+    
+    public void limparAbaCash(){
+        limiteCash.setText(null);
+        valorBlindCash.setText(null);
+        numeroMaosCash.setText(null);
+        duracaoHorasCash.setText(null);
+        valorGanhoCash.setText(null);
+    }
+    
+    public void addAdicionarCashListener(ActionListener action){
+        adicionarCash.addActionListener(action);
+    }
+    //FimSessão
     
     //Cash
     public void addModelTabelaCash(CashTableModel model){
@@ -170,10 +221,6 @@ public class PrincipalFrame extends FrameView {
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel3 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
-        jLabel14 = new javax.swing.JLabel();
-        jLabel15 = new javax.swing.JLabel();
-        dataSessao = new javax.swing.JFormattedTextField(ftmData);
-        duracaoSessao = new javax.swing.JTextField();
         limparSessao = new javax.swing.JButton();
         salvarSessao = new javax.swing.JButton();
         jScrollPane4 = new javax.swing.JScrollPane();
@@ -181,8 +228,22 @@ public class PrincipalFrame extends FrameView {
         jLabel16 = new javax.swing.JLabel();
         panelAddJogos = new javax.swing.JTabbedPane();
         jPanel8 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel19 = new javax.swing.JLabel();
+        jLabel20 = new javax.swing.JLabel();
+        jLabel21 = new javax.swing.JLabel();
+        jLabel22 = new javax.swing.JLabel();
+        limiteCash = new javax.swing.JTextField();
+        valorBlindCash = new javax.swing.JTextField();
+        numeroMaosCash = new javax.swing.JTextField();
+        duracaoHorasCash = new javax.swing.JTextField();
+        listaSalaCash = new javax.swing.JComboBox();
+        adicionarCash = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        jLabel14 = new javax.swing.JLabel();
+        valorGanhoCash = new javax.swing.JTextField();
         jPanel9 = new javax.swing.JPanel();
-        jToggleButton1 = new javax.swing.JToggleButton();
+        adicionarJogos = new javax.swing.JToggleButton();
         jPanel7 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
@@ -277,10 +338,6 @@ public class PrincipalFrame extends FrameView {
         jPanel2.setAutoscrolls(true);
         jPanel2.setName(""); // NOI18N
 
-        jLabel14.setText("Data:");
-
-        jLabel15.setText("Duração:");
-
         limparSessao.setText("Limpar");
 
         salvarSessao.setText("Salvar");
@@ -290,21 +347,105 @@ public class PrincipalFrame extends FrameView {
             public int getSize() { return strings.length; }
             public Object getElementAt(int i) { return strings[i]; }
         });
+        listaJogos.setEnabled(false);
         jScrollPane4.setViewportView(listaJogos);
 
         jLabel16.setText("Jogos:");
 
         panelAddJogos.setVisible(false);
 
+        jLabel1.setText("Limite:");
+
+        jLabel19.setText("Valor Blind:");
+
+        jLabel20.setText("Numero de mão:");
+
+        jLabel21.setText("Duração horas:");
+
+        jLabel22.setText("Sala:");
+
+        listaSalaCash.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        adicionarCash.setText("ok");
+        adicionarCash.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                adicionarCashActionPerformed(evt);
+            }
+        });
+
+        jButton2.setText("Cancelar");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
+        jLabel14.setText("Valor Ganho:");
+
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);
         jPanel8Layout.setHorizontalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 620, Short.MAX_VALUE)
+            .addGroup(jPanel8Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel8Layout.createSequentialGroup()
+                        .addComponent(jButton2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(adicionarCash, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel8Layout.createSequentialGroup()
+                        .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel20)
+                            .addComponent(jLabel1)
+                            .addComponent(jLabel19)
+                            .addComponent(jLabel21)
+                            .addComponent(jLabel22))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(duracaoHorasCash, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(numeroMaosCash, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(valorBlindCash, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(limiteCash, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(listaSalaCash, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(29, 29, 29)
+                .addComponent(jLabel14)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(valorGanhoCash, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(64, Short.MAX_VALUE))
         );
+
+        jPanel8Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {duracaoHorasCash, limiteCash, numeroMaosCash, valorBlindCash});
+
         jPanel8Layout.setVerticalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 249, Short.MAX_VALUE)
+            .addGroup(jPanel8Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(limiteCash, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel14)
+                    .addComponent(valorGanhoCash, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel19)
+                    .addComponent(valorBlindCash, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel20)
+                    .addComponent(numeroMaosCash, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel21)
+                    .addComponent(duracaoHorasCash, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel22)
+                    .addComponent(listaSalaCash, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(adicionarCash)
+                    .addComponent(jButton2))
+                .addContainerGap(28, Short.MAX_VALUE))
         );
 
         panelAddJogos.addTab("Cash", jPanel8);
@@ -317,15 +458,15 @@ public class PrincipalFrame extends FrameView {
         );
         jPanel9Layout.setVerticalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 249, Short.MAX_VALUE)
+            .addGap(0, 258, Short.MAX_VALUE)
         );
 
         panelAddJogos.addTab("Torneio", jPanel9);
 
-        jToggleButton1.setText("Adicionar Jogos");
-        jToggleButton1.addActionListener(new java.awt.event.ActionListener() {
+        adicionarJogos.setText("Adicionar Jogos");
+        adicionarJogos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jToggleButton1ActionPerformed(evt);
+                adicionarJogosActionPerformed(evt);
             }
         });
 
@@ -338,24 +479,14 @@ public class PrincipalFrame extends FrameView {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(panelAddJogos)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel14)
-                                    .addComponent(jLabel15))
-                                .addGap(18, 18, 18)
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(duracaoSessao)
-                                    .addComponent(dataSessao)))
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(limparSessao)
-                                .addGap(16, 16, 16)
-                                .addComponent(jToggleButton1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(salvarSessao)))
+                        .addComponent(limparSessao)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(adicionarJogos)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(salvarSessao)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel16)
-                        .addGap(6, 6, 6)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 262, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
@@ -367,20 +498,13 @@ public class PrincipalFrame extends FrameView {
                     .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel14)
-                            .addComponent(dataSessao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel16))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel15)
-                            .addComponent(duracaoSessao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(limparSessao)
+                            .addComponent(adicionarJogos)
                             .addComponent(salvarSessao)
-                            .addComponent(jToggleButton1))))
+                            .addComponent(jLabel16))
+                        .addGap(71, 71, 71)))
                 .addGap(18, 18, 18)
-                .addComponent(panelAddJogos, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addComponent(panelAddJogos)
                 .addContainerGap())
         );
 
@@ -735,7 +859,7 @@ public class PrincipalFrame extends FrameView {
         );
         graficoTorneioLayout.setVerticalGroup(
             graficoTorneioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 380, Short.MAX_VALUE)
+            .addGap(0, 386, Short.MAX_VALUE)
         );
 
         tabelaTorneios.setModel(new javax.swing.table.DefaultTableModel(
@@ -772,7 +896,7 @@ public class PrincipalFrame extends FrameView {
                 .addComponent(panelTHead, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(graficoTorneio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(graficoTorneio, javax.swing.GroupLayout.DEFAULT_SIZE, 386, Short.MAX_VALUE)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addGap(25, 25, 25))
         );
@@ -823,7 +947,7 @@ public class PrincipalFrame extends FrameView {
                     .addComponent(senhaConfirmacao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3)
                     .addComponent(perfilConfirmarBotao))
-                .addContainerGap(413, Short.MAX_VALUE))
+                .addContainerGap(419, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Perfil", perfilPanel);
@@ -840,7 +964,7 @@ public class PrincipalFrame extends FrameView {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(headPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTabbedPane1))
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 533, Short.MAX_VALUE))
         );
 
         jMenu1.setText("Arquivo");
@@ -921,23 +1045,34 @@ public class PrincipalFrame extends FrameView {
         // TODO add your handling code here:
     }//GEN-LAST:event_salaBoxActionPerformed
 
-    private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
+    private void adicionarJogosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_adicionarJogosActionPerformed
         // TODO add your handling code here:
-        panelAddJogos.setVisible(jToggleButton1.isSelected());
-    }//GEN-LAST:event_jToggleButton1ActionPerformed
+        panelAddJogos.setVisible(adicionarJogos.isSelected());
+    }//GEN-LAST:event_adicionarJogosActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        limparAbaCash();
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void adicionarCashActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_adicionarCashActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_adicionarCashActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton adicionarCash;
+    private javax.swing.JToggleButton adicionarJogos;
     private javax.swing.JButton atualizarCash;
     private javax.swing.JButton atualizarTorneios;
     private javax.swing.JButton bankrollAddBotao;
     private javax.swing.JButton bankrollBotao;
     private javax.swing.JFormattedTextField dataOperacao;
-    private javax.swing.JFormattedTextField dataSessao;
-    private javax.swing.JTextField duracaoSessao;
+    private javax.swing.JTextField duracaoHorasCash;
     private javax.swing.JPanel graficoTorneio;
     private javax.swing.JPanel graficoTorneio1;
     private javax.swing.JPanel headPanel;
     private javax.swing.JCheckBox isHojeOperacao;
+    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton6;
     private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JCheckBox jCheckBox2;
@@ -945,16 +1080,20 @@ public class PrincipalFrame extends FrameView {
     private javax.swing.JCheckBox jCheckBox4;
     private javax.swing.JCheckBox jCheckBox5;
     private javax.swing.JComboBox jComboBox1;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
-    private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel20;
+    private javax.swing.JLabel jLabel21;
+    private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -986,10 +1125,12 @@ public class PrincipalFrame extends FrameView {
     private javax.swing.JTextField jTextField4;
     private javax.swing.JTextField jTextField7;
     private javax.swing.JTextField jTextField8;
-    private javax.swing.JToggleButton jToggleButton1;
+    private javax.swing.JTextField limiteCash;
     private javax.swing.JButton limparSessao;
     private javax.swing.JList listaJogos;
     private javax.swing.JList listaOperacao;
+    private javax.swing.JComboBox listaSalaCash;
+    private javax.swing.JTextField numeroMaosCash;
     private javax.swing.JTextField operacaoValor;
     private javax.swing.JTabbedPane panelAddJogos;
     private javax.swing.JPanel panelTHead;
@@ -1005,6 +1146,8 @@ public class PrincipalFrame extends FrameView {
     private javax.swing.JTable tabelaTorneios;
     private javax.swing.JComboBox tipoOperacaoBox;
     private javax.swing.JLabel usernameLabel;
+    private javax.swing.JTextField valorBlindCash;
+    private javax.swing.JTextField valorGanhoCash;
     // End of variables declaration//GEN-END:variables
 
     public static void main(String[] args) {
