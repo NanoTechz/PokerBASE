@@ -8,13 +8,11 @@ package controller;
 
 import java.util.List;
 import javax.persistence.EntityManagerFactory;
-import jpa.CashJpaController;
 import jpa.TorneioJpaController;
-import model.Cash;
 import model.Torneio;
 import model.Usuario;
+import model.auxiliar.TipoTorneio;
 import view.PrincipalFrame;
-import view.model.CashTableModel;
 import view.model.TorneioTableModel;
 
 /**
@@ -38,9 +36,14 @@ public class TorneioController {
     
     public TorneioTableModel getModelTorneio(){
         TorneioJpaController tJPA= new TorneioJpaController(emf);
-        List<Torneio> findTorneioUsuarioPorBuyIN = tJPA.findTorneioUsuarioPorBuyIN(usuario);
+        TorneioTableModel model = new TorneioTableModel();
         
-        TorneioTableModel model = new TorneioTableModel(findTorneioUsuarioPorBuyIN);
+        TipoTorneio[] values = TipoTorneio.values();
+        
+        for (TipoTorneio tipoTorneio : values) {
+            List<Torneio> findTorneioUsuarioPorBuyIN = tJPA.findTorneioUsuarioPorBuyIN(usuario, tipoTorneio);
+            model.addListaDeTorneios(findTorneioUsuarioPorBuyIN);
+        }
         return model;
     }
 }

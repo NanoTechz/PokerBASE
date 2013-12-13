@@ -14,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 /**
  *
@@ -23,11 +24,12 @@ import javax.persistence.Table;
 @Table(name = "tb_torneio")
 public class Torneio extends Modalidade implements Serializable {
 
-    public Torneio(Number buyIn, char tipo, char genero, Number valorGanho) {
+    public Torneio(Number buyIn, char tipo, char genero, Number valorGanho, Number totalJogados) {
         this.tipo = tipo;
         this.buyIn = buyIn.doubleValue();
         this.genero = genero;
         setValorGanho(valorGanho.doubleValue());
+        this.totalJogados = totalJogados.intValue();
     }
 
     public Torneio(char tipo, double buyIn, int totalJogadores, int posicao, Sessao sessao, Sala sala) {
@@ -74,6 +76,9 @@ public class Torneio extends Modalidade implements Serializable {
 
     @Column(name = "valor_add_on")
     private double valorAddOn;
+    
+    @Transient
+    private int totalJogados;
 
     //relacao 1:n
     @ManyToOne
@@ -178,6 +183,18 @@ public class Torneio extends Modalidade implements Serializable {
 
     public void setSala(Sala sala) {
         this.sala = sala;
+    }
+
+    public int getTotalJogados() {
+        return totalJogados;
+    }
+
+    public void setTotalJogados(int totalJogados) {
+        this.totalJogados = totalJogados;
+    }
+    
+    public static double roi(double ganho, double buyin, int totalJogados){
+        return (ganho - (buyin * totalJogados))/(buyin * totalJogados);
     }
 
 }
