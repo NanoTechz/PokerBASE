@@ -9,8 +9,10 @@ package model;
 import java.io.Serializable;
 import java.sql.Date;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -19,6 +21,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import model.auxiliar.TipoOperacao;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 /**
  *
@@ -51,7 +55,8 @@ public class Bankroll implements Serializable {
     @JoinColumn(name="id_sala")
     private Sala sala;
     
-    @OneToMany(mappedBy = "bankroll")
+    @OneToMany(mappedBy = "bankroll",cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
+    @Fetch(FetchMode.SUBSELECT)
     private List<Operacao> listaOperacao;
     
     public Bankroll(){}

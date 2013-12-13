@@ -21,9 +21,22 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "tb_torneio")
-public class Torneio implements Serializable {
+public class Torneio extends Modalidade implements Serializable {
+
+    public Torneio(char tipo, double buyIn, int totalJogadores, int posicao, Sessao sessao, Sala sala) {
+        this.tipo = tipo;
+        this.buyIn = buyIn;
+        this.totalJogadores = totalJogadores;
+        this.posicao = posicao;
+        this.sessao = sessao;
+        this.sala = sala;
+    }
+
+    public Torneio() {
+    }
 
     private static final long serialVersionUID = 1L;
+    
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id_torneio")
@@ -45,9 +58,6 @@ public class Torneio implements Serializable {
 
     @Column(name = "duracao_horas")
     private double duracao;
-
-    @Column(name = "valor_ganho")
-    private double valorGanho;
 
     @Column(name = "qtd_rebuys")
     private int qtdRebuys;
@@ -123,14 +133,6 @@ public class Torneio implements Serializable {
         this.duracao = duracao;
     }
 
-    public double getValorGanho() {
-        return valorGanho;
-    }
-
-    public void setValorGanho(double valorGanho) {
-        this.valorGanho = valorGanho;
-    }
-
     public int getQtdRebuys() {
         return qtdRebuys;
     }
@@ -170,6 +172,5 @@ public class Torneio implements Serializable {
     public void setSala(Sala sala) {
         this.sala = sala;
     }
-    
-    
+
 }

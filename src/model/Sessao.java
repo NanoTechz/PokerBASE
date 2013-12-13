@@ -8,8 +8,10 @@ package model;
 import java.io.Serializable;
 import java.sql.Date;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -17,6 +19,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 /**
  *
@@ -42,10 +46,12 @@ public class Sessao implements Serializable {
     @JoinColumn(name = "id_usuario", referencedColumnName = "id_usuario")
     private Usuario usuario;
 
-    @OneToMany(mappedBy = "sessao")
+    @OneToMany(mappedBy = "sessao",cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
+    @Fetch(FetchMode.SUBSELECT)
     private List<Cash> listaCash;
 
-    @OneToMany(mappedBy = "sessao")
+    @OneToMany(mappedBy = "sessao",cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
+    @Fetch(FetchMode.SUBSELECT)
     private List<Torneio> listaTorneios;
 
     public Integer getId() {

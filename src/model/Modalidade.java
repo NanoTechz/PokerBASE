@@ -15,9 +15,13 @@ import javax.persistence.MappedSuperclass;
  * @author augusto
  */
 @MappedSuperclass
-public class Modalidade implements Serializable{   
+public abstract class Modalidade implements Serializable{   
     @Column(name="qtd_jgs_mesa")
     private int qtdJogadoresMesa;
+    
+    
+    @Column(name="valor_ganho")
+    private double valorGanho;
 
     public int getQtdJogadoresMesa() {
         return qtdJogadoresMesa;
@@ -26,4 +30,13 @@ public class Modalidade implements Serializable{
     public void setQtdJogadoresMesa(int qtdJogadoresMesa) {
         this.qtdJogadoresMesa = qtdJogadoresMesa;
     }
+    
+        public double getValorGanho() {
+        return valorGanho;
+    }
+
+    public void setValorGanho(double valorGanho) {
+        this.valorGanho = valorGanho;
+    }
+     
 }

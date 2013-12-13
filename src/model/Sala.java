@@ -7,13 +7,17 @@ package model;
 
 import java.io.Serializable;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 /**
  *
@@ -35,13 +39,16 @@ public class Sala implements Serializable {
     private String descricao;
     
     //relaçcao 1:n
-    @OneToMany(mappedBy = "sala")
+    @OneToMany(mappedBy = "sala",cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
+    @Fetch(FetchMode.SUBSELECT)
     private List<Cash> listaCash;
     
-    @OneToMany(mappedBy = "sala")
+    @OneToMany(mappedBy = "sala",cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
+    @Fetch(FetchMode.SUBSELECT)
     private List<Torneio> listaTorneios;
     
-    @OneToMany(mappedBy = "sala")
+    @OneToMany(mappedBy = "sala",cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
+    @Fetch(FetchMode.SUBSELECT)
     private List<Bankroll> listaBankRoll;
 
     public Sala(String razaoSocial) {

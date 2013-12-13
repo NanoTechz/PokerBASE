@@ -7,7 +7,6 @@
 package model;
 
 import java.io.Serializable;
-import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -15,7 +14,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -24,11 +22,22 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name="tb_cash")
-public class Cash implements Serializable {
+public class Cash extends Modalidade implements Serializable {
     private static final long serialVersionUID = 1L;
 
     public static double bb100(int numeroMaos, double valorGanho, double valorBlind) {
         return (valorGanho/(double)(numeroMaos)) *(100/valorBlind);
+    }
+
+    public Cash(){
+    }
+
+    public Cash(double valorBlind, double valorGanho, int numeroMaos, double duracaoHoras, Sala sala) {
+        this.valorBlind = valorBlind;
+        setValorGanho(valorGanho);
+        this.numeroMaos = numeroMaos;
+        this.duracaoHoras = duracaoHoras;
+        this.sala = sala;
     }
     
     @Id
@@ -41,9 +50,6 @@ public class Cash implements Serializable {
     
     @Column(name="valor_blind")
     private double valorBlind;
-            
-    @Column(name="valor_ganho")
-    private double valorGanho;
     
     @Column(name="numero_maos")
     private int numeroMaos;
@@ -74,14 +80,6 @@ public class Cash implements Serializable {
 
     public void setLimite(String limite) {
         this.limite = limite;
-    }
-
-    public double getValorGanho() {
-        return valorGanho;
-    }
-
-    public void setValorGanho(double valorGanho) {
-        this.valorGanho = valorGanho;
     }
 
     public int getNumeroMaos() {

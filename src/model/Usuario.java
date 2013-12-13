@@ -8,13 +8,17 @@ package model;
 
 import java.io.Serializable;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 /**
  *
@@ -37,10 +41,12 @@ public class Usuario implements Serializable {
     
     //Relação 1:n
     
-    @OneToMany(mappedBy = "usuario")
+    @OneToMany(mappedBy = "usuario",cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
+    @Fetch(FetchMode.SUBSELECT)
     private List<Sessao> listaSessao;
 
-    @OneToMany(mappedBy = "usuario")
+    @OneToMany(mappedBy = "usuario",cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
+    @Fetch(FetchMode.SUBSELECT)
     private List<Bankroll> listaBankRolls;
 
     public Usuario(String username, String senha) {

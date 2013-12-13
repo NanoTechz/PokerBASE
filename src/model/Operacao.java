@@ -10,8 +10,6 @@ import model.auxiliar.TipoOperacao;
 import java.io.Serializable;
 import java.sql.Date;
 import java.text.DateFormat;
-import java.text.FieldPosition;
-import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import javax.persistence.Column;
 import javax.persistence.Entity;
