@@ -65,8 +65,8 @@ public class CadastroBankRollController extends ControllerView {
 
         @Override
         public void actionPerformed(ActionEvent ae) {
-            CadastroSalaDialog salaView = new CadastroSalaDialog(null, false);
-            salaView.setDefaultCloseOperation(CadastroSalaDialog.DISPOSE_ON_CLOSE);
+            CadastroSalaDialog salaView = new CadastroSalaDialog(null, true);
+
 
             CadastroSalaController salaController = new CadastroSalaController(salaView, getEmf());
             salaView.setVisible(true);

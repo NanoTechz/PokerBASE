@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
 import model.Cash;
-import model.Sala;
 
 /**
  * Codigo adaptado de: http://devsv.wordpress.com/2012/07/08/como-implementar-um-tablemodel/
@@ -21,11 +20,11 @@ public class CashTableModel extends AbstractTableModel {
 
     public final int LIMITE = 0;
     public final int NUMERO_MAOS = 1;
-    public final int DURACAO = 2;
-    public final int BB_100 = 3;
-    public final int SALA = 4;
+    public final int GANHO = 2;
+    public final int DURACAO = 3;
+    public final int BB_100 = 4;
 
-    public Cash getSocio(int indiceLinha) {
+    public Cash getCash(int indiceLinha) {
         return lista.get(indiceLinha);
     }
 
@@ -37,13 +36,13 @@ public class CashTableModel extends AbstractTableModel {
         fireTableRowsInserted(ultimoIndice, ultimoIndice);
     }
 
-    public void removeSocio(int indiceLinha) {
+    public void removeCash(int indiceLinha) {
         lista.remove(indiceLinha);
 
         fireTableRowsDeleted(indiceLinha, indiceLinha);
     }
 
-    public void addListaDeSocios(List<Cash> cash) {
+    public void addListaDeCash(List<Cash> cash) {
         int indice = getRowCount();
 
         lista.addAll(cash);
@@ -88,12 +87,12 @@ public class CashTableModel extends AbstractTableModel {
                 return cash.getLimite();
             case NUMERO_MAOS:
                 return cash.getNumeroMaos();
+            case GANHO:
+                return cash.getValorGanho();
             case DURACAO:
                 return cash.getDuracaoHoras();
             case BB_100:
                 return Cash.bb100(cash.getNumeroMaos(), cash.getValorGanho(), cash.getValorBlind());
-            case SALA:
-                return cash.getSala();
             default:
                 throw new IndexOutOfBoundsException("columnIndex out of bounds");
         }
@@ -112,8 +111,6 @@ public class CashTableModel extends AbstractTableModel {
                 cash.setDuracaoHoras((double) aValue);
             case BB_100:
                 Cash.bb100(cash.getNumeroMaos(), cash.getValorGanho(), cash.getValorBlind());
-            case SALA:
-                cash.setSala((Sala) aValue);
             default:
                 throw new IndexOutOfBoundsException("columnIndex out of bounds");
         }
@@ -132,10 +129,10 @@ public class CashTableModel extends AbstractTableModel {
 
 }
 
-enum Coluna {
+ enum Coluna {
 
     limite("Limite", 0, String.class), numeroMaos("N° mãos", 1, Integer.class),
-    duracao("Duracao(h)", 2, Double.class), bb("bb/100", 3, Double.class), sala("Sala", 4, Sala.class);
+    ganho("Total Ganho", 2, Double.class), duracao("Total Horas", 3, Double.class), bb("bb/100", 4, Double.class);
 
     private String nomeColuna;
     private int valorColuna;

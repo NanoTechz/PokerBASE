@@ -19,7 +19,6 @@ import jpa.exceptions.NonexistentEntityException;
 import model.Cash;
 import model.Sala;
 import model.Sessao;
-import model.Torneio;
 import model.Usuario;
 
 /**
@@ -27,11 +26,12 @@ import model.Usuario;
  * @author augusto
  */
 public class CashJpaController implements Serializable {
-    
+   
     public List<Cash> findCashUsuario(Usuario usuario) {
         EntityManager em = getEntityManager();
         try {
-            Query query = em.createQuery("select b from Cash b where b.sessao.usuario = :usuario", Cash.class);
+            Query query = em.createQuery("select new Cash(b.limite, b.valorBlind, sum(b.valorGanho), sum(b.duracaoHoras), sum(b.numeroMaos)) from Cash b where b.sessao.usuario = :usuario GROUP BY b.limite ORDER BY b.valorBlind ASC", Cash.class);
+            
             query.setParameter("usuario", usuario);
             return query.getResultList();
         } catch (Exception e) {

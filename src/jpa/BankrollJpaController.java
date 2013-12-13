@@ -24,10 +24,13 @@ import model.Usuario;
  * @author augusto
  */
 public class BankrollJpaController implements Serializable {
-
+    
+    
+    
     public BankrollJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
+    
     private EntityManagerFactory emf = null;
 
     public EntityManager getEntityManager() {

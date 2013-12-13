@@ -23,6 +23,13 @@ import javax.persistence.Table;
 @Table(name = "tb_torneio")
 public class Torneio extends Modalidade implements Serializable {
 
+    public Torneio(Number buyIn, char tipo, char genero, Number valorGanho) {
+        this.tipo = tipo;
+        this.buyIn = buyIn.doubleValue();
+        this.genero = genero;
+        setValorGanho(valorGanho.doubleValue());
+    }
+
     public Torneio(char tipo, double buyIn, int totalJogadores, int posicao, Sessao sessao, Sala sala) {
         this.tipo = tipo;
         this.buyIn = buyIn;
@@ -36,7 +43,7 @@ public class Torneio extends Modalidade implements Serializable {
     }
 
     private static final long serialVersionUID = 1L;
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id_torneio")

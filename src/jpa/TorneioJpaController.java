@@ -15,7 +15,7 @@ import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import jpa.exceptions.NonexistentEntityException;
-import model.Bankroll;
+import model.Cash;
 import model.Sessao;
 import model.Sala;
 import model.Torneio;
@@ -27,6 +27,21 @@ import model.Usuario;
  */
 public class TorneioJpaController implements Serializable {
 
+        public List<Torneio> findTorneioUsuarioPorBuyIN(Usuario usuario) {
+        EntityManager em = getEntityManager();
+        try {
+            Query query = em.createQuery("select new Torneio(t.buyIn, t.tipo, t.genero, sum(t.valorGanho)) from Torneio t where t.sessao.usuario = :usuario  GROUP BY t.buyIn ORDER BY t.buyIn ASC", Torneio.class);
+            
+            query.setParameter("usuario", usuario);
+            return query.getResultList();
+        } catch (Exception e) {
+            e.printStackTrace(System.out);
+            return new ArrayList<Torneio>();
+        } finally {
+            em.close();
+        }
+    }
+        
     public List<Torneio> findTorneioUsuario(Usuario usuario) {
         EntityManager em = getEntityManager();
         try {

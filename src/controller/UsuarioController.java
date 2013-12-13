@@ -13,6 +13,7 @@ import java.util.logging.Logger;
 import javax.persistence.EntityManagerFactory;
 import jpa.BankrollJpaController;
 import jpa.SessaoJpaController;
+import jpa.UsuarioJpaController;
 import model.Bankroll;
 import model.Sessao;
 import model.Usuario;
@@ -36,14 +37,12 @@ public class UsuarioController {
     }
 
     public boolean antentica(String senha, View view) {
-        try {
-            senha = Criptografia.codificar(senha);
-        } catch (NoSuchAlgorithmException | UnsupportedEncodingException ex) {
-            Logger.getLogger(UsuarioController.class.getName()).log(Level.SEVERE, null, ex);
-            view.erroMensagem("Não foi possível criptografar a senha.");
+        senha = getSenhaCriptografada(senha, view);
+        
+        if(senha == null){
             return false;
         }
-
+        
         return (senha.equals(usuario.getSenha()));
     }
 
@@ -56,6 +55,33 @@ public class UsuarioController {
 
         List<Sessao> listaSessao = sessaoJPA.findSessaoUsuario(usuario);
         usuario.setListaSessao(listaSessao);
+    }
+    
+    public void alterarSenha(View view, String newSenha, String newSenhaConfirmcao, EntityManagerFactory emf){
+        if(newSenha.equals(newSenhaConfirmcao)){
+            newSenha = getSenhaCriptografada(newSenha, view);
+            
+            usuario.setSenha(newSenha);
+            
+            UsuarioJpaController uJPA = new UsuarioJpaController(emf);
+            try {
+                uJPA.edit(usuario);
+            } catch (Exception ex) {
+                Logger.getLogger(UsuarioController.class.getName()).log(Level.SEVERE, null, ex);
+                view.erroMensagem("Não foi possível salvar a nova senha.");
+            }
+            
+        }
+    }
+
+    private String getSenhaCriptografada(String newSenha, View view) {
+        try {
+            return Criptografia.codificar(newSenha);
+        } catch (    NoSuchAlgorithmException | UnsupportedEncodingException ex) {
+            Logger.getLogger(UsuarioController.class.getName()).log(Level.SEVERE, null, ex);
+            view.erroMensagem("Não foi possível criptografar a senha.");
+        }
+        return null;
     }
 
 }

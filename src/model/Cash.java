@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package model;
 
 import java.io.Serializable;
@@ -21,15 +20,24 @@ import javax.persistence.Table;
  * @author augusto
  */
 @Entity
-@Table(name="tb_cash")
+@Table(name = "tb_cash")
 public class Cash extends Modalidade implements Serializable {
+
     private static final long serialVersionUID = 1L;
 
     public static double bb100(int numeroMaos, double valorGanho, double valorBlind) {
-        return (valorGanho/(double)(numeroMaos)) *(100/valorBlind);
+        return (valorGanho / (double) (numeroMaos)) * (100 / valorBlind);
     }
 
-    public Cash(){
+    public Cash() {
+    }
+
+    public Cash(String limite, Number valorBlind, Number valorGanho, Number duracao, Number numeroMaos) {
+        this.valorBlind = valorBlind.doubleValue();
+        setValorGanho(valorGanho.doubleValue());
+        this.numeroMaos = numeroMaos.intValue();
+        this.limite = limite;
+        this.duracaoHoras = duracao.doubleValue();
     }
 
     public Cash(double valorBlind, double valorGanho, int numeroMaos, double duracaoHoras, Sala sala) {
@@ -39,31 +47,31 @@ public class Cash extends Modalidade implements Serializable {
         this.duracaoHoras = duracaoHoras;
         this.sala = sala;
     }
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id_cash")
     private Integer id;
-    
+
     @Column(length = 10)
     private String limite;
-    
-    @Column(name="valor_blind")
+
+    @Column(name = "valor_blind")
     private double valorBlind;
-    
-    @Column(name="numero_maos")
+
+    @Column(name = "numero_maos")
     private int numeroMaos;
-    
-    @Column(name="duracao_horas")
+
+    @Column(name = "duracao_horas")
     private double duracaoHoras;
-    
+
     //relação 1:N
     @ManyToOne
-    @JoinColumn(name="id_sala")
+    @JoinColumn(name = "id_sala")
     private Sala sala;
-    
+
     @ManyToOne
-    @JoinColumn(name="id_sessao")
+    @JoinColumn(name = "id_sessao")
     private Sessao sessao;
 
     public Integer getId() {
@@ -121,6 +129,5 @@ public class Cash extends Modalidade implements Serializable {
     public void setValorBlind(double valorBlind) {
         this.valorBlind = valorBlind;
     }
-    
-    
+
 }

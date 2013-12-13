@@ -25,7 +25,7 @@ import model.Torneio;
  * @author augusto
  */
 public class SalaJpaController implements Serializable {
-
+    
     public SalaJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }

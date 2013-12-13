@@ -5,7 +5,6 @@
  */
 package view;
 
-import com.sun.java.swing.plaf.windows.WindowsBorders;
 import de.javasoft.plaf.synthetica.SyntheticaAluOxideLookAndFeel;
 import graficos.GraficoTeste;
 import java.awt.event.ActionListener;
@@ -19,9 +18,13 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.table.AbstractTableModel;
 import javax.swing.text.MaskFormatter;
+import org.jfree.base.modules.AbstractModule;
 import org.jfree.data.xy.XYSeries;
 import util.MaskformatFactory;
+import view.model.CashTableModel;
+import view.model.TorneioTableModel;
 
 /**
  *
@@ -42,11 +45,43 @@ public class PrincipalFrame extends FrameView {
         } catch (Exception e) {
             ftmData = new MaskFormatter();
         }
-        
+
         initComponents();
         headPanel.setBackground(jMenuBar1.getBackground());
     }
-
+    
+    //Cash
+    public void addModelTabelaCash(CashTableModel model){
+        tabelaCash.setModel(model);
+    }
+    //Fim Cash
+    
+    //Torneio
+    public void addModelTabelaTorneio(TorneioTableModel model){
+        tabelaTorneios.setModel(model);
+    }
+    
+    //Perfil
+    public String getSenha(){
+        return senha.getText();
+    }
+    
+    public String getSenhaConfirmacao(){
+        return senhaConfirmacao.getText();
+    }
+    
+    public void limparPerfil(){
+        senha.setText(null);
+        senhaConfirmacao.setText(null);
+    }
+    
+    public void addConfirmarMudarSenha(ActionListener action){
+        perfilConfirmarBotao.addActionListener(action);
+    }
+    
+    //Fim Perfil
+    
+    /** Head **/
     public void setUserName(String username) {
         this.usernameLabel.setText(username);
     }
@@ -58,7 +93,12 @@ public class PrincipalFrame extends FrameView {
     public void addBotaoBankrollListener(ActionListener action) {
         this.bankrollBotao.addActionListener(action);
     }
+    
+    /** Fim Head **/
 
+    /**
+     * Operacao *
+     */
     public void addBankrollAddBotaoListener(ActionListener action) {
         this.bankrollAddBotao.addActionListener(action);
     }
@@ -90,8 +130,8 @@ public class PrincipalFrame extends FrameView {
     public String getValorOperacao() {
         return operacaoValor.getText();
     }
-    
-    public String getDataOperacao(){
+
+    public String getDataOperacao() {
         return dataOperacao
                 .getText();
     }
@@ -106,7 +146,12 @@ public class PrincipalFrame extends FrameView {
 
         operacaoValor.setText(Double.toString(0));
         dataOperacao.setText(null);
+        isHojeOperacao.setSelected(false);
     }
+
+    /**
+     * Fim Operacao *
+     */
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -127,12 +172,12 @@ public class PrincipalFrame extends FrameView {
         jPanel2 = new javax.swing.JPanel();
         jLabel14 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
-        jFormattedTextField1 = new javax.swing.JFormattedTextField(ftmData);
-        jTextField6 = new javax.swing.JTextField();
-        jButton8 = new javax.swing.JButton();
-        jButton9 = new javax.swing.JButton();
+        dataSessao = new javax.swing.JFormattedTextField(ftmData);
+        duracaoSessao = new javax.swing.JTextField();
+        limparSessao = new javax.swing.JButton();
+        salvarSessao = new javax.swing.JButton();
         jScrollPane4 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList();
+        listaJogos = new javax.swing.JList();
         jLabel16 = new javax.swing.JLabel();
         panelAddJogos = new javax.swing.JTabbedPane();
         jPanel8 = new javax.swing.JPanel();
@@ -154,11 +199,6 @@ public class PrincipalFrame extends FrameView {
         jLabel18 = new javax.swing.JLabel();
         dataOperacao = new javax.swing.JFormattedTextField(ftmData);
         isHojeOperacao = new javax.swing.JCheckBox();
-        jPanel4 = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         panelTHead1 = new javax.swing.JPanel();
         jTextField7 = new javax.swing.JTextField();
@@ -166,13 +206,13 @@ public class PrincipalFrame extends FrameView {
         jLabel9 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
-        jButton2 = new javax.swing.JButton();
+        atualizarCash = new javax.swing.JButton();
         jCheckBox3 = new javax.swing.JCheckBox();
         jCheckBox4 = new javax.swing.JCheckBox();
         jCheckBox5 = new javax.swing.JCheckBox();
         jComboBox1 = new javax.swing.JComboBox();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTable3 = new javax.swing.JTable();
+        tabelaCash = new javax.swing.JTable();
         graficoTorneio1 = gTeste.getPanel();
         jPanel6 = new javax.swing.JPanel();
         panelTHead = new javax.swing.JPanel();
@@ -184,20 +224,18 @@ public class PrincipalFrame extends FrameView {
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        atualizarTorneios = new javax.swing.JButton();
         jCheckBox1 = new javax.swing.JCheckBox();
         jCheckBox2 = new javax.swing.JCheckBox();
         graficoTorneio = gTeste.getPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        tabelaTorneios = new javax.swing.JTable();
         perfilPanel = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        nomeCampo = new javax.swing.JTextField();
         perfilConfirmarBotao = new javax.swing.JButton();
-        jPasswordField2 = new javax.swing.JPasswordField();
-        jPasswordField3 = new javax.swing.JPasswordField();
+        senha = new javax.swing.JPasswordField();
+        senhaConfirmacao = new javax.swing.JPasswordField();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
@@ -243,16 +281,16 @@ public class PrincipalFrame extends FrameView {
 
         jLabel15.setText("Duração:");
 
-        jButton8.setText("Limpar");
+        limparSessao.setText("Limpar");
 
-        jButton9.setText("Salvar");
+        salvarSessao.setText("Salvar");
 
-        jList1.setModel(new javax.swing.AbstractListModel() {
+        listaJogos.setModel(new javax.swing.AbstractListModel() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }
             public Object getElementAt(int i) { return strings[i]; }
         });
-        jScrollPane4.setViewportView(jList1);
+        jScrollPane4.setViewportView(listaJogos);
 
         jLabel16.setText("Jogos:");
 
@@ -307,14 +345,14 @@ public class PrincipalFrame extends FrameView {
                                     .addComponent(jLabel15))
                                 .addGap(18, 18, 18)
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jTextField6)
-                                    .addComponent(jFormattedTextField1)))
+                                    .addComponent(duracaoSessao)
+                                    .addComponent(dataSessao)))
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(jButton8)
+                                .addComponent(limparSessao)
                                 .addGap(16, 16, 16)
                                 .addComponent(jToggleButton1)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton9)))
+                                .addComponent(salvarSessao)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel16)
                         .addGap(6, 6, 6)
@@ -330,16 +368,16 @@ public class PrincipalFrame extends FrameView {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel14)
-                            .addComponent(jFormattedTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(dataSessao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel16))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel15)
-                            .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(duracaoSessao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jButton8)
-                            .addComponent(jButton9)
+                            .addComponent(limparSessao)
+                            .addComponent(salvarSessao)
                             .addComponent(jToggleButton1))))
                 .addGap(18, 18, 18)
                 .addComponent(panelAddJogos, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
@@ -493,52 +531,6 @@ public class PrincipalFrame extends FrameView {
 
         jTabbedPane1.addTab("Geral", jPanel3);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        jScrollPane1.setViewportView(jTable1);
-
-        jButton3.setText("próximo");
-
-        jButton4.setText("anterior");
-
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 971, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButton4)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton3)))
-                .addContainerGap())
-        );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton3)
-                    .addComponent(jButton4))
-                .addGap(0, 0, Short.MAX_VALUE))
-        );
-
-        jTabbedPane1.addTab("Resultados", jPanel4);
-
         panelTHead1.setBackground(new java.awt.Color(254, 136, 18));
 
         jLabel9.setText("Limite:");
@@ -547,7 +539,7 @@ public class PrincipalFrame extends FrameView {
 
         jLabel12.setText("de");
 
-        jButton2.setText("atualiazar");
+        atualizarCash.setText("atualiazar");
 
         jCheckBox3.setText("6-max");
 
@@ -581,7 +573,7 @@ public class PrincipalFrame extends FrameView {
                 .addGap(18, 18, 18)
                 .addComponent(jCheckBox5)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton2)
+                .addComponent(atualizarCash)
                 .addGap(23, 23, 23))
         );
 
@@ -599,13 +591,13 @@ public class PrincipalFrame extends FrameView {
                     .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jCheckBox3)
                     .addComponent(jCheckBox4)
-                    .addComponent(jButton2)
+                    .addComponent(atualizarCash)
                     .addComponent(jCheckBox5)
                     .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jTable3.setModel(new javax.swing.table.DefaultTableModel(
+        tabelaCash.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -616,7 +608,7 @@ public class PrincipalFrame extends FrameView {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane3.setViewportView(jTable3);
+        jScrollPane3.setViewportView(tabelaCash);
 
         graficoTorneio.setSize(500, 380);
         graficoTorneio1.setBackground(new java.awt.Color(232, 8, 207));
@@ -673,7 +665,7 @@ public class PrincipalFrame extends FrameView {
 
         jLabel8.setText("de");
 
-        jButton1.setText("atualiazar");
+        atualizarTorneios.setText("atualiazar");
 
         jCheckBox1.setText("SnG");
 
@@ -705,7 +697,7 @@ public class PrincipalFrame extends FrameView {
                 .addGap(18, 18, 18)
                 .addComponent(jCheckBox2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton1)
+                .addComponent(atualizarTorneios)
                 .addGap(23, 23, 23))
         );
 
@@ -726,7 +718,7 @@ public class PrincipalFrame extends FrameView {
                     .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jCheckBox1)
                     .addComponent(jCheckBox2)
-                    .addComponent(jButton1))
+                    .addComponent(atualizarTorneios))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -746,7 +738,7 @@ public class PrincipalFrame extends FrameView {
             .addGap(0, 380, Short.MAX_VALUE)
         );
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        tabelaTorneios.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -757,7 +749,7 @@ public class PrincipalFrame extends FrameView {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane2.setViewportView(jTable2);
+        jScrollPane2.setViewportView(tabelaTorneios);
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -787,17 +779,15 @@ public class PrincipalFrame extends FrameView {
 
         jTabbedPane1.addTab("Torneios", jPanel6);
 
-        jLabel1.setText("Nome:");
-
         jLabel2.setText("Nova Senha:");
 
         jLabel3.setText("Confirmação:");
 
         perfilConfirmarBotao.setText("Confirmar");
 
-        jPasswordField3.addActionListener(new java.awt.event.ActionListener() {
+        senhaConfirmacao.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jPasswordField3ActionPerformed(evt);
+                senhaConfirmacaoActionPerformed(evt);
             }
         });
 
@@ -806,44 +796,34 @@ public class PrincipalFrame extends FrameView {
         perfilPanelLayout.setHorizontalGroup(
             perfilPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(perfilPanelLayout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(perfilPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(perfilPanelLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(perfilPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel3))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(perfilPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(nomeCampo, javax.swing.GroupLayout.PREFERRED_SIZE, 288, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jPasswordField2, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE)
-                            .addComponent(jPasswordField3)))
-                    .addGroup(perfilPanelLayout.createSequentialGroup()
-                        .addGap(324, 324, 324)
-                        .addComponent(perfilConfirmarBotao)))
-                .addContainerGap(589, Short.MAX_VALUE))
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel3))
+                .addGap(18, 18, 18)
+                .addGroup(perfilPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(senha, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE)
+                    .addComponent(senhaConfirmacao))
+                .addGap(24, 24, 24)
+                .addComponent(perfilConfirmarBotao)
+                .addContainerGap(635, Short.MAX_VALUE))
         );
 
-        perfilPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jPasswordField2, jPasswordField3});
+        perfilPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {senha, senhaConfirmacao});
 
         perfilPanelLayout.setVerticalGroup(
             perfilPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(perfilPanelLayout.createSequentialGroup()
-                .addGap(24, 24, 24)
-                .addGroup(perfilPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(nomeCampo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(6, 6, 6)
+                .addContainerGap()
                 .addGroup(perfilPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jPasswordField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(senha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(perfilPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(senhaConfirmacao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3)
-                    .addComponent(jPasswordField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(7, 7, 7)
-                .addComponent(perfilConfirmarBotao)
-                .addContainerGap(332, Short.MAX_VALUE))
+                    .addComponent(perfilConfirmarBotao))
+                .addContainerGap(413, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Perfil", perfilPanel);
@@ -915,19 +895,18 @@ public class PrincipalFrame extends FrameView {
         jTabbedPane1.setSelectedComponent(perfilPanel);
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
-    private void jPasswordField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jPasswordField3ActionPerformed
+    private void senhaConfirmacaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_senhaConfirmacaoActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jPasswordField3ActionPerformed
+    }//GEN-LAST:event_senhaConfirmacaoActionPerformed
 
-    private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
+    private void isHojeOperacaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_isHojeOperacaoActionPerformed
         // TODO add your handling code here:
-        panelAddJogos.setVisible(jToggleButton1.isSelected());
+        dataOperacao.setEnabled(!isHojeOperacao.isSelected());
 
-    }//GEN-LAST:event_jToggleButton1ActionPerformed
-
-    private void salaBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_salaBoxActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_salaBoxActionPerformed
+        if (isHojeOperacao.isSelected()) {
+            dataOperacao.setText(new SimpleDateFormat("dd/MM/yyyy").format(new Date(System.currentTimeMillis())));
+        }
+    }//GEN-LAST:event_isHojeOperacaoActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
 
@@ -938,38 +917,34 @@ public class PrincipalFrame extends FrameView {
         // TODO add your handling code here:
     }//GEN-LAST:event_salvarOperacaoBotaoActionPerformed
 
-    private void isHojeOperacaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_isHojeOperacaoActionPerformed
+    private void salaBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_salaBoxActionPerformed
         // TODO add your handling code here:
-        dataOperacao.setEnabled(!isHojeOperacao.isSelected());
-        
-        if(isHojeOperacao.isSelected()){
-            dataOperacao.setText(new SimpleDateFormat("dd/MM/yyyy").format(new Date(System.currentTimeMillis())));
-        }
-    }//GEN-LAST:event_isHojeOperacaoActionPerformed
+    }//GEN-LAST:event_salaBoxActionPerformed
+
+    private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
+        // TODO add your handling code here:
+        panelAddJogos.setVisible(jToggleButton1.isSelected());
+    }//GEN-LAST:event_jToggleButton1ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton atualizarCash;
+    private javax.swing.JButton atualizarTorneios;
     private javax.swing.JButton bankrollAddBotao;
     private javax.swing.JButton bankrollBotao;
     private javax.swing.JFormattedTextField dataOperacao;
+    private javax.swing.JFormattedTextField dataSessao;
+    private javax.swing.JTextField duracaoSessao;
     private javax.swing.JPanel graficoTorneio;
     private javax.swing.JPanel graficoTorneio1;
     private javax.swing.JPanel headPanel;
     private javax.swing.JCheckBox isHojeOperacao;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton6;
-    private javax.swing.JButton jButton8;
-    private javax.swing.JButton jButton9;
     private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JCheckBox jCheckBox2;
     private javax.swing.JCheckBox jCheckBox3;
     private javax.swing.JCheckBox jCheckBox4;
     private javax.swing.JCheckBox jCheckBox5;
     private javax.swing.JComboBox jComboBox1;
-    private javax.swing.JFormattedTextField jFormattedTextField1;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
@@ -987,7 +962,6 @@ public class PrincipalFrame extends FrameView {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JList jList1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
@@ -995,34 +969,27 @@ public class PrincipalFrame extends FrameView {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
-    private javax.swing.JPasswordField jPasswordField2;
-    private javax.swing.JPasswordField jPasswordField3;
     private javax.swing.JRadioButton jRadioButton1;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTable jTable2;
-    private javax.swing.JTable jTable3;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField6;
     private javax.swing.JTextField jTextField7;
     private javax.swing.JTextField jTextField8;
     private javax.swing.JToggleButton jToggleButton1;
+    private javax.swing.JButton limparSessao;
+    private javax.swing.JList listaJogos;
     private javax.swing.JList listaOperacao;
-    private javax.swing.JTextField nomeCampo;
     private javax.swing.JTextField operacaoValor;
     private javax.swing.JTabbedPane panelAddJogos;
     private javax.swing.JPanel panelTHead;
@@ -1031,6 +998,11 @@ public class PrincipalFrame extends FrameView {
     private javax.swing.JPanel perfilPanel;
     private javax.swing.JComboBox salaBox;
     private javax.swing.JButton salvarOperacaoBotao;
+    private javax.swing.JButton salvarSessao;
+    private javax.swing.JPasswordField senha;
+    private javax.swing.JPasswordField senhaConfirmacao;
+    private javax.swing.JTable tabelaCash;
+    private javax.swing.JTable tabelaTorneios;
     private javax.swing.JComboBox tipoOperacaoBox;
     private javax.swing.JLabel usernameLabel;
     // End of variables declaration//GEN-END:variables

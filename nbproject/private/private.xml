@@ -3,12 +3,8 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/home/augusto/Projetos/PokerBASE/src/jpa/TorneioJpaController.java</file>
-            <file>file:/home/augusto/Projetos/PokerBASE/src/principal/PokerBASE.java</file>
-            <file>file:/home/augusto/Projetos/PokerBASE/src/controller/PrincipalController.java</file>
-            <file>file:/home/augusto/Projetos/PokerBASE/src/model/Sala.java</file>
-            <file>file:/home/augusto/Projetos/PokerBASE/src/jpa/CashJpaController.java</file>
-            <file>file:/home/augusto/Projetos/PokerBASE/src/jpa/BankrollJpaController.java</file>
+            <file>file:/home/augusto/Projetos/PokerBASE/src/model/Bankroll.java</file>
+            <file>file:/home/augusto/Projetos/PokerBASE/test/banco/UsuarioJPATest.java</file>
         </group>
     </open-files>
 </project-private>

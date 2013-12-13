@@ -18,6 +18,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import jpa.exceptions.NonexistentEntityException;
 import model.Usuario;
+import util.EntityManagerUtil;
 
 /**
  *
@@ -177,7 +178,8 @@ public class UsuarioJpaController implements Serializable {
     }
     
     public Usuario findUsuario(String username) {
-        EntityManager em = getEntityManager();
+        EntityManager em ;//= getEntityManager();
+        em = EntityManagerUtil.emf.createEntityManager();
         try {
             Query query= em.createQuery("select u from Usuario u where u.username = :username", Usuario.class);
             query.setParameter("username", username);
