@@ -61,7 +61,7 @@ public class PrincipalViewController extends ControllerView {
 
     private void addListener() {
         this.principalView.addBotaoBankrollListener(new ListarBankrollListener());
-        
+
         this.principalView.addBankrollAddBotaoListener(new AddBankrollListener());
         this.principalView.addSalvarOperacaoListener(new SalvarOperacaoListener());
         this.principalView.addConfirmarMudarSenha(new AlterarSenhaListener());
@@ -79,44 +79,47 @@ public class PrincipalViewController extends ControllerView {
     }
 
     private void gerarGrafico() {
-        TorneioJpaController torneioJpaController = new TorneioJpaController(getEmf());
-        List<Torneio> findTorneioUsuario = torneioJpaController.findTorneioUsuario(usuario);
+        try {
+            TorneioJpaController torneioJpaController = new TorneioJpaController(getEmf());
+            List<Torneio> findTorneioUsuario = torneioJpaController.findTorneioUsuario(usuario);
 
-        CashJpaController cashJpaController = new CashJpaController(getEmf());
-        List<Cash> findCashUsuario = cashJpaController.findCashUsuario(usuario);
+            CashJpaController cashJpaController = new CashJpaController(getEmf());
+            List<Cash> findCashUsuario = cashJpaController.findCashUsuario(usuario);
 
-        XYSeries serie = new XYSeries("torneios");
-        XYSeries cashSeries = new XYSeries("cash");
-        XYSeries serieRoiEsperado = new XYSeries("roi");
+            XYSeries serie = new XYSeries("torneios");
+            XYSeries cashSeries = new XYSeries("cash");
+            XYSeries serieRoiEsperado = new XYSeries("roi");
 
-        double soma = 0, somaAjuste = 0, roi, mediaBuyIn, totalBuyIN;
+            double soma = 0, somaAjuste = 0, roi, mediaBuyIn, totalBuyIN;
 
-        totalBuyIN = torneioJpaController.totalBuyIn(usuario);
-        roi = (torneioJpaController.totalValorGanho(usuario) - totalBuyIN) / totalBuyIN;
-        mediaBuyIn = totalBuyIN / findTorneioUsuario.size();
+            totalBuyIN = torneioJpaController.totalBuyIn(usuario);
+            roi = (torneioJpaController.totalValorGanho(usuario) - totalBuyIN) / totalBuyIN;
+            mediaBuyIn = totalBuyIN / findTorneioUsuario.size();
 
-        for (int i = 0; i < findTorneioUsuario.size(); i++) {
-            soma += findTorneioUsuario.get(i).getValorGanho() - findTorneioUsuario.get(i).getBuyIn();
+            for (int i = 0; i < findTorneioUsuario.size(); i++) {
+                soma += findTorneioUsuario.get(i).getValorGanho() - findTorneioUsuario.get(i).getBuyIn();
 
-            serie.add(i + 1, soma);
+                serie.add(i + 1, soma);
 
-            somaAjuste += mediaBuyIn * roi;
-            serieRoiEsperado.add(i, somaAjuste);
+                somaAjuste += mediaBuyIn * roi;
+                serieRoiEsperado.add(i, somaAjuste);
 
+            }
+
+            int count = 1;
+            soma = 0;
+            for (Cash cash : findCashUsuario) {
+                soma += cash.getValorGanho();
+                cashSeries.add(count, soma, true);
+
+                count++;
+            }
+
+            this.principalView.addDados(serie);
+            this.principalView.addDados(serieRoiEsperado);
+            this.principalView.addDados(cashSeries);
+        } catch (Exception e) {
         }
-
-        int count = 1;
-        soma = 0;
-        for (Cash cash : findCashUsuario) {
-            soma += cash.getValorGanho();
-            cashSeries.add(count, soma, true);
-
-            count++;
-        }
-
-        this.principalView.addDados(serie);
-        this.principalView.addDados(serieRoiEsperado);
-        this.principalView.addDados(cashSeries);
     }
 
     private void verificarBankroll() {
@@ -144,15 +147,15 @@ public class PrincipalViewController extends ControllerView {
         }
 
     }
-    
-    class AddBankrollListener implements ActionListener{
+
+    class AddBankrollListener implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent ae) {
-           new AbrirCadastroBankrollListener(principalView, emf, usuario).actionPerformed(ae);
-           inicializarComponentes();
+            new AbrirCadastroBankrollListener(principalView, emf, usuario).actionPerformed(ae);
+            inicializarComponentes();
         }
-        
+
     }
 
     class SalvarOperacaoListener implements ActionListener {

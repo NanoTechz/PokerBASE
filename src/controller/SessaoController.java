@@ -15,7 +15,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
@@ -36,21 +35,16 @@ import view.PrincipalFrame;
  */
 public class SessaoController {
 
-    private Usuario usuario;
-    private PrincipalFrame principalView;
-    private EntityManagerFactory emf;
-    private ArrayList<Cash> listaCash;
-    private ArrayList<Torneio> listaTorneio;
+    private final Usuario usuario;
+    private final PrincipalFrame principalView;
+    private final EntityManagerFactory emf;
     private DefaultListModel model;
-    private Map<Cash, Bankroll> cashMap;
+    private final Map<Cash, Bankroll> cashMap;
 
     public SessaoController(Usuario usuario, PrincipalFrame principalView, EntityManagerFactory emf) {
         this.usuario = usuario;
         this.principalView = principalView;
         this.emf = emf;
-
-        listaCash = new ArrayList<Cash>();
-        listaTorneio = new ArrayList<Torneio>();
         model = new DefaultListModel();
         
         cashMap = new HashMap<Cash, Bankroll>();
@@ -64,8 +58,7 @@ public class SessaoController {
 
     public void salvarSessao() {
         String duracao = JOptionPane.showInputDialog("Insira a duração da sessão:");
-
-        System.out.println("iniciando 01 " + new Date(System.currentTimeMillis()).getMinutes());
+        
         Sessao sessao = new Sessao();
         
         sessao.setDuracaoHoras(Double.parseDouble(duracao));
@@ -77,8 +70,6 @@ public class SessaoController {
         BankrollJpaController bJPA = new BankrollJpaController(emf);
         
         sJPA.create(sessao);
-        
-        System.out.println("slavando sessao " +new Date(System.currentTimeMillis()).getMinutes());
         
         for (int i = 0; i < model.getSize(); i++) {
             if(model.getElementAt(i) instanceof Cash){
@@ -93,7 +84,6 @@ public class SessaoController {
                 cJPA.create(cash);
             }
         }
-        System.out.println("slavando bancas " +new Date(System.currentTimeMillis()).getMinutes());
         
         Set<Cash> keySet = cashMap.keySet();
         Iterator<Cash> iterator = keySet.iterator();
@@ -101,22 +91,15 @@ public class SessaoController {
         while(iterator.hasNext()){
             try {
                 bJPA.edit(cashMap.get(iterator.next()));
-                System.out.println("slavando bancas xxx " +new Date(System.currentTimeMillis()).getMinutes());
             } catch (Exception ex) {
                 Logger.getLogger(SessaoController.class.getName()).log(Level.SEVERE, null, ex);
             }
-        }
-        
-        System.out.println("terminando" +new Date(System.currentTimeMillis()).getMinutes());
-        System.out.println();
-        
+        }   
     }
 
     public void limparDadosJogos() {
         model = new DefaultListModel();
         principalView.setModelListaJogos(model);
-        listaCash.clear();
-        listaTorneio.clear();
         cashMap.clear();
     }
 
