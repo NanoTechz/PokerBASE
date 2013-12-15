@@ -5,10 +5,8 @@
  */
 package principal;
 
-import controller.LoginController;
+import controller.LoginViewController;
 import de.javasoft.plaf.synthetica.SyntheticaAluOxideLookAndFeel;
-import de.javasoft.plaf.synthetica.SyntheticaBlackEyeLookAndFeel;
-import de.javasoft.plaf.synthetica.SyntheticaBlackStarLookAndFeel;
 import java.text.ParseException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -35,7 +33,7 @@ public class PokerBASE {
         Usuario usuario = new Usuario();
         LoginFrame loginFrame = new LoginFrame();
 
-        LoginController controller = new LoginController(usuario, loginFrame, EntityManagerUtil.emf);
+        LoginViewController controller = new LoginViewController(usuario, loginFrame, EntityManagerUtil.emf);
         loginFrame.setVisible(true);
     }
 }
