@@ -25,13 +25,13 @@ import view.PrincipalFrame;
  *
  * @author augusto
  */
-public class OperacaoControllerAux {
+public class OperacaoController {
 
     private PrincipalFrame principalView;
     private EntityManagerFactory emf;
     private Usuario usuario;
 
-    public OperacaoControllerAux(PrincipalFrame principalView, EntityManagerFactory emf, Usuario usuario) {
+    public OperacaoController(PrincipalFrame principalView, EntityManagerFactory emf, Usuario usuario) {
         this.principalView = principalView;
         this.emf = emf;
         this.usuario = usuario;
@@ -128,7 +128,7 @@ public class OperacaoControllerAux {
         try {
             bJPA.edit(newBanca);
         } catch (Exception ex) {
-            Logger.getLogger(PrincipalController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(PrincipalViewController.class.getName()).log(Level.SEVERE, null, ex);
             this.principalView.erroMensagem("Erro ao atualizar o bankroll!");
             return;
         }

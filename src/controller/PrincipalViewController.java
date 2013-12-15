@@ -24,22 +24,22 @@ import view.PrincipalFrame;
  *
  * @author augusto
  */
-public class PrincipalController extends ControllerView {
+public class PrincipalViewController extends ControllerView {
 
     private final Usuario usuario;
     private final PrincipalFrame principalView;
     private final UsuarioController usuarioController;
-    private OperacaoControllerAux operacaoControllerAux;
+    private OperacaoController operacaoControllerAux;
     private CashController cashController;
     private TorneioController torneioController;
     private SessaoController sessaoController;
 
-    public PrincipalController(Usuario usuario, PrincipalFrame principalView, EntityManagerFactory emf) {
+    public PrincipalViewController(Usuario usuario, PrincipalFrame principalView, EntityManagerFactory emf) {
         super(emf, principalView);
         this.usuario = usuario;
         this.principalView = principalView;
         this.usuarioController = new UsuarioController(usuario);
-        this.operacaoControllerAux = new OperacaoControllerAux(principalView, emf, usuario);
+        this.operacaoControllerAux = new OperacaoController(principalView, emf, usuario);
         this.cashController = new CashController(usuario, principalView, emf);
         this.torneioController = new TorneioController(usuario, principalView, emf);
         sessaoController = new SessaoController(usuario, principalView, emf);
@@ -121,7 +121,7 @@ public class PrincipalController extends ControllerView {
 
     private void abrirBankrollDialog() {
         CadastroBankrollDialog cadastroView = new CadastroBankrollDialog(principalView, true);
-        CadastroBankRollController bankrollController = new CadastroBankRollController(cadastroView, usuario, getEmf());
+        CadastroBankRollViewController bankrollController = new CadastroBankRollViewController(cadastroView, usuario, getEmf());
         cadastroView.setVisible(true);
     }
 
