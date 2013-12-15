@@ -18,7 +18,7 @@ public class CriarTabelasTest {
     
     @Test
     public void criarTabelasTest(){
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("PokerBASEPU");
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("TestePU");
         emf.close();
     }
 }

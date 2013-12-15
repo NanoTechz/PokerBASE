@@ -28,7 +28,7 @@ public class UsuarioJPATest {
     
     @Before
     public void inicializarCampo(){
-        UsuarioJpaController uJPA = new UsuarioJpaController(EntityManagerUtil.emf);
+        UsuarioJpaController uJPA = new UsuarioJpaController(EntityManagerUtil.getEspecificaPU("TestePU"));
         Usuario usuario = uJPA.findUsuario("GalapagosBr");
         
         if(usuario == null){
@@ -43,7 +43,7 @@ public class UsuarioJPATest {
 
     @Test
     public void findUsuarioTest() {
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("PokerBASEPU");
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("TestePU");
         UsuarioJpaController usuarioJPA = new UsuarioJpaController(emf);
 
         Usuario findUsuario = usuarioJPA.findUsuario("GalapagosBr");

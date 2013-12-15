@@ -5,13 +5,7 @@
  */
 package banco;
 
-import java.io.UnsupportedEncodingException;
-import java.security.NoSuchAlgorithmException;
-import java.sql.Date;
 import java.util.List;
-import java.util.Random;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.persistence.EntityManagerFactory;
 import jpa.BankrollJpaController;
 import jpa.CashJpaController;
@@ -19,13 +13,8 @@ import jpa.SalaJpaController;
 import jpa.SessaoJpaController;
 import jpa.TorneioJpaController;
 import jpa.UsuarioJpaController;
-import model.Bankroll;
 import model.Cash;
-import model.Sala;
-import model.Sessao;
-import model.Torneio;
 import model.Usuario;
-import seguranca.Criptografia;
 import util.EntityManagerUtil;
 
 /**
