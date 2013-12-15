@@ -20,8 +20,12 @@ import view.View;
  */
 public class AutenticaCampo {
     
-    public boolean verificarCampoVazio(String campo, String nomeCampo, View view){
-        if((campo == null) || (campo.isEmpty())){    
+    public boolean isCampoVazio(String campo){
+        return (campo == null) || (campo.isEmpty());
+    }
+    
+    public boolean isCampoVazio(String campo, String nomeCampo, View view){
+        if(isCampoVazio(campo)){    
             view.erroMensagem("Campo \'"+nomeCampo+"\" vazio.");
             return true;
         }
