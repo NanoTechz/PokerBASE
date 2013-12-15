@@ -55,7 +55,8 @@ public class Bankroll implements Serializable {
     @JoinColumn(name="id_sala")
     private Sala sala;
     
-    @OneToMany(mappedBy = "bankroll")
+    @OneToMany(mappedBy = "bankroll",cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
+    @Fetch(FetchMode.SUBSELECT)
     private List<Operacao> listaOperacao;
     
     public Bankroll(){}
