@@ -128,7 +128,7 @@ public class OperacaoControllerAux {
         try {
             bJPA.edit(newBanca);
         } catch (Exception ex) {
-            Logger.getLogger(PrincipalController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(PrincipalControllerView.class.getName()).log(Level.SEVERE, null, ex);
             this.principalView.erroMensagem("Erro ao atualizar o bankroll!");
             return;
         }

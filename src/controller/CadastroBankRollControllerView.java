@@ -23,7 +23,7 @@ import view.CadastroSalaDialog;
  *
  * @author augusto
  */
-public class CadastroBankRollController extends ControllerView {
+public class CadastroBankRollControllerView extends ControllerView {
 
     private CadastroBankrollDialog cadastroBankRollView;
     private List<Sala> listaSala;
@@ -32,7 +32,7 @@ public class CadastroBankRollController extends ControllerView {
     private SalaJpaController salaJPA;
     private BankrollJpaController bankRollJPA;
 
-    public CadastroBankRollController(CadastroBankrollDialog cadastroBankRollView, Usuario usuario, EntityManagerFactory emf) {
+    public CadastroBankRollControllerView(CadastroBankrollDialog cadastroBankRollView, Usuario usuario, EntityManagerFactory emf) {
         super(emf, cadastroBankRollView);
         this.cadastroBankRollView = cadastroBankRollView;
         this.usuario = usuario;
@@ -68,7 +68,7 @@ public class CadastroBankRollController extends ControllerView {
             CadastroSalaDialog salaView = new CadastroSalaDialog(null, true);
 
 
-            CadastroSalaController salaController = new CadastroSalaController(salaView, getEmf());
+            CadastroSalaControllerView salaController = new CadastroSalaControllerView(salaView, getEmf());
             salaView.setVisible(true);
             salaView = null;
             DefaultComboBoxModel model = getModel();

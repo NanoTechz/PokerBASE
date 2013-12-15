@@ -16,12 +16,12 @@ import view.CadastroSalaDialog;
  *
  * @author augusto
  */
-public class CadastroSalaController extends ControllerView {
+public class CadastroSalaControllerView extends ControllerView {
 
     private final CadastroSalaDialog salaView;
     private SalaJpaController salaJPA;
 
-    public CadastroSalaController(CadastroSalaDialog salaView, EntityManagerFactory emf) {
+    public CadastroSalaControllerView(CadastroSalaDialog salaView, EntityManagerFactory emf) {
         super(emf, salaView);
         this.salaView = salaView;
         this.salaView.addAdicionarSalaListener(new AdicionarSalaListener());
