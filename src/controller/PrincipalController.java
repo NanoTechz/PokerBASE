@@ -24,7 +24,7 @@ import view.PrincipalFrame;
  *
  * @author augusto
  */
-public class PrincipalControllerView extends ControllerView {
+public class PrincipalController extends ControllerView {
 
     private final Usuario usuario;
     private final PrincipalFrame principalView;
@@ -34,7 +34,7 @@ public class PrincipalControllerView extends ControllerView {
     private TorneioController torneioController;
     private SessaoController sessaoController;
 
-    public PrincipalControllerView(Usuario usuario, PrincipalFrame principalView, EntityManagerFactory emf) {
+    public PrincipalController(Usuario usuario, PrincipalFrame principalView, EntityManagerFactory emf) {
         super(emf, principalView);
         this.usuario = usuario;
         this.principalView = principalView;
@@ -121,7 +121,7 @@ public class PrincipalControllerView extends ControllerView {
 
     private void abrirBankrollDialog() {
         CadastroBankrollDialog cadastroView = new CadastroBankrollDialog(principalView, true);
-        CadastroBankRollControllerView bankrollController = new CadastroBankRollControllerView(cadastroView, usuario, getEmf());
+        CadastroBankRollController bankrollController = new CadastroBankRollController(cadastroView, usuario, getEmf());
         cadastroView.setVisible(true);
     }
 

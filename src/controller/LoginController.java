@@ -18,7 +18,7 @@ import view.PrincipalFrame;
  *
  * @author augusto
  */
-public class LoginControllerView extends ControllerView {
+public class LoginController extends ControllerView {
 
     private Usuario usuarioModel;
     private final LoginFrame loginView;
@@ -26,7 +26,7 @@ public class LoginControllerView extends ControllerView {
 
     private final UsuarioJpaController usuarioJPA;
 
-    public LoginControllerView(Usuario usuario, LoginFrame loginView, EntityManagerFactory emf) {
+    public LoginController(Usuario usuario, LoginFrame loginView, EntityManagerFactory emf) {
         super(emf, loginView);
         this.usuarioModel = usuario;
         this.loginView = loginView;
@@ -39,14 +39,14 @@ public class LoginControllerView extends ControllerView {
 
     private void abrirFramePrincipal() {
         PrincipalFrame principalFrame = new PrincipalFrame();
-        PrincipalControllerView principalController = new PrincipalControllerView(usuarioModel, principalFrame, getEmf());
+        PrincipalController principalController = new PrincipalController(usuarioModel, principalFrame, getEmf());
 
         principalFrame.setVisible(true);
     }
 
     private void abrirCadastroUsuario() {
         CadastroUsuarioDialog cadastroView = new CadastroUsuarioDialog(loginView, true);
-        CadastroUsuarioControllerView cadastroController = new CadastroUsuarioControllerView(cadastroView, usuarioModel, getEmf());
+        CadastroUsuarioController cadastroController = new CadastroUsuarioController(cadastroView, usuarioModel, getEmf());
 
         cadastroView.setVisible(true);
     }

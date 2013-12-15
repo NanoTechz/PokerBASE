@@ -22,13 +22,13 @@ import view.CadastroUsuarioDialog;
  *
  * @author augusto
  */
-public class CadastroUsuarioControllerView extends ControllerView {
+public class CadastroUsuarioController extends ControllerView {
 
     private final CadastroUsuarioDialog cadastroView;
     private Usuario usuario;
     private final UsuarioJpaController usuarioJPA;
 
-    public CadastroUsuarioControllerView(CadastroUsuarioDialog cadastroView, Usuario usuario, EntityManagerFactory emf) {
+    public CadastroUsuarioController(CadastroUsuarioDialog cadastroView, Usuario usuario, EntityManagerFactory emf) {
         super(emf, cadastroView);
         this.cadastroView = cadastroView;
         this.usuario = usuario;
@@ -61,7 +61,7 @@ public class CadastroUsuarioControllerView extends ControllerView {
                 }
             } catch (NoSuchAlgorithmException | UnsupportedEncodingException ex) {
                 cadastroView.erroMensagem("Erro ao codificar senha!");
-                Logger.getLogger(CadastroUsuarioControllerView.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(CadastroUsuarioController.class.getName()).log(Level.SEVERE, null, ex);
             } finally {
                 cadastroView.dispose();
             }
