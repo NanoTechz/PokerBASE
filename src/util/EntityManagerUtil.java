@@ -20,4 +20,9 @@ public class EntityManagerUtil {
     static{
         EntityManagerUtil.emf = Persistence.createEntityManagerFactory("PokerBASEPU");
     } 
+    
+    
+    public static EntityManagerFactory getEspecificaPU(String name){
+        return Persistence.createEntityManagerFactory(name);
+    }
 }
