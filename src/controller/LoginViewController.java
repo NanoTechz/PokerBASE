@@ -5,14 +5,14 @@
  */
 package controller;
 
+import controller.action.AbrirCadastroUsuarioListener;
+import controller.action.AbrirFramePrincipalListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.persistence.EntityManagerFactory;
 import jpa.UsuarioJpaController;
 import model.Usuario;
-import view.CadastroUsuarioDialog;
 import view.LoginFrame;
-import view.PrincipalFrame;
 
 /**
  *
@@ -20,7 +20,7 @@ import view.PrincipalFrame;
  */
 public class LoginViewController extends ControllerView {
 
-    private Usuario usuarioModel;
+    private Usuario usuario;
     private final LoginFrame loginView;
     private final UsuarioController usuarioController;
 
@@ -28,27 +28,15 @@ public class LoginViewController extends ControllerView {
 
     public LoginViewController(Usuario usuario, LoginFrame loginView, EntityManagerFactory emf) {
         super(emf, loginView);
-        this.usuarioModel = usuario;
+        this.usuario = usuario;
         this.loginView = loginView;
         this.usuarioController = new UsuarioController(usuario);
         this.usuarioJPA = new UsuarioJpaController(super.getEmf());
 
+        AbrirCadastroUsuarioListener cadastroUsuarioListener = new AbrirCadastroUsuarioListener(loginView, emf, usuario);    
+        
+        this.loginView.addCadastroUsuarioListener(cadastroUsuarioListener);
         this.loginView.addLoginBotaoListener(new LoginListener());
-        this.loginView.addCadastroUsuarioListener(new CadastroListener());
-    }
-
-    private void abrirFramePrincipal() {
-        PrincipalFrame principalFrame = new PrincipalFrame();
-        PrincipalViewController principalController = new PrincipalViewController(usuarioModel, principalFrame, getEmf());
-
-        principalFrame.setVisible(true);
-    }
-
-    private void abrirCadastroUsuario() {
-        CadastroUsuarioDialog cadastroView = new CadastroUsuarioDialog(loginView, true);
-        CadastroUsuarioViewController cadastroController = new CadastroUsuarioViewController(cadastroView, usuarioModel, getEmf());
-
-        cadastroView.setVisible(true);
     }
 
     class LoginListener implements ActionListener {
@@ -61,32 +49,24 @@ public class LoginViewController extends ControllerView {
             username = loginView.getUserName();
             senha = loginView.getSenha();
 
-            usuarioModel = usuarioJPA.findUsuario(username);
+            usuario = usuarioJPA.findUsuario(username);
 
-            if (usuarioModel == null) {
+            if (usuario == null) {
                 loginView.erroMensagem("Usuario não cadastrado!");
                 return;
             }
 
-            usuarioController.setUsuario(usuarioModel);
+            usuarioController.setUsuario(usuario);
 
             if (usuarioController.antentica(senha, loginView)) {
-                abrirFramePrincipal();
+                AbrirFramePrincipalListener framePrincipalListener = new AbrirFramePrincipalListener(loginView, getEmf(), usuario);
                 loginView.setVisible(false);
+                framePrincipalListener.actionPerformed(ae);
+                
             } else {
                 loginView.erroMensagem("Senha errada!");
             }
         }
 
     }
-
-    class CadastroListener implements ActionListener {
-
-        @Override
-        public void actionPerformed(ActionEvent ae) {
-            abrirCadastroUsuario();
-        }
-
-    }
-
 }

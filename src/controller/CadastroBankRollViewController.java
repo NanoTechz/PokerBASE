@@ -5,6 +5,7 @@
  */
 package controller;
 
+import controller.action.AbrirCadastroSalaListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Date;
@@ -29,52 +30,34 @@ public class CadastroBankRollViewController extends ControllerView {
     private List<Sala> listaSala;
     private Usuario usuario;
 
-    private SalaJpaController salaJPA;
     private BankrollJpaController bankRollJPA;
-
+    private final SalaController salaController;
+    
     public CadastroBankRollViewController(CadastroBankrollDialog cadastroBankRollView, Usuario usuario, EntityManagerFactory emf) {
         super(emf, cadastroBankRollView);
         this.cadastroBankRollView = cadastroBankRollView;
         this.usuario = usuario;
-
-        this.salaJPA = new SalaJpaController(emf);
-        this.bankRollJPA = new BankrollJpaController(emf);
         
-        this.cadastroBankRollView.setModelListaSala(getModel());
+        this.bankRollJPA = new BankrollJpaController(emf);
+        salaController = new SalaController(getEmf());
+        
+        this.cadastroBankRollView.setModelListaSala(salaController.getSalasComboBoxModel());
 
         this.cadastroBankRollView.addAdicionarSalaListener(new AdicionarSalaListener());
         this.cadastroBankRollView.addAdicionarBankrollListener(new AdicionarBankrollListener());
         
     }
 
-    public DefaultComboBoxModel getModel() {
-        List<Sala> salas = salaJPA.findSalaEntities();
-        DefaultComboBoxModel model;
-        if (salas.isEmpty()) {
-            model = new DefaultComboBoxModel(new String[]{"Nenhuma Sala Cadastrada"});
-        } else {
-            model = new DefaultComboBoxModel();
-            for (Sala sala : salas) {
-                model.addElement(sala);
-            }
-        }
-        return model;
-    }
-
     class AdicionarSalaListener implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent ae) {
-            CadastroSalaDialog salaView = new CadastroSalaDialog(null, true);
-
-
-            CadastroSalaViewController salaController = new CadastroSalaViewController(salaView, getEmf());
-            salaView.setVisible(true);
-            salaView = null;
-            DefaultComboBoxModel model = getModel();
-
+            AbrirCadastroSalaListener cadastroSala = new AbrirCadastroSalaListener(null, getEmf(), usuario);
+            cadastroSala.actionPerformed(ae);
+            
+            
+            DefaultComboBoxModel model = salaController.getSalasComboBoxModel();
             model.setSelectedItem(model.getElementAt(model.getSize() - 1));
-
             cadastroBankRollView.setModelListaSala(model);
 
         }
