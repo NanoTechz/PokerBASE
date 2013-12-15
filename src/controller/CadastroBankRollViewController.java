@@ -13,12 +13,10 @@ import java.util.List;
 import javax.persistence.EntityManagerFactory;
 import javax.swing.DefaultComboBoxModel;
 import jpa.BankrollJpaController;
-import jpa.SalaJpaController;
 import model.Bankroll;
 import model.Sala;
 import model.Usuario;
 import view.CadastroBankrollDialog;
-import view.CadastroSalaDialog;
 
 /**
  *
@@ -90,7 +88,6 @@ public class CadastroBankRollViewController extends ControllerView {
             
             cadastroBankRollView.mensagem("Bankroll add ao \""+usuario.getUsername()+"\".");
             cadastroBankRollView.dispose();
-            cadastroBankRollView = null;
         }
 
     }

@@ -10,9 +10,12 @@ import java.awt.event.ActionListener;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
@@ -53,6 +56,7 @@ public class SessaoController {
         cashMap = new HashMap<Cash, Bankroll>();
 
         limparDadosJogos();
+        
         this.principalView.addLimparSessaoListener(new LimparSessaoListener());
         this.principalView.addAdicionarCashListener(new AdicionarCashListener());
         
@@ -60,17 +64,21 @@ public class SessaoController {
 
     public void salvarSessao() {
         String duracao = JOptionPane.showInputDialog("Insira a duração da sessão:");
-        
+
+        System.out.println("iniciando 01 " + new Date(System.currentTimeMillis()).getMinutes());
         Sessao sessao = new Sessao();
         
         sessao.setDuracaoHoras(Double.parseDouble(duracao));
         sessao.setDataSessao(new Date(System.currentTimeMillis()));
+        sessao.setUsuario(usuario);
         
         SessaoJpaController sJPA = new SessaoJpaController(emf);
         CashJpaController cJPA = new CashJpaController(emf);
         BankrollJpaController bJPA = new BankrollJpaController(emf);
         
         sJPA.create(sessao);
+        
+        System.out.println("slavando sessao " +new Date(System.currentTimeMillis()).getMinutes());
         
         for (int i = 0; i < model.getSize(); i++) {
             if(model.getElementAt(i) instanceof Cash){
@@ -80,17 +88,27 @@ public class SessaoController {
                 cash.setSala(get.getSala());
                 
                 get.setValorAtual(get.getValorAtual() + cash.getValorGanho());
-                cash.setSessao(sessao);
-                try {
-                    bJPA.edit(get);
-                } catch (Exception ex) {
-                    Logger.getLogger(SessaoController.class.getName()).log(Level.SEVERE, null, ex);
-                }
                 
+                cash.setSessao(sessao);          
                 cJPA.create(cash);
-  
             }
         }
+        System.out.println("slavando bancas " +new Date(System.currentTimeMillis()).getMinutes());
+        
+        Set<Cash> keySet = cashMap.keySet();
+        Iterator<Cash> iterator = keySet.iterator();
+        
+        while(iterator.hasNext()){
+            try {
+                bJPA.edit(cashMap.get(iterator.next()));
+                System.out.println("slavando bancas xxx " +new Date(System.currentTimeMillis()).getMinutes());
+            } catch (Exception ex) {
+                Logger.getLogger(SessaoController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        
+        System.out.println("terminando" +new Date(System.currentTimeMillis()).getMinutes());
+        System.out.println();
         
     }
 

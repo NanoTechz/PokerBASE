@@ -10,6 +10,7 @@ import java.awt.event.ActionListener;
 import javax.persistence.EntityManagerFactory;
 import jpa.SalaJpaController;
 import model.Sala;
+import util.AutenticaCampo;
 import view.CadastroSalaDialog;
 
 /**
@@ -20,19 +21,20 @@ public class CadastroSalaViewController extends ControllerView {
 
     private final CadastroSalaDialog salaView;
     private SalaJpaController salaJPA;
+    private final AutenticaCampo autentica;
 
     public CadastroSalaViewController(CadastroSalaDialog salaView, EntityManagerFactory emf) {
         super(emf, salaView);
         this.salaView = salaView;
         this.salaView.addAdicionarSalaListener(new AdicionarSalaListener());
+        autentica = new AutenticaCampo();
     }
 
     class AdicionarSalaListener implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent ae) {
-            if(salaView.getRazaoSocial().isEmpty()){
-                salaView.erroMensagem("Campo \"Nome Empresa\" vazio!");
+            if(autentica.isCampoVazio(salaView.getRazaoSocial(), "Campo \"Nome Empresa\" vazio!", salaView)){
                 return;
             }
             

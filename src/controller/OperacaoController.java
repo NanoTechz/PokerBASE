@@ -30,11 +30,13 @@ public class OperacaoController {
     private PrincipalFrame principalView;
     private EntityManagerFactory emf;
     private Usuario usuario;
+    private BankrollController bankrollController;
 
     public OperacaoController(PrincipalFrame principalView, EntityManagerFactory emf, Usuario usuario) {
         this.principalView = principalView;
         this.emf = emf;
         this.usuario = usuario;
+        this.bankrollController = new BankrollController();
     }
 
     public EntityManagerFactory getEmf() {
@@ -43,23 +45,13 @@ public class OperacaoController {
     
     public void atualizarComponentes(){
         this.principalView.setModelTipoOperacaoBox(getModelTipoOperacaoBox());
-        this.principalView.setModelSalaBox(getModelSalaBox());
+        this.principalView.setModelSalaBox(bankrollController.getBankrollComboBoxModel(usuario));
         this.principalView.setModelListaOperacoes(getModelListaOperacao());
     }
     
     public DefaultComboBoxModel getModelTipoOperacaoBox() {
         TipoOperacao[] values = TipoOperacao.values();
         DefaultComboBoxModel model = new DefaultComboBoxModel(values);
-
-        return model;
-    }
-
-    public DefaultComboBoxModel getModelSalaBox() {
-        DefaultComboBoxModel model = new DefaultComboBoxModel();
-
-        for (Bankroll b : usuario.getListaBankRolls()) {
-            model.addElement(b);
-        }
 
         return model;
     }

@@ -27,15 +27,16 @@ public class CadastroUsuarioViewController extends ControllerView {
     private final CadastroUsuarioDialog cadastroView;
     private Usuario usuario;
     private final UsuarioJpaController usuarioJPA;
+    private final UsuarioController usuarioController;
 
     public CadastroUsuarioViewController(CadastroUsuarioDialog cadastroView, Usuario usuario, EntityManagerFactory emf) {
         super(emf, cadastroView);
         this.cadastroView = cadastroView;
         this.usuario = usuario;
         this.usuarioJPA = new UsuarioJpaController(super.getEmf());
-
+        this.usuarioController = new UsuarioController(usuario);
+        
         this.cadastroView.addAdicionarListener(new AdicionarListener());
-        this.cadastroView.centralizarTela();
     }
 
     class AdicionarListener implements ActionListener {
@@ -43,7 +44,7 @@ public class CadastroUsuarioViewController extends ControllerView {
         @Override
         public void actionPerformed(ActionEvent ae) {
 
-            if (verificarCampos()) {
+            if (!isCamposValidos()) {
                 return;
             }
 
@@ -72,29 +73,27 @@ public class CadastroUsuarioViewController extends ControllerView {
         return senha.equals(confirmacao);
     }
 
-    private boolean verificarUserName(String userName) {
-        return (usuarioJPA.findUsuario(userName) != null);
-    }
-
-    private boolean verificarCampos() {
+    private boolean isCamposValidos() {
         AutenticaCampo autentica = new AutenticaCampo();
-        if (autentica.verificarCampoVazio(cadastroView.getNome(), "nome", cadastroView)
-                || autentica.verificarCampoVazio(cadastroView.getSenha(), "senha", cadastroView)
-                || autentica.verificarCampoVazio(cadastroView.getSenhaConfirmacao(), "senha confirmação", cadastroView)
-                || autentica.verificarCampoVazio(cadastroView.getUserName(), "username", cadastroView)) {
+        
+        if (autentica.isCampoVazio(cadastroView.getNome(), "nome", cadastroView)
+                || autentica.isCampoVazio(cadastroView.getSenha(), "senha", cadastroView)
+                || autentica.isCampoVazio(cadastroView.getSenhaConfirmacao(), "senha confirmação", cadastroView)
+                || autentica.isCampoVazio(cadastroView.getUserName(), "username", cadastroView)) {
             //cadastroView.erroMensagem("Algum campo vazio!");
-            return true;
+            return false;
         }
         if (!(verificarSenha(cadastroView.getSenha(), cadastroView.getSenhaConfirmacao()))) {
             cadastroView.erroMensagem("Senhas não batem!");
             cadastroView.limparCampoSenha();
-            return true;
+            return false;
         }
-        if (verificarUserName(cadastroView.getUserName())) {
+        if (usuarioController.isUsernameEmUso(cadastroView.getUserName(), getEmf())) {
             cadastroView.erroMensagem("Username já em uso");
-            return true;
+            return false;
         }
-        return false;
+        
+        return true;
     }
 
 }

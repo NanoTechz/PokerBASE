@@ -83,5 +83,10 @@ public class UsuarioController {
         }
         return null;
     }
+    
+    public boolean isUsernameEmUso(String username, EntityManagerFactory emf){
+        UsuarioJpaController usuarioJPA = new UsuarioJpaController(emf);
+        return (usuarioJPA.findUsuario(username) != null);
+    }
 
 }

@@ -60,8 +60,9 @@ public class LoginViewController extends ControllerView {
 
             if (usuarioController.antentica(senha, loginView)) {
                 AbrirFramePrincipalListener framePrincipalListener = new AbrirFramePrincipalListener(loginView, getEmf(), usuario);
-                loginView.setVisible(false);
                 framePrincipalListener.actionPerformed(ae);
+                loginView.setVisible(false);
+                
                 
             } else {
                 loginView.erroMensagem("Senha errada!");

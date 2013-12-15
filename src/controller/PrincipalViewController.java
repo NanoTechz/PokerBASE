@@ -5,6 +5,7 @@
  */
 package controller;
 
+import controller.action.AbrirCadastroBankrollListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
@@ -28,23 +29,27 @@ public class PrincipalViewController extends ControllerView {
 
     private final Usuario usuario;
     private final PrincipalFrame principalView;
+
     private final UsuarioController usuarioController;
-    private OperacaoController operacaoControllerAux;
-    private CashController cashController;
-    private TorneioController torneioController;
-    private SessaoController sessaoController;
+    private final OperacaoController operacaoController;
+    private final CashController cashController;
+    private final TorneioController torneioController;
+    private final SessaoController sessaoController;
+    private final BankrollController bankrollController;
 
     public PrincipalViewController(Usuario usuario, PrincipalFrame principalView, EntityManagerFactory emf) {
         super(emf, principalView);
         this.usuario = usuario;
         this.principalView = principalView;
+
         this.usuarioController = new UsuarioController(usuario);
-        this.operacaoControllerAux = new OperacaoController(principalView, emf, usuario);
+        this.operacaoController = new OperacaoController(principalView, emf, usuario);
         this.cashController = new CashController(usuario, principalView, emf);
         this.torneioController = new TorneioController(usuario, principalView, emf);
-        sessaoController = new SessaoController(usuario, principalView, emf);
+        this.sessaoController = new SessaoController(usuario, principalView, emf);
+        this.bankrollController = new BankrollController();
 
-        usuarioController.pegarListaBankrollSessao(usuario, getEmf());
+        this.usuarioController.pegarListaBankrollSessao(usuario, getEmf());
         this.principalView.addModelTabelaCash(this.cashController.getModelCash());
         this.principalView.addModelTabelaTorneio(this.torneioController.getModelTorneio());
 
@@ -56,7 +61,8 @@ public class PrincipalViewController extends ControllerView {
 
     private void addListener() {
         this.principalView.addBotaoBankrollListener(new ListarBankrollListener());
-        this.principalView.addBankrollAddBotaoListener(new AbrirBankrollListener());
+        
+        this.principalView.addBankrollAddBotaoListener(new AddBankrollListener());
         this.principalView.addSalvarOperacaoListener(new SalvarOperacaoListener());
         this.principalView.addConfirmarMudarSenha(new AlterarSenhaListener());
         this.principalView.addSessaoListener(new SalvarSessaoListener());
@@ -67,8 +73,8 @@ public class PrincipalViewController extends ControllerView {
 
         this.principalView.setUserName(usuario.getUsername());
         this.principalView.setBankrollLabel("$ " + Calculadora.somaBankroll(usuario.getListaBankRolls()));
-        this.principalView.setModelListaSala(operacaoControllerAux.getModelSalaBox());
-        this.operacaoControllerAux.atualizarComponentes();
+        this.principalView.setModelListaSala(bankrollController.getBankrollComboBoxModel(usuario));
+        this.operacaoController.atualizarComponentes();
 
     }
 
@@ -115,14 +121,10 @@ public class PrincipalViewController extends ControllerView {
 
     private void verificarBankroll() {
         if (this.usuario.getListaBankRolls().isEmpty()) {
-            abrirBankrollDialog();
+            CadastroBankrollDialog cadastroView = new CadastroBankrollDialog(principalView, true);
+            CadastroBankRollViewController bankrollController = new CadastroBankRollViewController(cadastroView, usuario, emf);
+            cadastroView.setVisible(true);
         }
-    }
-
-    private void abrirBankrollDialog() {
-        CadastroBankrollDialog cadastroView = new CadastroBankrollDialog(principalView, true);
-        CadastroBankRollViewController bankrollController = new CadastroBankRollViewController(cadastroView, usuario, getEmf());
-        cadastroView.setVisible(true);
     }
 
     /**
@@ -142,21 +144,22 @@ public class PrincipalViewController extends ControllerView {
         }
 
     }
-
-    class AbrirBankrollListener implements ActionListener {
+    
+    class AddBankrollListener implements ActionListener{
 
         @Override
         public void actionPerformed(ActionEvent ae) {
-            abrirBankrollDialog();
-            inicializarComponentes();
+           new AbrirCadastroBankrollListener(principalView, emf, usuario).actionPerformed(ae);
+           inicializarComponentes();
         }
+        
     }
 
     class SalvarOperacaoListener implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent ae) {
-            operacaoControllerAux.salvarOperacao();
+            operacaoController.salvarOperacao();
             inicializarComponentes();
             principalView.limparDadosOperacao();
         }

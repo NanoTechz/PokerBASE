@@ -14,7 +14,7 @@ import view.View;
  * @author augusto
  */
 public abstract class ControllerView {
-    private EntityManagerFactory emf;
+    public EntityManagerFactory emf;
 
     public ControllerView(EntityManagerFactory emf, View view) {
         this.emf = emf;
