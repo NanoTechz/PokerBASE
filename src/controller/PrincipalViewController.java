@@ -50,9 +50,18 @@ public class PrincipalViewController extends ControllerView {
         this.bankrollController = new BankrollController();
 
         this.usuarioController.pegarListaBankrollSessao(usuario, getEmf());
+        
+        inicializar();        
+    }
+
+    private void inicializar() {
         this.principalView.addModelTabelaCash(this.cashController.getModelCash());
         this.principalView.addModelTabelaTorneio(this.torneioController.getModelTorneio());
-
+        
+        this.principalView.setTipoTorneioModel(this.torneioController.TipoTorneioComboBoxModel());
+        this.principalView.setGeneroTorneioModel(this.torneioController.TipoTorneioGeneroComboBoxModel());
+        this.principalView.setTipoOperacaoModel(this.operacaoController.getModelTipoOperacaoBox());
+        
         verificarBankroll();
         addListener();
         inicializarComponentes();
@@ -61,7 +70,6 @@ public class PrincipalViewController extends ControllerView {
 
     private void addListener() {
         this.principalView.addBotaoBankrollListener(new ListarBankrollListener());
-
         this.principalView.addBankrollAddBotaoListener(new AddBankrollListener());
         this.principalView.addSalvarOperacaoListener(new SalvarOperacaoListener());
         this.principalView.addConfirmarMudarSenha(new AlterarSenhaListener());
@@ -74,6 +82,7 @@ public class PrincipalViewController extends ControllerView {
         this.principalView.setUserName(usuario.getUsername());
         this.principalView.setBankrollLabel("$ " + Calculadora.somaBankroll(usuario.getListaBankRolls()));
         this.principalView.setModelListaSala(bankrollController.getBankrollComboBoxModel(usuario));
+        this.principalView.setSalaTorneioComboBox(bankrollController.getBankrollComboBoxModel(usuario));
         this.operacaoController.atualizarComponentes();
 
     }

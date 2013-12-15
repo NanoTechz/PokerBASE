@@ -44,7 +44,6 @@ public class OperacaoController {
     }
     
     public void atualizarComponentes(){
-        this.principalView.setModelTipoOperacaoBox(getModelTipoOperacaoBox());
         this.principalView.setModelSalaBox(bankrollController.getBankrollComboBoxModel(usuario));
         this.principalView.setModelListaOperacoes(getModelListaOperacao());
     }
@@ -62,7 +61,7 @@ public class OperacaoController {
 
         try {
             List<Operacao> findOperacaoUsuario = oJPA.findOperacaoUsuario(usuario, 10, 0);
-
+            System.out.println("Tam: "+findOperacaoUsuario.size());
             if (findOperacaoUsuario.isEmpty()) {
                 model.addElement("nenhuma operacao");
             } else {
@@ -94,6 +93,7 @@ public class OperacaoController {
             return;
         }
         Date data = autentica.verificarCampoData(this.principalView.getDataOperacao());
+        
         if (data == null) {
             this.principalView.erroMensagem("Insira uma data válida.");
             this.principalView.limparDadosOperacao();
@@ -101,10 +101,12 @@ public class OperacaoController {
         }
 
         Operacao op = new Operacao();
-        op.setTipoOperacao(tipo);
+        op.setTipo(tipo.valor);
         op.setBankroll(banca);
         op.setValor(Double.parseDouble(campo));
         op.setDataOperacao(data);
+        
+   
 
         BankrollJpaController bJPA = new BankrollJpaController(getEmf());
 
@@ -116,6 +118,12 @@ public class OperacaoController {
         newBanca.setListaOperacao(oJPA.findOperacaoBankroll(newBanca));
 
         newBanca.atualizarValorAtual(tipo, Double.parseDouble(campo));
+        
+        if(newBanca.getValorAtual() < 0){
+            principalView.erroMensagem("Valor ultrapassa o limite.");
+            principalView.limparDadosOperacao();
+            return;
+        }
 
         try {
             bJPA.edit(newBanca);

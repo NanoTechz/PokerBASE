@@ -28,7 +28,7 @@ import view.model.TorneioTableModel;
  *
  * @author augusto
  */
-public class PrincipalFrame extends FrameView {
+public final class PrincipalFrame extends FrameView {
 
     private MaskFormatter ftmData = null;
     GraficoTeste gTeste = new GraficoTeste("Torneios", "torneios", "$");
@@ -46,93 +46,190 @@ public class PrincipalFrame extends FrameView {
 
         initComponents();
         headPanel.setBackground(jMenuBar1.getBackground());
+        setEnableRebuyCampos(false);
+
     }
+
     //Sessão
-    public void addLimparSessaoListener(ActionListener action){
+    public void addLimparSessaoListener(ActionListener action) {
         limparSessao.addActionListener(action);
     }
-    
-    public void addSessaoListener(ActionListener action){
+
+    public void addSessaoListener(ActionListener action) {
         salvarSessao.addActionListener(action);
     }
-    
-    public void setModelListaJogos(DefaultListModel model){
+
+    public void setModelListaJogos(DefaultListModel model) {
         listaJogos.setModel(model);
     }
+
+    //-- Torneios
+    public void setTipoTorneioModel(DefaultComboBoxModel model) {
+        tipoTorneioComboBox.setModel(model);
+    }
+
+    public void setGeneroTorneioModel(DefaultComboBoxModel model) {
+        generoTorneioComboBox.setModel(model);
+    }
+
+    public boolean isRebuy() {
+        return rebuy.isSelected();
+    }
+
+    public void limparAbaTorneios() {
+        buyinTorneio.setText(null);
+        numeroJogadoresTorneio.setText(null);
+        jgsPorMesaTorneio.setText(null);
+        duracaoTorneio.setText(null);
+        posicaoTorneio.setText(null);
+        qtdRebuy.setText(null);
+        valorRebuy.setText(null);
+        valorAddOn.setText(null);
+        valorGanhoTorneio.setText(null);
+        setEnableRebuyCampos(false);
+    }
+    
+    public Object getSelectedTipoTorneio(){
+        return tipoTorneioComboBox.getSelectedItem();
+    }
+    
+    public String getValorGanhoTorneio() {
+        return valorGanhoTorneio.getText();
+    }
+    
+    public Object getSelectedGeneroTorneio(){
+        return generoTorneioComboBox.getSelectedItem();
+    }
+    
+    public Object getSelectedSalaTorneio(){
+        return salaTorneioComboBox.getSelectedItem();
+    }
+    
+    public void addTorneioListener(ActionListener action){
+        addTorneioBotao.addActionListener(action);
+    }
+    
+    public String getBuyInTorneio() {
+        return buyinTorneio.getText();
+    }
+
+    public String getNumeroJogadoresTorneio() {
+        return numeroJogadoresTorneio.getText();
+    }
+
+    public String getJgsPorMesaTorneio() {
+        return jgsPorMesaTorneio.getText();
+    }
+
+    public String getDuracaoTorneio() {
+        return duracaoTorneio.getText();
+    }
+
+    public String getPosicaoTorneio() {
+        return posicaoTorneio.getText();
+    }
+
+    public String getQtdRebuy() {
+        return qtdRebuy.getText();
+    }
+
+    public String getValorRebuy() {
+        return valorRebuy.getText();
+    }
+
+    public String getValorAddOn() {
+        return valorAddOn.getText();
+    }
+
+    public void setEnableRebuyCampos(boolean enable) {
+        rebuy.setSelected(enable);
+        qtdRebuy.setEnabled(enable);
+        valorRebuy.setEnabled(enable);
+        valorAddOn.setEnabled(enable);
+    }
+
+    public void setSalaTorneioComboBox(DefaultComboBoxModel model) {
+        salaTorneioComboBox.setModel(model);
+    }
+
     //-- Cash
-    public void setModelListaSala(DefaultComboBoxModel model){
+    public void setModelListaSala(DefaultComboBoxModel model) {
         listaSalaCash.setModel(model);
     }
-    
-    public String getLimiteCash(){
+
+    public String getLimiteCash() {
         return limiteCash.getText();
     }
-    
-    public String getValorBlind(){
+
+    public String getValorBlind() {
         return valorBlindCash.getText();
     }
-    
-    public String getNumeroMaosCash(){
+
+    public String getJogadoresPorMesaCash() {
+        return jgsPorMesaCash.getText();
+    }
+
+    public String getNumeroMaosCash() {
         return numeroMaosCash.getText();
     }
-    
-    public String getDuracaoHorasCash(){
+
+    public String getDuracaoHorasCash() {
         return duracaoHorasCash.getText();
     }
-    
-    public String getValorGanhoCash(){
+
+    public String getValorGanhoCash() {
         return valorGanhoCash.getText();
     }
-    
-    public Object getSalaSelected(){
+
+    public Object getSalaSelected() {
         return listaSalaCash.getSelectedItem();
     }
-    
-    public void limparAbaCash(){
+
+    public void limparAbaCash() {
         limiteCash.setText(null);
         valorBlindCash.setText(null);
         numeroMaosCash.setText(null);
         duracaoHorasCash.setText(null);
         valorGanhoCash.setText(null);
+        jgsPorMesaCash.setText(null);
     }
-    
-    public void addAdicionarCashListener(ActionListener action){
+
+    public void addAdicionarCashListener(ActionListener action) {
         adicionarCash.addActionListener(action);
     }
     //FimSessão
-    
+
     //Cash
-    public void addModelTabelaCash(CashTableModel model){
+    public void addModelTabelaCash(CashTableModel model) {
         tabelaCash.setModel(model);
     }
     //Fim Cash
-    
+
     //Torneio
-    public void addModelTabelaTorneio(TorneioTableModel model){
+    public void addModelTabelaTorneio(TorneioTableModel model) {
         tabelaTorneios.setModel(model);
     }
-    
+
     //Perfil
-    public String getSenha(){
+    public String getSenha() {
         return senha.getText();
     }
-    
-    public String getSenhaConfirmacao(){
+
+    public String getSenhaConfirmacao() {
         return senhaConfirmacao.getText();
     }
-    
-    public void limparPerfil(){
+
+    public void limparPerfil() {
         senha.setText(null);
         senhaConfirmacao.setText(null);
     }
-    
-    public void addConfirmarMudarSenha(ActionListener action){
+
+    public void addConfirmarMudarSenha(ActionListener action) {
         perfilConfirmarBotao.addActionListener(action);
     }
-    
+
     //Fim Perfil
-    
-    /** Head **/
+
     public void setUserName(String username) {
         this.usernameLabel.setText(username);
     }
@@ -144,9 +241,10 @@ public class PrincipalFrame extends FrameView {
     public void addBotaoBankrollListener(ActionListener action) {
         this.bankrollBotao.addActionListener(action);
     }
-    
-    /** Fim Head **/
 
+    /**
+     * Fim Head *
+     */
     /**
      * Operacao *
      */
@@ -158,7 +256,7 @@ public class PrincipalFrame extends FrameView {
         this.salvarOperacaoBotao.addActionListener(action);
     }
 
-    public void setModelTipoOperacaoBox(DefaultComboBoxModel model) {
+    public void setTipoOperacaoModel(DefaultComboBoxModel model) {
         tipoOperacaoBox.setModel(model);
     }
 
@@ -197,13 +295,14 @@ public class PrincipalFrame extends FrameView {
 
         operacaoValor.setText(Double.toString(0));
         dataOperacao.setText(null);
+        dataOperacao.setEnabled(true);
+
         isHojeOperacao.setSelected(false);
     }
 
     /**
      * Fim Operacao *
      */
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -242,7 +341,36 @@ public class PrincipalFrame extends FrameView {
         jButton2 = new javax.swing.JButton();
         jLabel14 = new javax.swing.JLabel();
         valorGanhoCash = new javax.swing.JTextField();
+        jLabel32 = new javax.swing.JLabel();
+        jgsPorMesaCash = new javax.swing.JTextField();
         jPanel9 = new javax.swing.JPanel();
+        jLabel15 = new javax.swing.JLabel();
+        tipoTorneioComboBox = new javax.swing.JComboBox();
+        jLabel23 = new javax.swing.JLabel();
+        generoTorneioComboBox = new javax.swing.JComboBox();
+        jLabel24 = new javax.swing.JLabel();
+        buyinTorneio = new javax.swing.JTextField();
+        jLabel25 = new javax.swing.JLabel();
+        numeroJogadoresTorneio = new javax.swing.JTextField();
+        jLabel26 = new javax.swing.JLabel();
+        posicaoTorneio = new javax.swing.JTextField();
+        jLabel27 = new javax.swing.JLabel();
+        duracaoTorneio = new javax.swing.JTextField();
+        jLabel28 = new javax.swing.JLabel();
+        salaTorneioComboBox = new javax.swing.JComboBox();
+        rebuy = new javax.swing.JCheckBox();
+        jLabel29 = new javax.swing.JLabel();
+        qtdRebuy = new javax.swing.JTextField();
+        jLabel30 = new javax.swing.JLabel();
+        valorRebuy = new javax.swing.JTextField();
+        jLabel31 = new javax.swing.JLabel();
+        valorAddOn = new javax.swing.JTextField();
+        addTorneioBotao = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
+        jLabel33 = new javax.swing.JLabel();
+        jgsPorMesaTorneio = new javax.swing.JTextField();
+        jLabel34 = new javax.swing.JLabel();
+        valorGanhoTorneio = new javax.swing.JTextField();
         adicionarJogos = new javax.swing.JToggleButton();
         jPanel7 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
@@ -321,7 +449,7 @@ public class PrincipalFrame extends FrameView {
                 .addGap(20, 20, 20)
                 .addComponent(usernameLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(bankrollBotao, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(bankrollBotao, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(44, 44, 44))
         );
         headPanelLayout.setVerticalGroup(
@@ -382,6 +510,8 @@ public class PrincipalFrame extends FrameView {
 
         jLabel14.setText("Valor Ganho:");
 
+        jLabel32.setText("N° JgsxMesa");
+
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);
         jPanel8Layout.setHorizontalGroup(
@@ -408,10 +538,14 @@ public class PrincipalFrame extends FrameView {
                             .addComponent(limiteCash, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(listaSalaCash, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(29, 29, 29)
-                .addComponent(jLabel14)
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel14)
+                    .addComponent(jLabel32))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(valorGanhoCash, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(64, Short.MAX_VALUE))
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(valorGanhoCash, javax.swing.GroupLayout.DEFAULT_SIZE, 126, Short.MAX_VALUE)
+                    .addComponent(jgsPorMesaCash))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jPanel8Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {duracaoHorasCash, limiteCash, numeroMaosCash, valorBlindCash});
@@ -428,7 +562,9 @@ public class PrincipalFrame extends FrameView {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel19)
-                    .addComponent(valorBlindCash, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(valorBlindCash, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel32)
+                    .addComponent(jgsPorMesaCash, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel20)
@@ -445,20 +581,181 @@ public class PrincipalFrame extends FrameView {
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(adicionarCash)
                     .addComponent(jButton2))
-                .addContainerGap(28, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         panelAddJogos.addTab("Cash", jPanel8);
+
+        jLabel15.setText("Tipo:");
+
+        tipoTorneioComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        jLabel23.setText("Genero:");
+
+        generoTorneioComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        generoTorneioComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                generoTorneioComboBoxActionPerformed(evt);
+            }
+        });
+
+        jLabel24.setText("Buy-In:");
+
+        jLabel25.setText("N° de Jog.:");
+        jLabel25.setToolTipText("teste");
+
+        jLabel26.setText("Posição:");
+
+        jLabel27.setText("Duração:");
+
+        jLabel28.setText("Sala:");
+
+        salaTorneioComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        rebuy.setText("Rebuy?");
+        rebuy.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rebuyActionPerformed(evt);
+            }
+        });
+
+        jLabel29.setText("Qtd. de ReBuys:");
+
+        jLabel30.setText("Valor ReBuy:");
+
+        jLabel31.setText("Valor Add-On:");
+
+        addTorneioBotao.setText("Ok");
+
+        jButton3.setText("Cancelar");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
+        jLabel33.setText("N° JgsxMesa:");
+
+        jLabel34.setText("Valor Ganho:");
 
         javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
         jPanel9.setLayout(jPanel9Layout);
         jPanel9Layout.setHorizontalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 620, Short.MAX_VALUE)
+            .addGroup(jPanel9Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jPanel9Layout.createSequentialGroup()
+                        .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel15)
+                            .addComponent(jLabel24)
+                            .addComponent(jLabel27)
+                            .addComponent(jLabel28))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(jPanel9Layout.createSequentialGroup()
+                                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(tipoTorneioComboBox, 0, 138, Short.MAX_VALUE)
+                                    .addComponent(salaTorneioComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGap(43, 43, 43)
+                                .addComponent(jLabel23)
+                                .addGap(49, 49, 49)
+                                .addComponent(generoTorneioComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel9Layout.createSequentialGroup()
+                                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel9Layout.createSequentialGroup()
+                                        .addComponent(buyinTorneio, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(32, 32, 32)
+                                        .addComponent(jLabel25))
+                                    .addGroup(jPanel9Layout.createSequentialGroup()
+                                        .addComponent(duracaoTorneio, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(32, 32, 32)
+                                        .addComponent(jLabel26)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(numeroJogadoresTorneio, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(posicaoTorneio, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
+                                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel34)
+                                    .addComponent(jLabel33)))))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel9Layout.createSequentialGroup()
+                        .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel9Layout.createSequentialGroup()
+                                .addComponent(rebuy)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel29))
+                            .addComponent(jLabel31, javax.swing.GroupLayout.Alignment.TRAILING))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(qtdRebuy, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(valorAddOn, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel30)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(valorRebuy, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel9Layout.createSequentialGroup()
+                        .addComponent(jButton3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(addTorneioBotao, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jgsPorMesaTorneio, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(valorGanhoTorneio, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
+
+        jPanel9Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {buyinTorneio, duracaoTorneio});
+
+        jPanel9Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jgsPorMesaTorneio, numeroJogadoresTorneio, posicaoTorneio, valorGanhoTorneio});
+
+        jPanel9Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {qtdRebuy, valorAddOn});
+
         jPanel9Layout.setVerticalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 258, Short.MAX_VALUE)
+            .addGroup(jPanel9Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel15)
+                    .addComponent(tipoTorneioComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel23)
+                    .addComponent(generoTorneioComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel24)
+                    .addComponent(buyinTorneio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel25)
+                    .addComponent(numeroJogadoresTorneio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel33)
+                    .addComponent(jgsPorMesaTorneio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel27)
+                    .addComponent(duracaoTorneio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel26)
+                    .addComponent(posicaoTorneio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel34)
+                    .addComponent(valorGanhoTorneio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel28)
+                    .addComponent(salaTorneioComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(rebuy)
+                    .addComponent(jLabel29)
+                    .addComponent(qtdRebuy, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel30)
+                    .addComponent(valorRebuy, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel31)
+                    .addComponent(valorAddOn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(addTorneioBotao)
+                    .addComponent(jButton3))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         panelAddJogos.addTab("Torneio", jPanel9);
@@ -477,7 +774,7 @@ public class PrincipalFrame extends FrameView {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(panelAddJogos)
+                    .addComponent(panelAddJogos, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(limparSessao)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -503,9 +800,9 @@ public class PrincipalFrame extends FrameView {
                             .addComponent(salvarSessao)
                             .addComponent(jLabel16))
                         .addGap(71, 71, 71)))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(panelAddJogos)
-                .addContainerGap())
+                .addGap(18, 18, 18))
         );
 
         jPanel7.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createTitledBorder("Entrada & Retirada")));
@@ -883,9 +1180,10 @@ public class PrincipalFrame extends FrameView {
                 .addContainerGap()
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jScrollPane2)
                         .addGap(18, 18, 18)
-                        .addComponent(graficoTorneio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(graficoTorneio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(1, 1, 1))
                     .addComponent(panelTHead, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -896,7 +1194,7 @@ public class PrincipalFrame extends FrameView {
                 .addComponent(panelTHead, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(graficoTorneio, javax.swing.GroupLayout.DEFAULT_SIZE, 386, Short.MAX_VALUE)
+                    .addComponent(graficoTorneio, javax.swing.GroupLayout.DEFAULT_SIZE, 389, Short.MAX_VALUE)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addGap(25, 25, 25))
         );
@@ -957,14 +1255,14 @@ public class PrincipalFrame extends FrameView {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(headPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jTabbedPane1)
+            .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1005, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(headPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 533, Short.MAX_VALUE))
+                .addComponent(jTabbedPane1))
         );
 
         jMenu1.setText("Arquivo");
@@ -1059,20 +1357,39 @@ public class PrincipalFrame extends FrameView {
         // TODO add your handling code here:
     }//GEN-LAST:event_adicionarCashActionPerformed
 
+    private void generoTorneioComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_generoTorneioComboBoxActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_generoTorneioComboBoxActionPerformed
+
+    private void rebuyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rebuyActionPerformed
+        // TODO add your handling code here
+        setEnableRebuyCampos(rebuy.isSelected());
+    }//GEN-LAST:event_rebuyActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        limparAbaTorneios();
+    }//GEN-LAST:event_jButton3ActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton addTorneioBotao;
     private javax.swing.JButton adicionarCash;
     private javax.swing.JToggleButton adicionarJogos;
     private javax.swing.JButton atualizarCash;
     private javax.swing.JButton atualizarTorneios;
     private javax.swing.JButton bankrollAddBotao;
     private javax.swing.JButton bankrollBotao;
+    private javax.swing.JTextField buyinTorneio;
     private javax.swing.JFormattedTextField dataOperacao;
     private javax.swing.JTextField duracaoHorasCash;
+    private javax.swing.JTextField duracaoTorneio;
+    private javax.swing.JComboBox generoTorneioComboBox;
     private javax.swing.JPanel graficoTorneio;
     private javax.swing.JPanel graficoTorneio1;
     private javax.swing.JPanel headPanel;
     private javax.swing.JCheckBox isHojeOperacao;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton6;
     private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JCheckBox jCheckBox2;
@@ -1086,6 +1403,7 @@ public class PrincipalFrame extends FrameView {
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
@@ -1094,7 +1412,19 @@ public class PrincipalFrame extends FrameView {
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
+    private javax.swing.JLabel jLabel23;
+    private javax.swing.JLabel jLabel24;
+    private javax.swing.JLabel jLabel25;
+    private javax.swing.JLabel jLabel26;
+    private javax.swing.JLabel jLabel27;
+    private javax.swing.JLabel jLabel28;
+    private javax.swing.JLabel jLabel29;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel30;
+    private javax.swing.JLabel jLabel31;
+    private javax.swing.JLabel jLabel32;
+    private javax.swing.JLabel jLabel33;
+    private javax.swing.JLabel jLabel34;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
@@ -1125,11 +1455,14 @@ public class PrincipalFrame extends FrameView {
     private javax.swing.JTextField jTextField4;
     private javax.swing.JTextField jTextField7;
     private javax.swing.JTextField jTextField8;
+    private javax.swing.JTextField jgsPorMesaCash;
+    private javax.swing.JTextField jgsPorMesaTorneio;
     private javax.swing.JTextField limiteCash;
     private javax.swing.JButton limparSessao;
     private javax.swing.JList listaJogos;
     private javax.swing.JList listaOperacao;
     private javax.swing.JComboBox listaSalaCash;
+    private javax.swing.JTextField numeroJogadoresTorneio;
     private javax.swing.JTextField numeroMaosCash;
     private javax.swing.JTextField operacaoValor;
     private javax.swing.JTabbedPane panelAddJogos;
@@ -1137,7 +1470,11 @@ public class PrincipalFrame extends FrameView {
     private javax.swing.JPanel panelTHead1;
     private javax.swing.JButton perfilConfirmarBotao;
     private javax.swing.JPanel perfilPanel;
+    private javax.swing.JTextField posicaoTorneio;
+    private javax.swing.JTextField qtdRebuy;
+    private javax.swing.JCheckBox rebuy;
     private javax.swing.JComboBox salaBox;
+    private javax.swing.JComboBox salaTorneioComboBox;
     private javax.swing.JButton salvarOperacaoBotao;
     private javax.swing.JButton salvarSessao;
     private javax.swing.JPasswordField senha;
@@ -1145,9 +1482,13 @@ public class PrincipalFrame extends FrameView {
     private javax.swing.JTable tabelaCash;
     private javax.swing.JTable tabelaTorneios;
     private javax.swing.JComboBox tipoOperacaoBox;
+    private javax.swing.JComboBox tipoTorneioComboBox;
     private javax.swing.JLabel usernameLabel;
+    private javax.swing.JTextField valorAddOn;
     private javax.swing.JTextField valorBlindCash;
     private javax.swing.JTextField valorGanhoCash;
+    private javax.swing.JTextField valorGanhoTorneio;
+    private javax.swing.JTextField valorRebuy;
     // End of variables declaration//GEN-END:variables
 
     public static void main(String[] args) {
@@ -1162,4 +1503,5 @@ public class PrincipalFrame extends FrameView {
             Logger.getLogger(PrincipalFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
 }

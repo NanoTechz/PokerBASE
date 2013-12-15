@@ -55,8 +55,8 @@ public class Torneio extends Modalidade implements Serializable {
     private char tipo; // s=SnG e m=mtt
 
     @Column(name = "genero")
-    private char genero;//T=turbo , R = regular, HT= hiperturbo
-
+    private char genero;//T=turbo , R = regular, HT= hiperturbo, O=outro
+    
     @Column(name = "buy_in")
     private double buyIn;
 
@@ -95,22 +95,6 @@ public class Torneio extends Modalidade implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public char getTipo() {
-        return tipo;
-    }
-
-    public void setTipo(char tipo) {
-        this.tipo = tipo;
-    }
-
-    public char getGenero() {
-        return genero;
-    }
-
-    public void setGenero(char genero) {
-        this.genero = genero;
     }
 
     public double getBuyIn() {
@@ -196,5 +180,28 @@ public class Torneio extends Modalidade implements Serializable {
     public static double roi(double ganho, double buyin, int totalJogados){
         return (ganho - (buyin * totalJogados))/(buyin * totalJogados);
     }
+    
+    public char getTipo() {
+        return tipo;
+    }
 
+    public void setTipo(char tipo) {
+        this.tipo = tipo;
+    }
+
+    public char getGenero() {
+        return genero;
+    }
+
+    public void setGenero(char genero) {
+        this.genero = genero;
+    }
+
+    @Override
+    public String toString() {
+        return "Torneio{" + "tipo=" + tipo + ", genero=" + genero + ", buyIn=" + buyIn + ", totalJogadores=" + totalJogadores + ", posicao=" + posicao + '}';
+    }
+ 
+    
+    
 }

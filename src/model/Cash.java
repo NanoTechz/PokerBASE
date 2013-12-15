@@ -129,7 +129,8 @@ public class Cash extends Modalidade implements Serializable {
     public void setValorBlind(double valorBlind) {
         this.valorBlind = valorBlind;
     }
-
+    
+    
     @Override
     public String toString() {
         return "Cash{" + "limite=" + limite + ", valorBlind=" + valorBlind + ", numeroMaos=" + numeroMaos + '}';

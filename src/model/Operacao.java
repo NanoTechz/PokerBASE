@@ -19,7 +19,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
 /**
  *
@@ -40,9 +39,6 @@ public class Operacao implements Serializable {
     private Date dataOperacao;
     
     private char tipo = 0;
-    
-    @Transient // Ignorar na hora de mapear
-    private  TipoOperacao tipoOperacao = null;
     
     //Relaçao 1:N
     @ManyToOne
@@ -81,23 +77,19 @@ public class Operacao implements Serializable {
         this.bankroll = bankroll;
     }
 
-    public TipoOperacao getTipoOperacao() {
-        return tipoOperacao;
+    public char getTipo() {
+        return tipo;
     }
 
-    public void setTipoOperacao(TipoOperacao tipoOperacao) {
-        tipo = tipoOperacao.valor;
-        this.tipoOperacao = tipoOperacao;
+    public void setTipo(char tipo) {
+        this.tipo = tipo;
     }
 
     @Override
     public String toString() {
         DateFormat f = new SimpleDateFormat("dd/MM/yyyy");
        
-        if(tipoOperacao == null && tipo != 0){
-            tipoOperacao = TipoOperacao.getOperacao(tipo);
-        }
-       return "Tipo : "+tipoOperacao+", Valor: "+valor+", Data: "+f.format(dataOperacao);
+       return "Tipo : "+TipoOperacao.getOperacao(tipo)+", Valor: "+valor+", Data: "+f.format(dataOperacao);
     }
     
 }
