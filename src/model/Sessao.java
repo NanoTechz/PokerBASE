@@ -46,12 +46,10 @@ public class Sessao implements Serializable {
     @JoinColumn(name = "id_usuario", referencedColumnName = "id_usuario")
     private Usuario usuario;
 
-    @OneToMany(mappedBy = "sessao",cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
-    @Fetch(FetchMode.SUBSELECT)
+    @OneToMany(mappedBy = "sessao")
     private List<Cash> listaCash;
 
-    @OneToMany(mappedBy = "sessao",cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
-    @Fetch(FetchMode.SUBSELECT)
+    @OneToMany(mappedBy = "sessao")
     private List<Torneio> listaTorneios;
 
     public Integer getId() {

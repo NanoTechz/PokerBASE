@@ -43,12 +43,10 @@ public class Sala implements Serializable {
     @Fetch(FetchMode.SUBSELECT)
     private List<Cash> listaCash;
     
-    @OneToMany(mappedBy = "sala",cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
-    @Fetch(FetchMode.SUBSELECT)
+    @OneToMany(mappedBy = "sala")
     private List<Torneio> listaTorneios;
     
-    @OneToMany(mappedBy = "sala",cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
-    @Fetch(FetchMode.SUBSELECT)
+    @OneToMany(mappedBy = "sala")
     private List<Bankroll> listaBankRoll;
 
     public Sala(String razaoSocial) {

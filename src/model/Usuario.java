@@ -41,12 +41,10 @@ public class Usuario implements Serializable {
     
     //Relação 1:n
     
-    @OneToMany(mappedBy = "usuario",cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
-    @Fetch(FetchMode.SUBSELECT)
+    @OneToMany(mappedBy = "usuario")
     private List<Sessao> listaSessao;
 
-    @OneToMany(mappedBy = "usuario",cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
-    @Fetch(FetchMode.SUBSELECT)
+    @OneToMany(mappedBy = "usuario")
     private List<Bankroll> listaBankRolls;
 
     public Usuario(String username, String senha) {
