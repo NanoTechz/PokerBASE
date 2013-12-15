@@ -65,7 +65,6 @@ public class PrincipalViewController extends ControllerView {
         verificarBankroll();
         addListener();
         inicializarComponentes();
-        gerarGrafico();
     }
 
     private void addListener() {
@@ -84,9 +83,14 @@ public class PrincipalViewController extends ControllerView {
         this.principalView.setModelListaSala(bankrollController.getBankrollComboBoxModel(usuario));
         this.principalView.setSalaTorneioComboBox(bankrollController.getBankrollComboBoxModel(usuario));
         this.operacaoController.atualizarComponentes();
+        this.principalView.limparGraficoTorneios();
+        
+        for (XYSeries serie : torneioController.getXYSeries()) {
+            this.principalView.addTorneiosDados(serie);
+        }
 
     }
-
+/*
     private void gerarGrafico() {
         try {
             TorneioJpaController torneioJpaController = new TorneioJpaController(getEmf());
@@ -129,7 +133,7 @@ public class PrincipalViewController extends ControllerView {
             this.principalView.addDados(cashSeries);
         } catch (Exception e) {
         }
-    }
+    }*/
 
     private void verificarBankroll() {
         if (this.usuario.getListaBankRolls().isEmpty()) {

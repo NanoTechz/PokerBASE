@@ -5,6 +5,7 @@
  */
 package controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManagerFactory;
 import javax.swing.DefaultComboBoxModel;
@@ -13,6 +14,9 @@ import model.Torneio;
 import model.Usuario;
 import model.auxiliar.TipoTorneio;
 import model.auxiliar.TipoTorneioGenero;
+import model.simples.TorneioSimples;
+import org.jfree.data.xy.XYSeries;
+import util.Calculadora;
 import view.PrincipalFrame;
 import view.model.TorneioTableModel;
 
@@ -59,5 +63,34 @@ public class TorneioController {
 
         DefaultComboBoxModel model = new DefaultComboBoxModel(TipoTorneioGenero.values());
         return model;
+    }
+
+    public List<XYSeries> getXYSeries() {
+        TorneioJpaController tJPA = new TorneioJpaController(emf);
+        TorneioSimples total = tJPA.getTotal(usuario);
+        List<TorneioSimples> lista = tJPA.findTorneiosSimples(usuario);
+        
+        double roi = Calculadora.roi(total.getValorGanho(), total.getBuyIn());
+        double mediaBI = total.getBuyIn() / (double)lista.size();
+        double soma = 0, somaROI = 0;
+
+        List<XYSeries> series = new ArrayList<XYSeries>();
+
+        XYSeries serieNormal = new XYSeries("torneios");
+        XYSeries serieROI = new XYSeries("roi");
+        
+        for (int i = 0; i < lista.size(); i++) {
+
+            soma += lista.get(i).getValorGanho() - lista.get(i).getBuyIn();
+            serieNormal.add(i, soma);
+
+            somaROI += mediaBI * roi;
+            serieROI.add(i, somaROI);
+        }
+ 
+        series.add(serieROI);
+        series.add(serieNormal);
+        
+        return series;
     }
 }

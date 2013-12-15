@@ -1002,7 +1002,7 @@
                               <Group type="102" attributes="0">
                                   <Component id="jScrollPane3" pref="458" max="32767" attributes="0"/>
                                   <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
-                                  <Component id="graficoTorneio1" min="-2" max="-2" attributes="0"/>
+                                  <Component id="graficoCashPanel" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace min="-2" pref="1" max="-2" attributes="0"/>
                               </Group>
                           </Group>
@@ -1017,7 +1017,7 @@
                           <Component id="panelTHead1" min="-2" max="-2" attributes="0"/>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="graficoTorneio1" min="-2" max="-2" attributes="0"/>
+                              <Component id="graficoCashPanel" min="-2" max="-2" attributes="0"/>
                               <Component id="jScrollPane3" alignment="0" min="-2" pref="380" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="32767" attributes="0"/>
@@ -1157,7 +1157,7 @@
                     </Component>
                   </SubComponents>
                 </Container>
-                <Container class="javax.swing.JPanel" name="graficoTorneio1">
+                <Container class="javax.swing.JPanel" name="graficoCashPanel">
                   <Properties>
                     <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                       <Color blue="cf" green="8" red="e8" type="rgb"/>
@@ -1169,7 +1169,7 @@
                   </Properties>
                   <AuxValues>
                     <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="gTeste.getPanel()"/>
-                    <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="graficoTorneio.setSize(500, 380);"/>
+                    <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="graficoTorneioPanel.setSize(500, 380);"/>
                   </AuxValues>
 
                   <Layout>
@@ -1205,7 +1205,7 @@
                               <Group type="102" attributes="0">
                                   <Component id="jScrollPane2" max="32767" attributes="0"/>
                                   <EmptySpace type="separate" min="-2" max="-2" attributes="0"/>
-                                  <Component id="graficoTorneio" min="-2" max="-2" attributes="0"/>
+                                  <Component id="graficoTorneioPanel" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace min="1" pref="1" max="-2" attributes="0"/>
                               </Group>
                               <Component id="panelTHead" max="32767" attributes="0"/>
@@ -1221,7 +1221,7 @@
                           <Component id="panelTHead" min="-2" max="-2" attributes="0"/>
                           <EmptySpace type="separate" min="-2" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="graficoTorneio" pref="389" max="32767" attributes="0"/>
+                              <Component id="graficoTorneioPanel" pref="389" max="32767" attributes="0"/>
                               <Component id="jScrollPane2" pref="0" max="32767" attributes="0"/>
                           </Group>
                           <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
@@ -1335,7 +1335,7 @@
                     </Component>
                   </SubComponents>
                 </Container>
-                <Container class="javax.swing.JPanel" name="graficoTorneio">
+                <Container class="javax.swing.JPanel" name="graficoTorneioPanel">
                   <Properties>
                     <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                       <Color blue="cf" green="8" red="e8" type="rgb"/>
@@ -1346,8 +1346,8 @@
                     <Property name="requestFocusEnabled" type="boolean" value="false"/>
                   </Properties>
                   <AuxValues>
-                    <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="gTeste.getPanel()"/>
-                    <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="graficoTorneio.setSize(500, 380);"/>
+                    <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="graficoTorneios.getPanel()"/>
+                    <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="graficoTorneioPanel.setSize(500, 380);"/>
                   </AuxValues>
 
                   <Layout>

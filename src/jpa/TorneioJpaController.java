@@ -20,6 +20,7 @@ import model.Sala;
 import model.Torneio;
 import model.Usuario;
 import model.auxiliar.TipoTorneio;
+import model.simples.TorneioSimples;
 
 /**
  *
@@ -27,14 +28,46 @@ import model.auxiliar.TipoTorneio;
  */
 public class TorneioJpaController implements Serializable {
 
-        public List<Torneio> findTorneioUsuarioPorBuyIN(Usuario usuario, TipoTorneio tipo) {
+    public TorneioSimples getTotal(Usuario usuario) {
+        EntityManager em = getEntityManager();
+        try {
+            Query query = em.createQuery("select new model.simples.TorneioSimples(sum(t.valorGanho), sum(t.buyIn)) from Torneio t where t.sessao.usuario= :usuario");
+
+            query.setParameter("usuario", usuario);
+            return (TorneioSimples)query.getSingleResult();
+        } catch (Exception e) {
+            e.printStackTrace(System.out);
+        } finally {
+            em.close();
+        }
+        
+        return null;
+    }
+    
+    public List<TorneioSimples> findTorneiosSimples(Usuario usuario) {
+        EntityManager em = getEntityManager();
+        try {
+            Query query = em.createQuery("select new model.simples.TorneioSimples(t.valorGanho, t.buyIn) from Torneio t where t.sessao.usuario= :usuario ");
+
+            query.setParameter("usuario", usuario);
+            return query.getResultList();
+        } catch (Exception e) {
+            e.printStackTrace(System.out);
+        } finally {
+            em.close();
+        }
+        
+        return null;
+    }
+
+    public List<Torneio> findTorneioUsuarioPorBuyIN(Usuario usuario, TipoTorneio tipo) {
         EntityManager em = getEntityManager();
         try {
             Query query = em.createQuery("select new Torneio(t.buyIn, t.tipo, t.genero, sum(t.valorGanho), count(t.id)) from Torneio t where (t.sessao.usuario = :usuario  and t.tipo = :tipo) GROUP BY t.buyIn ORDER BY t.buyIn ASC", Torneio.class);
-            
+
             query.setParameter("usuario", usuario);
             query.setParameter("tipo", tipo.getValor());
-            
+
             return query.getResultList();
         } catch (Exception e) {
             e.printStackTrace(System.out);
@@ -43,7 +76,7 @@ public class TorneioJpaController implements Serializable {
             em.close();
         }
     }
-        
+
     public List<Torneio> findTorneioUsuario(Usuario usuario) {
         EntityManager em = getEntityManager();
         try {
@@ -58,36 +91,36 @@ public class TorneioJpaController implements Serializable {
         }
     }
 
-    public double totalBuyIn(Usuario usuario){
+    public double totalBuyIn(Usuario usuario) {
         EntityManager em = getEntityManager();
         try {
             Query query = em.createQuery("select SUM(b.buyIn) from Torneio b where b.sessao.usuario = :usuario");
             query.setParameter("usuario", usuario);
-            
-            return ((Number)query.getSingleResult()).doubleValue();
+
+            return ((Number) query.getSingleResult()).doubleValue();
         } catch (Exception e) {
             System.out.println("*****************************5*****************************");
             e.printStackTrace(System.out);
             return 0;
         } finally {
             em.close();
-        }   
-    } 
-    
-    public double totalValorGanho(Usuario usuario){
+        }
+    }
+
+    public double totalValorGanho(Usuario usuario) {
         EntityManager em = getEntityManager();
         try {
             Query query = em.createQuery("select sum(b.valorGanho) from Torneio b where b.sessao.usuario = :usuario");
             query.setParameter("usuario", usuario);
-            return ((Number)query.getSingleResult()).doubleValue();
+            return ((Number) query.getSingleResult()).doubleValue();
         } catch (Exception e) {
             e.printStackTrace(System.out);
             return 0;
         } finally {
             em.close();
         }
-    } 
-    
+    }
+
     public TorneioJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }

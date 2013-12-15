@@ -7,6 +7,7 @@ package view;
 
 import de.javasoft.plaf.synthetica.SyntheticaAluOxideLookAndFeel;
 import graficos.GraficoTeste;
+import graficos.GraficoTorneios;
 import java.awt.event.ActionListener;
 import java.sql.Date;
 import java.text.ParseException;
@@ -31,10 +32,20 @@ import view.model.TorneioTableModel;
 public final class PrincipalFrame extends FrameView {
 
     private MaskFormatter ftmData = null;
-    GraficoTeste gTeste = new GraficoTeste("Torneios", "torneios", "$");
+    private GraficoTeste gTeste = new GraficoTeste("Torneios", "torneios", "$");
+    private GraficoTorneios graficoTorneios;
 
     public void addDados(XYSeries dados) {
         gTeste.addSerie(dados);
+    }
+
+    
+    public void addTorneiosDados(XYSeries serie) {
+        graficoTorneios.add(serie);
+    }
+    
+    public void limparGraficoTorneios() {
+        graficoTorneios.limpar();
     }
 
     public PrincipalFrame() {
@@ -43,6 +54,8 @@ public final class PrincipalFrame extends FrameView {
         } catch (Exception e) {
             ftmData = new MaskFormatter();
         }
+
+        graficoTorneios = new GraficoTorneios("Torneios", "qtd", "$");
 
         initComponents();
         headPanel.setBackground(jMenuBar1.getBackground());
@@ -88,27 +101,27 @@ public final class PrincipalFrame extends FrameView {
         valorGanhoTorneio.setText(null);
         setEnableRebuyCampos(false);
     }
-    
-    public Object getSelectedTipoTorneio(){
+
+    public Object getSelectedTipoTorneio() {
         return tipoTorneioComboBox.getSelectedItem();
     }
-    
+
     public String getValorGanhoTorneio() {
         return valorGanhoTorneio.getText();
     }
-    
-    public Object getSelectedGeneroTorneio(){
+
+    public Object getSelectedGeneroTorneio() {
         return generoTorneioComboBox.getSelectedItem();
     }
-    
-    public Object getSelectedSalaTorneio(){
+
+    public Object getSelectedSalaTorneio() {
         return salaTorneioComboBox.getSelectedItem();
     }
-    
-    public void addTorneioListener(ActionListener action){
+
+    public void addTorneioListener(ActionListener action) {
         addTorneioBotao.addActionListener(action);
     }
-    
+
     public String getBuyInTorneio() {
         return buyinTorneio.getText();
     }
@@ -229,7 +242,6 @@ public final class PrincipalFrame extends FrameView {
     }
 
     //Fim Perfil
-
     public void setUserName(String username) {
         this.usernameLabel.setText(username);
     }
@@ -402,7 +414,7 @@ public final class PrincipalFrame extends FrameView {
         jComboBox1 = new javax.swing.JComboBox();
         jScrollPane3 = new javax.swing.JScrollPane();
         tabelaCash = new javax.swing.JTable();
-        graficoTorneio1 = gTeste.getPanel();
+        graficoCashPanel = gTeste.getPanel();
         jPanel6 = new javax.swing.JPanel();
         panelTHead = new javax.swing.JPanel();
         jTextField1 = new javax.swing.JTextField();
@@ -416,7 +428,7 @@ public final class PrincipalFrame extends FrameView {
         atualizarTorneios = new javax.swing.JButton();
         jCheckBox1 = new javax.swing.JCheckBox();
         jCheckBox2 = new javax.swing.JCheckBox();
-        graficoTorneio = gTeste.getPanel();
+        graficoTorneioPanel = graficoTorneios.getPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tabelaTorneios = new javax.swing.JTable();
         perfilPanel = new javax.swing.JPanel();
@@ -1031,19 +1043,19 @@ public final class PrincipalFrame extends FrameView {
         ));
         jScrollPane3.setViewportView(tabelaCash);
 
-        graficoTorneio.setSize(500, 380);
-        graficoTorneio1.setBackground(new java.awt.Color(232, 8, 207));
-        graficoTorneio1.setPreferredSize(new java.awt.Dimension(500, 380));
-        graficoTorneio1.setRequestFocusEnabled(false);
+        graficoTorneioPanel.setSize(500, 380);
+        graficoCashPanel.setBackground(new java.awt.Color(232, 8, 207));
+        graficoCashPanel.setPreferredSize(new java.awt.Dimension(500, 380));
+        graficoCashPanel.setRequestFocusEnabled(false);
 
-        javax.swing.GroupLayout graficoTorneio1Layout = new javax.swing.GroupLayout(graficoTorneio1);
-        graficoTorneio1.setLayout(graficoTorneio1Layout);
-        graficoTorneio1Layout.setHorizontalGroup(
-            graficoTorneio1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout graficoCashPanelLayout = new javax.swing.GroupLayout(graficoCashPanel);
+        graficoCashPanel.setLayout(graficoCashPanelLayout);
+        graficoCashPanelLayout.setHorizontalGroup(
+            graficoCashPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 500, Short.MAX_VALUE)
         );
-        graficoTorneio1Layout.setVerticalGroup(
-            graficoTorneio1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        graficoCashPanelLayout.setVerticalGroup(
+            graficoCashPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 380, Short.MAX_VALUE)
         );
 
@@ -1058,7 +1070,7 @@ public final class PrincipalFrame extends FrameView {
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 458, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(graficoTorneio1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(graficoCashPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(1, 1, 1)))
                 .addContainerGap())
         );
@@ -1069,7 +1081,7 @@ public final class PrincipalFrame extends FrameView {
                 .addComponent(panelTHead1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(graficoTorneio1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(graficoCashPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 380, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -1143,19 +1155,19 @@ public final class PrincipalFrame extends FrameView {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        graficoTorneio.setSize(500, 380);
-        graficoTorneio.setBackground(new java.awt.Color(232, 8, 207));
-        graficoTorneio.setPreferredSize(new java.awt.Dimension(500, 380));
-        graficoTorneio.setRequestFocusEnabled(false);
+        graficoTorneioPanel.setSize(500, 380);
+        graficoTorneioPanel.setBackground(new java.awt.Color(232, 8, 207));
+        graficoTorneioPanel.setPreferredSize(new java.awt.Dimension(500, 380));
+        graficoTorneioPanel.setRequestFocusEnabled(false);
 
-        javax.swing.GroupLayout graficoTorneioLayout = new javax.swing.GroupLayout(graficoTorneio);
-        graficoTorneio.setLayout(graficoTorneioLayout);
-        graficoTorneioLayout.setHorizontalGroup(
-            graficoTorneioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout graficoTorneioPanelLayout = new javax.swing.GroupLayout(graficoTorneioPanel);
+        graficoTorneioPanel.setLayout(graficoTorneioPanelLayout);
+        graficoTorneioPanelLayout.setHorizontalGroup(
+            graficoTorneioPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 500, Short.MAX_VALUE)
         );
-        graficoTorneioLayout.setVerticalGroup(
-            graficoTorneioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        graficoTorneioPanelLayout.setVerticalGroup(
+            graficoTorneioPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 386, Short.MAX_VALUE)
         );
 
@@ -1182,7 +1194,7 @@ public final class PrincipalFrame extends FrameView {
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addComponent(jScrollPane2)
                         .addGap(18, 18, 18)
-                        .addComponent(graficoTorneio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(graficoTorneioPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(1, 1, 1))
                     .addComponent(panelTHead, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
@@ -1194,7 +1206,7 @@ public final class PrincipalFrame extends FrameView {
                 .addComponent(panelTHead, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(graficoTorneio, javax.swing.GroupLayout.DEFAULT_SIZE, 389, Short.MAX_VALUE)
+                    .addComponent(graficoTorneioPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 389, Short.MAX_VALUE)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addGap(25, 25, 25))
         );
@@ -1384,8 +1396,8 @@ public final class PrincipalFrame extends FrameView {
     private javax.swing.JTextField duracaoHorasCash;
     private javax.swing.JTextField duracaoTorneio;
     private javax.swing.JComboBox generoTorneioComboBox;
-    private javax.swing.JPanel graficoTorneio;
-    private javax.swing.JPanel graficoTorneio1;
+    private javax.swing.JPanel graficoCashPanel;
+    private javax.swing.JPanel graficoTorneioPanel;
     private javax.swing.JPanel headPanel;
     private javax.swing.JCheckBox isHojeOperacao;
     private javax.swing.JButton jButton2;
