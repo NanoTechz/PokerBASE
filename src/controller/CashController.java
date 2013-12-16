@@ -11,6 +11,7 @@ import javax.persistence.EntityManagerFactory;
 import jpa.CashJpaController;
 import model.Cash;
 import model.Usuario;
+import model.simples.CashSimples;
 import view.PrincipalFrame;
 import view.model.CashTableModel;
 
@@ -40,6 +41,17 @@ public class CashController {
         CashTableModel model = new CashTableModel(findCashUsuario);
         
         return model;
+    }
+    
+    public void gerarGrafico(){
+        CashJpaController cJPA = new CashJpaController(emf);
+        List<CashSimples> findCashGroupByLimite = cJPA.findCashGroupByLimite(usuario);
+        
+        principalView.getGraficoCash().limparGrafico();
+        
+        for (CashSimples cashSimples : findCashGroupByLimite) {
+            principalView.getGraficoCash().addValue(cashSimples.getLimite(), cashSimples.getValorGanho());
+        }
     }
     
     

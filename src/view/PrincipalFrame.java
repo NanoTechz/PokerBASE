@@ -6,6 +6,7 @@
 package view;
 
 import de.javasoft.plaf.synthetica.SyntheticaAluOxideLookAndFeel;
+import graficos.GraficoCash;
 import graficos.GraficoTeste;
 import graficos.GraficoTorneios;
 import java.awt.event.ActionListener;
@@ -32,13 +33,12 @@ import view.model.TorneioTableModel;
 public final class PrincipalFrame extends FrameView {
 
     private MaskFormatter ftmData = null;
-    private GraficoTeste gTeste = new GraficoTeste("Torneios", "torneios", "$");
     private GraficoTorneios graficoTorneios;
+    private GraficoCash graficoCash;
 
-    public void addDados(XYSeries dados) {
-        gTeste.addSerie(dados);
-    }
-
+    public GraficoCash getGraficoCash(){
+        return graficoCash;
+    } 
     
     public void addTorneiosDados(XYSeries serie) {
         graficoTorneios.add(serie);
@@ -56,6 +56,7 @@ public final class PrincipalFrame extends FrameView {
         }
 
         graficoTorneios = new GraficoTorneios("Torneios", "qtd", "$");
+        graficoCash = new GraficoCash("Cash", "limite","profit");
 
         initComponents();
         headPanel.setBackground(jMenuBar1.getBackground());
@@ -414,7 +415,7 @@ public final class PrincipalFrame extends FrameView {
         jComboBox1 = new javax.swing.JComboBox();
         jScrollPane3 = new javax.swing.JScrollPane();
         tabelaCash = new javax.swing.JTable();
-        graficoCashPanel = gTeste.getPanel();
+        graficoCashPanel = graficoCash.getPanel();
         jPanel6 = new javax.swing.JPanel();
         panelTHead = new javax.swing.JPanel();
         jTextField1 = new javax.swing.JTextField();

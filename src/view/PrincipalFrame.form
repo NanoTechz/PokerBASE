@@ -1168,7 +1168,7 @@
                     <Property name="requestFocusEnabled" type="boolean" value="false"/>
                   </Properties>
                   <AuxValues>
-                    <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="gTeste.getPanel()"/>
+                    <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="graficoCash.getPanel()"/>
                     <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="graficoTorneioPanel.setSize(500, 380);"/>
                   </AuxValues>
 

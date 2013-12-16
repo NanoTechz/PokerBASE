@@ -88,7 +88,8 @@ public class PrincipalViewController extends ControllerView {
         for (XYSeries serie : torneioController.getXYSeries()) {
             this.principalView.addTorneiosDados(serie);
         }
-
+        
+        this.cashController.gerarGrafico();
     }
 /*
     private void gerarGrafico() {

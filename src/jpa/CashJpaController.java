@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package jpa;
 
 import java.io.Serializable;
@@ -20,18 +19,19 @@ import model.Cash;
 import model.Sala;
 import model.Sessao;
 import model.Usuario;
+import model.simples.CashSimples;
 
 /**
  *
  * @author augusto
  */
 public class CashJpaController implements Serializable {
-   
+
     public List<Cash> findCashUsuario(Usuario usuario) {
         EntityManager em = getEntityManager();
         try {
             Query query = em.createQuery("select new Cash(b.limite, b.valorBlind, sum(b.valorGanho), sum(b.duracaoHoras), sum(b.numeroMaos)) from Cash b where b.sessao.usuario = :usuario GROUP BY b.limite ORDER BY b.valorBlind ASC", Cash.class);
-            
+
             query.setParameter("usuario", usuario);
             return query.getResultList();
         } catch (Exception e) {
@@ -41,7 +41,22 @@ public class CashJpaController implements Serializable {
             em.close();
         }
     }
-    
+
+    public List<CashSimples> findCashGroupByLimite(Usuario usuario) {
+          EntityManager em = getEntityManager();
+        try {
+            Query query = em.createQuery("select new model.simples.CashSimples(b.limite, sum(b.numeroMaos), sum(b.valorGanho)) from Cash b where b.sessao.usuario = :usuario GROUP BY b.limite ORDER BY b.valorBlind ASC");
+
+            query.setParameter("usuario", usuario);
+            return query.getResultList();
+        } catch (Exception e) {
+            e.printStackTrace(System.out);
+            return new ArrayList<CashSimples>();
+        } finally {
+            em.close();
+        }
+    }
+
     public CashJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
@@ -211,5 +226,5 @@ public class CashJpaController implements Serializable {
             em.close();
         }
     }
-    
+
 }
