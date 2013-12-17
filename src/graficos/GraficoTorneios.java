@@ -5,6 +5,7 @@
  */
 package graficos;
 
+import java.util.List;
 import javax.swing.JPanel;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
@@ -41,6 +42,12 @@ public class GraficoTorneios implements Grafico {
 
     public void limpar() {
        series.removeAllSeries();
+    }
+
+    public void add(List<XYSeries> series) {
+        for (XYSeries xYSeries : series) {
+            add(xYSeries);
+        }
     }
 
 }

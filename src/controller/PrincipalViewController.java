@@ -8,13 +8,8 @@ package controller;
 import controller.action.AbrirCadastroBankrollListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.List;
 import javax.persistence.EntityManagerFactory;
-import jpa.CashJpaController;
-import jpa.TorneioJpaController;
 import model.Bankroll;
-import model.Cash;
-import model.Torneio;
 import model.Usuario;
 import org.jfree.data.xy.XYSeries;
 import util.Calculadora;
@@ -64,7 +59,7 @@ public class PrincipalViewController extends ControllerView {
         
         verificarBankroll();
         addListener();
-        inicializarComponentes();
+        atualizarComponentes();
     }
 
     private void addListener() {
@@ -75,7 +70,7 @@ public class PrincipalViewController extends ControllerView {
         this.principalView.addSessaoListener(new SalvarSessaoListener());
     }
 
-    private void inicializarComponentes() {
+    private void atualizarComponentes() {
         usuarioController.pegarListaBankrollSessao(usuario, getEmf());
 
         this.principalView.setUserName(usuario.getUsername());
@@ -85,11 +80,8 @@ public class PrincipalViewController extends ControllerView {
         this.operacaoController.atualizarComponentes();
         this.principalView.limparGraficoTorneios();
         
-        for (XYSeries serie : torneioController.getXYSeries()) {
-            this.principalView.addTorneiosDados(serie);
-        }
-        
-        this.cashController.gerarGrafico();
+        this.principalView.addTorneiosDados(torneioController.getXYSeries());
+        this.principalView.addCashDados(this.cashController.getDados());
     }
 /*
     private void gerarGrafico() {
@@ -167,7 +159,7 @@ public class PrincipalViewController extends ControllerView {
         @Override
         public void actionPerformed(ActionEvent ae) {
             new AbrirCadastroBankrollListener(principalView, emf, usuario).actionPerformed(ae);
-            inicializarComponentes();
+            atualizarComponentes();
         }
 
     }
@@ -177,7 +169,7 @@ public class PrincipalViewController extends ControllerView {
         @Override
         public void actionPerformed(ActionEvent ae) {
             operacaoController.salvarOperacao();
-            inicializarComponentes();
+            atualizarComponentes();
             principalView.limparDadosOperacao();
         }
 
@@ -200,7 +192,7 @@ public class PrincipalViewController extends ControllerView {
         public void actionPerformed(ActionEvent ae) {
             sessaoController.salvarSessao();
             sessaoController.limparDadosJogos();
-            inicializarComponentes();
+            atualizarComponentes();
         }
 
     }

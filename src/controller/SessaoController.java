@@ -8,7 +8,6 @@ package controller;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Date;
-import java.util.AbstractMap;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -142,7 +141,7 @@ public class SessaoController {
         public void actionPerformed(ActionEvent ae) {
             Torneio torneio = new Torneio();
 
-            torneio.setBuyIn(Integer.parseInt(principalView.getBuyInTorneio()));
+            torneio.setBuyIn(Double.parseDouble(principalView.getBuyInTorneio()));
             torneio.setDuracao(Double.parseDouble(principalView.getDuracaoTorneio()));
             torneio.setGenero(((TipoTorneioGenero) principalView.getSelectedGeneroTorneio()).getValor());
             torneio.setTipo(((TipoTorneio) principalView.getSelectedTipoTorneio()).getValor());

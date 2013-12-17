@@ -43,15 +43,11 @@ public class CashController {
         return model;
     }
     
-    public void gerarGrafico(){
+    public List<CashSimples>  getDados(){
         CashJpaController cJPA = new CashJpaController(emf);
         List<CashSimples> findCashGroupByLimite = cJPA.findCashGroupByLimite(usuario);
         
-        principalView.getGraficoCash().limparGrafico();
-        
-        for (CashSimples cashSimples : findCashGroupByLimite) {
-            principalView.getGraficoCash().addValue(cashSimples.getLimite(), cashSimples.getValorGanho());
-        }
+        return findCashGroupByLimite;
     }
     
     

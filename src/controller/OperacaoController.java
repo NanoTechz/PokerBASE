@@ -61,7 +61,7 @@ public class OperacaoController {
 
         try {
             List<Operacao> findOperacaoUsuario = oJPA.findOperacaoUsuario(usuario, 10, 0);
-            System.out.println("Tam: "+findOperacaoUsuario.size());
+
             if (findOperacaoUsuario.isEmpty()) {
                 model.addElement("nenhuma operacao");
             } else {

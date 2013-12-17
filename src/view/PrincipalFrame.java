@@ -7,13 +7,11 @@ package view;
 
 import de.javasoft.plaf.synthetica.SyntheticaAluOxideLookAndFeel;
 import graficos.GraficoCash;
-import graficos.GraficoTeste;
 import graficos.GraficoTorneios;
 import java.awt.event.ActionListener;
-import java.sql.Date;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.GregorianCalendar;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ComboBoxModel;
@@ -22,6 +20,7 @@ import javax.swing.DefaultListModel;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.text.MaskFormatter;
+import model.simples.CashSimples;
 import org.jfree.data.xy.XYSeries;
 import util.MaskformatFactory;
 import view.model.CashAbaTableModel;
@@ -36,13 +35,15 @@ public final class PrincipalFrame extends FrameView {
     private MaskFormatter ftmData = null;
     private GraficoTorneios graficoTorneios;
     private GraficoCash graficoCash;
-
-    public GraficoCash getGraficoCash(){
-        return graficoCash;
-    } 
     
-    public void addTorneiosDados(XYSeries serie) {
-        graficoTorneios.add(serie);
+    public void addCashDados(List<CashSimples> dados){
+        for (CashSimples cashSimples : dados) {
+            graficoCash.addValue(cashSimples.getLimite(), cashSimples.getValorGanho());
+        }
+    }
+    
+    public void addTorneiosDados(List<XYSeries> series) {
+        graficoTorneios.add(series);
     }
     
     public void limparGraficoTorneios() {
@@ -419,17 +420,17 @@ public final class PrincipalFrame extends FrameView {
         graficoCashPanel = graficoCash.getPanel();
         jPanel6 = new javax.swing.JPanel();
         panelTHead = new javax.swing.JPanel();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
+        filtroTorneio_buyin_de = new javax.swing.JTextField();
+        filtroTorneio_buyin_até = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         atualizarTorneios = new javax.swing.JButton();
-        jCheckBox1 = new javax.swing.JCheckBox();
-        jCheckBox2 = new javax.swing.JCheckBox();
-        jDateChooser1 = new com.toedter.calendar.JDateChooser();
-        jDateChooser2 = new com.toedter.calendar.JDateChooser();
+        filtroTorneio_sng = new javax.swing.JCheckBox();
+        filtroTorneio_mtt = new javax.swing.JCheckBox();
+        filtroTorneio_data_de = new com.toedter.calendar.JDateChooser();
+        filtroTorneio_data_ate = new com.toedter.calendar.JDateChooser();
         graficoTorneioPanel = graficoTorneios.getPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tabelaTorneios = new javax.swing.JTable();
@@ -1105,9 +1106,12 @@ public final class PrincipalFrame extends FrameView {
 
         atualizarTorneios.setText("atualiazar");
 
-        jCheckBox1.setText("SnG");
+        filtroTorneio_sng.setSelected(true);
+        filtroTorneio_sng.setText("SnG");
 
-        jCheckBox2.setText("MTT");
+        filtroTorneio_mtt.setSelected(true);
+        filtroTorneio_mtt.setText("MTT");
+        filtroTorneio_mtt.setToolTipText("");
 
         javax.swing.GroupLayout panelTHeadLayout = new javax.swing.GroupLayout(panelTHead);
         panelTHead.setLayout(panelTHeadLayout);
@@ -1117,47 +1121,47 @@ public final class PrincipalFrame extends FrameView {
                 .addContainerGap()
                 .addComponent(jLabel5)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(filtroTorneio_buyin_de, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel6)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(filtroTorneio_buyin_até, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel7)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(filtroTorneio_data_de, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jDateChooser2, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(filtroTorneio_data_ate, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jCheckBox1)
+                .addComponent(filtroTorneio_sng)
                 .addGap(18, 18, 18)
-                .addComponent(jCheckBox2)
+                .addComponent(filtroTorneio_mtt)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 67, Short.MAX_VALUE)
                 .addComponent(atualizarTorneios)
                 .addGap(23, 23, 23))
         );
 
-        panelTHeadLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jTextField1, jTextField2});
+        panelTHeadLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {filtroTorneio_buyin_até, filtroTorneio_buyin_de});
 
         panelTHeadLayout.setVerticalGroup(
             panelTHeadLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelTHeadLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(panelTHeadLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jDateChooser2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(filtroTorneio_data_ate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(panelTHeadLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel5)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(filtroTorneio_buyin_de, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel6)
-                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(filtroTorneio_buyin_até, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel7)
                         .addComponent(jLabel8)
-                        .addComponent(jCheckBox1)
-                        .addComponent(jCheckBox2)
+                        .addComponent(filtroTorneio_sng)
+                        .addComponent(filtroTorneio_mtt)
                         .addComponent(atualizarTorneios))
-                    .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(filtroTorneio_data_de, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -1405,6 +1409,12 @@ public final class PrincipalFrame extends FrameView {
     private com.toedter.calendar.JDateChooser dataOperacao;
     private javax.swing.JTextField duracaoHorasCash;
     private javax.swing.JTextField duracaoTorneio;
+    private javax.swing.JTextField filtroTorneio_buyin_até;
+    private javax.swing.JTextField filtroTorneio_buyin_de;
+    private com.toedter.calendar.JDateChooser filtroTorneio_data_ate;
+    private com.toedter.calendar.JDateChooser filtroTorneio_data_de;
+    private javax.swing.JCheckBox filtroTorneio_mtt;
+    private javax.swing.JCheckBox filtroTorneio_sng;
     private javax.swing.JComboBox generoTorneioComboBox;
     private javax.swing.JPanel graficoCashPanel;
     private javax.swing.JPanel graficoTorneioPanel;
@@ -1413,14 +1423,10 @@ public final class PrincipalFrame extends FrameView {
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton6;
-    private javax.swing.JCheckBox jCheckBox1;
-    private javax.swing.JCheckBox jCheckBox2;
     private javax.swing.JCheckBox jCheckBox3;
     private javax.swing.JCheckBox jCheckBox4;
     private javax.swing.JCheckBox jCheckBox5;
     private javax.swing.JComboBox jComboBox1;
-    private com.toedter.calendar.JDateChooser jDateChooser1;
-    private com.toedter.calendar.JDateChooser jDateChooser2;
     private com.toedter.calendar.JDateChooser jDateChooser3;
     private com.toedter.calendar.JDateChooser jDateChooser4;
     private javax.swing.JLabel jLabel1;
@@ -1475,8 +1481,6 @@ public final class PrincipalFrame extends FrameView {
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jgsPorMesaCash;
     private javax.swing.JTextField jgsPorMesaTorneio;
     private javax.swing.JTextField limiteCash;
