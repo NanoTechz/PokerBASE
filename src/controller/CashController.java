@@ -13,7 +13,7 @@ import model.Cash;
 import model.Usuario;
 import model.simples.CashSimples;
 import view.PrincipalFrame;
-import view.model.CashTableModel;
+import view.model.CashAbaTableModel;
 
 /**
  *
@@ -34,11 +34,11 @@ public class CashController {
         return emf;
     }
     
-    public CashTableModel getModelCash(){
+    public CashAbaTableModel getModelCash(){
         CashJpaController cJPA = new CashJpaController(emf);
         List<Cash> findCashUsuario = cJPA.findCashUsuario(usuario);
         
-        CashTableModel model = new CashTableModel(findCashUsuario);
+        CashAbaTableModel model = new CashAbaTableModel(findCashUsuario);
         
         return model;
     }

@@ -92,14 +92,17 @@ public class OperacaoController {
             this.principalView.limparDadosOperacao();
             return;
         }
-        Date data = autentica.verificarCampoData(this.principalView.getDataOperacao());
         
-        if (data == null) {
+        
+        
+        if (this.principalView.getDataOperacao() == null) {
             this.principalView.erroMensagem("Insira uma data válida.");
             this.principalView.limparDadosOperacao();
             return;
         }
-
+        
+        Date data = new Date(this.principalView.getDataOperacao().getTime());
+        
         Operacao op = new Operacao();
         op.setTipo(tipo.valor);
         op.setBankroll(banca);

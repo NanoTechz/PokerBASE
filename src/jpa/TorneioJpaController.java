@@ -12,6 +12,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
+import javax.persistence.TemporalType;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import jpa.exceptions.NonexistentEntityException;
@@ -19,6 +20,7 @@ import model.Sessao;
 import model.Sala;
 import model.Torneio;
 import model.Usuario;
+import model.auxiliar.FiltroTorneio;
 import model.auxiliar.TipoTorneio;
 import model.simples.TorneioSimples;
 
@@ -28,22 +30,46 @@ import model.simples.TorneioSimples;
  */
 public class TorneioJpaController implements Serializable {
 
+    public List<Torneio> findTorneioPorFiltro(Usuario usuario, FiltroTorneio filtro) {
+        //and t.buyIn BETWEEN :buyin_de AND :buyin_ate
+
+        EntityManager em = getEntityManager();
+        try {
+            Query query = em.createQuery("select t from Torneio t where (t.sessao.usuario= :usuario) AND (t.buyIn BETWEEN :value1 AND :value2) AND (t.sessao.dataSessao BETWEEN :data1 AND :data2) ", Torneio.class);
+                //AND (t.sessao.dataSessao BETWEEN :data1 AND :data2)
+            query.setParameter("usuario", usuario);
+            query.setParameter("value1", filtro.getBuyInDe());
+            query.setParameter("value2", filtro.getBuyInAte());
+            query.setParameter("data1", filtro.getDataDe(), TemporalType.DATE);
+            query.setParameter("data2",filtro.getDataAte(), TemporalType.DATE);
+            
+            return query.getResultList();
+        } catch (Exception e) {
+            e.printStackTrace(System.out);
+        } finally {
+            em.close();
+        }
+
+        return null;
+
+    }
+
     public TorneioSimples getTotal(Usuario usuario) {
         EntityManager em = getEntityManager();
         try {
             Query query = em.createQuery("select new model.simples.TorneioSimples(sum(t.valorGanho), sum(t.buyIn)) from Torneio t where t.sessao.usuario= :usuario");
 
             query.setParameter("usuario", usuario);
-            return (TorneioSimples)query.getSingleResult();
+            return (TorneioSimples) query.getSingleResult();
         } catch (Exception e) {
             e.printStackTrace(System.out);
         } finally {
             em.close();
         }
-        
+
         return null;
     }
-    
+
     public List<TorneioSimples> findTorneiosSimples(Usuario usuario) {
         EntityManager em = getEntityManager();
         try {
@@ -56,7 +82,7 @@ public class TorneioJpaController implements Serializable {
         } finally {
             em.close();
         }
-        
+
         return null;
     }
 

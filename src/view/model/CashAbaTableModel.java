@@ -14,7 +14,7 @@ import model.Cash;
  * Codigo adaptado de: http://devsv.wordpress.com/2012/07/08/como-implementar-um-tablemodel/
  * @author augusto
  */
-public class CashTableModel extends AbstractTableModel {
+public class CashAbaTableModel extends AbstractTableModel {
 
     List<Cash> lista;
 
@@ -55,11 +55,11 @@ public class CashTableModel extends AbstractTableModel {
         fireTableDataChanged();
     }
 
-    public CashTableModel(List<Cash> lista) {
+    public CashAbaTableModel(List<Cash> lista) {
         this.lista = lista;
     }
 
-    public CashTableModel() {
+    public CashAbaTableModel() {
         this.lista = new ArrayList<Cash>();
     }
 

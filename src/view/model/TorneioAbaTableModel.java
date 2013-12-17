@@ -10,6 +10,7 @@ import java.util.List;
 import javax.swing.table.AbstractTableModel;
 import model.Cash;
 import model.Torneio;
+import util.Calculadora;
 
 /**
  * Codigo adaptado de:
@@ -17,7 +18,7 @@ import model.Torneio;
  *
  * @author augusto
  */
-public class TorneioTableModel extends AbstractTableModel {
+public class TorneioAbaTableModel extends AbstractTableModel {
 
     List<Torneio> lista;
 
@@ -60,11 +61,11 @@ public class TorneioTableModel extends AbstractTableModel {
         fireTableDataChanged();
     }
 
-    public TorneioTableModel(List<Torneio> lista) {
+    public TorneioAbaTableModel(List<Torneio> lista) {
         this.lista = lista;
     }
 
-    public TorneioTableModel() {
+    public TorneioAbaTableModel() {
         this.lista = new ArrayList<Torneio>();
     }
 
@@ -99,7 +100,7 @@ public class TorneioTableModel extends AbstractTableModel {
             case JOGADOS:
                 return torneio.getTotalJogados();
             case ROI:
-                return Torneio.roi(torneio.getValorGanho(), torneio.getBuyIn(), torneio.getTotalJogados());
+                return Calculadora.roi(torneio.getValorGanho(), torneio.getBuyIn(), torneio.getTotalJogados());
             default:
                 throw new IndexOutOfBoundsException("columnIndex out of bounds");
         }
@@ -120,7 +121,7 @@ public class TorneioTableModel extends AbstractTableModel {
             case JOGADOS:
                 torneio.setTotalJogados((int) aValue);
             case ROI:
-                Torneio.roi(torneio.getValorGanho(), torneio.getBuyIn(), torneio.getTotalJogados());
+                Calculadora.roi(torneio.getValorGanho(), torneio.getBuyIn(), torneio.getTotalJogados());
             default:
                 throw new IndexOutOfBoundsException("columnIndex out of bounds");
         }

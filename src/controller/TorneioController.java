@@ -18,7 +18,7 @@ import model.simples.TorneioSimples;
 import org.jfree.data.xy.XYSeries;
 import util.Calculadora;
 import view.PrincipalFrame;
-import view.model.TorneioTableModel;
+import view.model.TorneioAbaTableModel;
 
 /**
  *
@@ -40,9 +40,9 @@ public class TorneioController {
         return emf;
     }
 
-    public TorneioTableModel getModelTorneio() {
+    public TorneioAbaTableModel getModelTorneio() {
         TorneioJpaController tJPA = new TorneioJpaController(emf);
-        TorneioTableModel model = new TorneioTableModel();
+        TorneioAbaTableModel model = new TorneioAbaTableModel();
 
         TipoTorneio[] values = TipoTorneio.values();
 
@@ -69,16 +69,22 @@ public class TorneioController {
         TorneioJpaController tJPA = new TorneioJpaController(emf);
         TorneioSimples total = tJPA.getTotal(usuario);
         List<TorneioSimples> lista = tJPA.findTorneiosSimples(usuario);
-        
-        double roi = Calculadora.roi(total.getValorGanho(), total.getBuyIn());
-        double mediaBI = total.getBuyIn() / (double)lista.size();
-        double soma = 0, somaROI = 0;
-
-        List<XYSeries> series = new ArrayList<XYSeries>();
 
         XYSeries serieNormal = new XYSeries("torneios");
         XYSeries serieROI = new XYSeries("roi");
         
+        List<XYSeries> series = new ArrayList<XYSeries>();
+        series.add(serieROI);
+        series.add(serieNormal);
+        
+        if(lista == null || lista.isEmpty()){
+            return series;
+        }
+        
+        double roi = Calculadora.roi(total.getValorGanho(), total.getBuyIn());
+        double mediaBI = total.getBuyIn() / (double) lista.size();
+        double soma = 0, somaROI = 0;
+
         for (int i = 0; i < lista.size(); i++) {
 
             soma += lista.get(i).getValorGanho() - lista.get(i).getBuyIn();
@@ -87,10 +93,7 @@ public class TorneioController {
             somaROI += mediaBI * roi;
             serieROI.add(i, somaROI);
         }
- 
-        series.add(serieROI);
-        series.add(serieNormal);
-        
+
         return series;
     }
 }
