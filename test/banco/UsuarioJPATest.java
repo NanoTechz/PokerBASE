@@ -29,9 +29,6 @@ public class UsuarioJPATest {
     
     @Before
     public void inicializarCampo(){
-        EntityManager em = emf.createEntityManager();
-        System.out.println(em.createQuery("SELECT u FROM model.Usuario u", Usuario.class).getResultList());
-        
         UsuarioJpaController uJPA = new UsuarioJpaController(emf);
         Usuario usuario = uJPA.findUsuario("GalapagosBr");
         
