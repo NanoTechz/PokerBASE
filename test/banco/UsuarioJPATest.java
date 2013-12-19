@@ -9,8 +9,8 @@ import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import jpa.UsuarioJpaController;
 import model.Usuario;
 import org.junit.Test;
@@ -25,16 +25,21 @@ import util.EntityManagerUtil;
  */
 public class UsuarioJPATest {
     
+    private final EntityManagerFactory emf = EntityManagerUtil.getEspecificaPU("TestePU");
     
     @Before
     public void inicializarCampo(){
-        UsuarioJpaController uJPA = new UsuarioJpaController(EntityManagerUtil.getEspecificaPU("TestePU"));
+        EntityManager em = emf.createEntityManager();
+        System.out.println(em.createQuery("SELECT u FROM model.Usuario u", Usuario.class).getResultList());
+        
+        UsuarioJpaController uJPA = new UsuarioJpaController(emf);
         Usuario usuario = uJPA.findUsuario("GalapagosBr");
         
         if(usuario == null){
             try {
-                Usuario newUsuario = new Usuario("GalapagosBr", Criptografia.codificar("senha"));
+                usuario = new Usuario("GalapagosBr", Criptografia.codificar("senha"));
                 uJPA.create(usuario);
+                
             } catch (    NoSuchAlgorithmException | UnsupportedEncodingException ex) {
                 Logger.getLogger(UsuarioJPATest.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -42,11 +47,11 @@ public class UsuarioJPATest {
     }
 
     @Test
-    public void findUsuarioTest() {
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("TestePU");
+    public void findUsuarioTest() {;
         UsuarioJpaController usuarioJPA = new UsuarioJpaController(emf);
 
         Usuario findUsuario = usuarioJPA.findUsuario("GalapagosBr");
+
         assertNotNull(findUsuario);
 
         System.out.println(findUsuario.getId());
